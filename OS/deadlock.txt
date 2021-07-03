@@ -1,0 +1,209 @@
+Deadlock:
+    If two processes are waiting for some event to happen which never happens 
+    then those processes are said to be involved in a deadlock
+
+    A set of processes are in a deadlock if each process in the set is waiting 
+    for an event that only another process in the set can cause
+
+Conditions for deadlock:
+    -- Mutual Exclusion:
+        A resource is allowed to be used by only one process at a time.
+
+    -- Hold and Wait:
+        here process are holding some resources and may wait for some other 
+        resources.
+
+    -- No Preemption:
+        Processes will realease the assigned resources voluntarily.
+
+    -- Circular waiting:
+        The processes are waiting for one another in a circular way.
+
+Resource request and release life cycle:
+    1. Process will request for the resources.
+    2. OS will validate the request
+    3. OS checks the availability of the resource
+    4. If resource free the allocate else ask process to wait
+    5. If process gets all needed resources then goes or execution
+        else waits for the resources
+    6. Process releases the resources after completion of execution
+
+
+Resource Allocation Graph (RAG):
+    -- Is a directed graph
+    -- Nodes:
+        -- Each process and resources are represented as nodes
+        -- resources are of two types
+            -- single instance resource time - Only one process at a time
+            -- multiple instance resources time - Multiple processes can access simultaneously
+    -- Edges:
+        -- A edge is directed from one process to another resource if that process
+            is waiting for a particular resource
+        -- A edge is directed from one resource to a process if that resource is 
+            assigned to that process
+    -- The system is in a deadlock if there exists a cycle in the graph.
+
+Deadlock Handling methods:
+    -- Deadlock Prevention
+        Deadlock can be prevented by dissatisfying one or more necessary conditions
+        for deadlock.
+
+        1. Mutual Exclusion:
+            Mutual Exclusion can be enforced for some resources like a file (reading),
+            but not possible to enforce for other resources (CPU, printer)
+            Thus, not possible to dissatisfy Mutual Exclusion
+
+        2. Hold and Wait:
+            (Similar to conservative locking like in DBMS)
+            The process either obtains all the resources that he wants for its
+            complete execution or else obtains none of the resources.
+            Although it dissatisfies the Hold and wait condition for deadlock
+            but it is highly inefficient.
+            May cause starvation
+
+        3. No PreEmption:
+            Consider processs p1 requests resource r1
+            if not r1.busy:
+                assign(p1, r1)
+            else:
+                if r1.process.in_block_state:
+                    revoke(r1)
+                    assign(p1, r1)
+                else:
+                    wait(p1)
+
+        4. Circular Wait:
+            EAch resource is assigned a numerical value
+            Processes can only request process in a particular order (say ascending).
+
+    -- Deadlock Avoidance:
+        Implemented using bankers algorithm
+        Bankers algorithm can be divided into two parts:
+            1. Safety Algorithm
+            2. Resource request Algorithm
+
+        Data Structure:
+            1. available: Is an array storing the number of instances available
+                with the OS at a given instant.
+                ex: for resource type 'i' the #instances = available[i]
+
+            2. max: is a 2d vector representing the #instances required by a process
+                ex: #instances of resources type 'j' required by process 'i' is 
+                    max[i][j];
+
+            3. allocated[i][j]: is a 2d vector representing the #instances allocated 
+                to a process by the OS.
+                ex: #instances of resource type 'j' allocated to the process 'i' is
+                    allocated[i][j];
+
+            4. need[i][j]: is a 2d vector representing the required #instances required
+                to the process. Is equal to max - allocated
+                ex: more #instances of resource type 'j' required by the process'i' is
+                    need[i][j]; and need[i][j] = max[i][j] - allocated[i][j]
+        
+        Safety Algorithm:
+
+        Resource Requst Algorithm:
+            1. checks if the request made is valid 
+                i.e. it does not exceed the initial max claim
+            2. checks if the requested number of instances are available 
+            3. if not then ask the process to wait
+            4. if yes then update the available, allocated, and need matrix
+            5. run the safety algorithm
+            6. if safe then allocate the resources
+            7. if not safe then revert the changes made to the matrices
+
+    -- Deadlock Detection:
+        Wait for graph to detect presence of a deadlock
+        
+        Recovery:
+            once the deadlock is detected then how to recover the system from the 
+            deadlock
+            There are two ways to deal with a deadlock:
+                1. Termination
+                    a. Kill all processes
+                    b. Kill processes one by one until no deadlock
+                    
+                    Selection criteria for killing processes:
+                        1. Based on Priority: 
+                            Kill the processes based on the priority of the processes
+                        2. Based on Allocated Resources:
+                            Kill the process that holds most of the resources
+                        3. Based on the # Requests:
+                            Kill the processes that request most resources
+                        4. Based on the progress:
+                            Kill the processes that have minimum progress
+                2. PreEmption
+
+    -- Deadlock Ignorance:
+
+
+Questions:
+
+1.  A computer hs six tape drives, with n processes competing for them.
+    Each process may need two drives. What is the maximum
+    value of n for the system to be deadlock free?
+    1. 6    2. 5    3. 4    4. 3
+    
+    --> 2. 5
+
+2.  Suppose there are 15 processes and each process require 3 instances of 
+    resource require in order to ensure the execution of all the processes 
+    without deadlock
+    1. 31   2. 44   3. 27   4. None
+    
+    --> 1. 31
+
+ 3.     Allocation      Request         Available
+        x   y   z
+    p0  1   2   1       1   0   3       0   1   2
+    p1  2   0   1       0   1   2       
+    p2  2   2   1       1   2   0       
+    
+    Which process will finish last?
+    
+    --> p0
+
+4.  Two shared resources r1 and r2 are used by the processes p1 and p2.
+    Each process has a certain priority for accessing each resource.
+    Let T(i, j) be the prioirity of process pi to access resource rj
+    which of he folowing options are deadlock free.
+    1. t[1, 1] > t[2, 1]
+    2. t[1, 2] > t[2, 2]
+    3. t[1, 1] < t[2, 2]
+    4. t[1, 2] < t[2, 2]
+
+    1. 1    2. 2    3. 4 and 1  4. 1 and 2
+
+    --> 4. 1 and 2
+
+5.  The minimum # resources required for this state to be safe?
+        Alloc   Need    Avail
+    p1  1       3       
+    p2  1       2       
+    p3  3       6       
+    p4  2       5       
+
+    1. 2    2. 3    3. 4    4. 5
+    --> 2. 3
+
+6.  In a deadlock prevention strategy which of the following conditions
+    cannot be satisfied
+    1. no preemption    2. Mutual Exclusion  3. Hold and WAit  4. Circular wait
+    --> 2. Mutual Exclusion
+
+7.  The maximum copies of the resources are (3, 2, 2).
+            Alloc          need            avail
+    p1      1   0   0       0   1   2       1   1   1
+    p2      0   0   1       1   2   1       
+    p3      0   1   0       1   0   1       
+    p4      1   0   0       0   2   2       
+    
+    1.  1, 2, 4, 3
+    2.  2, 1, 4, 3
+    3.  4, 2, 3, 1
+    4.  3, 2, 1, 4
+
+    --> 4. 3, 2, 1, 4
+
+

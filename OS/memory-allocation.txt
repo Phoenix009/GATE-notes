@@ -1,0 +1,8 @@
+Memory Management:
+    Functionality: Allocating and Deallocating the memory to the process
+    Goals:
+        - Efficient utilization of memory by minimizing internal and external
+            fragmentation
+        - To run larger process by using small memory
+
+

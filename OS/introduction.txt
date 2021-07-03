@@ -1,0 +1,209 @@
+Definition
+Types of Operating Systems:
+    -- Batch OS
+        1. Until the current executing job finishes completely
+            OS will not schedule another job
+        2. If a job is going for i/o then CPU remains idle
+            therefore the throughput dercreases
+        3. Ex: IBM OS/2
+            Programs were written on punchcards and manually copied in MM
+
+    -- Uniprogramming OS
+        1. If process is going for i/o then CPU remains idle,
+            thus, throughput decreases
+        2. Similar to Batch OS although here the programs are stored in Disk
+            and then loaded automatically in the main memory
+        3. Ex: DOS (Disk Operating System)
+
+    -- Multiprogramming OS
+        1. If a process goes for i/o then the OS will schedule another process
+            on the CPU
+        2. Increases the CPU utilization and thuse inrceases throughput.
+        3. Ex: Windows, UNIX
+
+    -- Time Sharing or Multi-Tasking OS
+        1. It is an extension of multi-programming OS
+        2. CPU is sharing its time among the multiple processes
+        4. Only one process is schedule on the CPU at a time
+        3. Is a combination of MultiProgramming and Pre-Emption
+
+Process:
+    A Program loaded into memory and executing is called a process.
+    1. An executing program is called a process
+    2. It is a shedulable and executable unit
+
+Process State Transition:
+    1. Start
+    2. Ready
+    3. Running
+    4. Blocked
+    5. Terminated
+
+    Schedulers:
+        1. Short Term Scheduler or CPU Scheduler and is responsible for selecting
+            one of the process in ready state for scheduling on CPU
+
+        2. Long Term Scheduler or Job Scheduler is responsible fpr creating and
+            bringing the new process into the system. Is used to control 
+            the degree of multiprogramming
+
+        3. Medium Term Scheduler is responsible for suspending and resuming
+            the processes. This task of MTS is called swapping.
+            In swapping the processes are swapped in and out of the 
+            main memory to a disk
+
+
+Critical Section:
+    It is a shared resource o shared part of the program
+
+Cooperative or Coordinating Process:
+    If one precess is effecting the execution of other process then these processes
+    are called coordinating process else independent process
+
+Race Condition:
+    It is a situation where two or more processes executing concurrently and the
+    result is dependednt on their order of execution
+
+Requirements if a synchronization solution:
+    -- Mutual Exclusion:
+        At any moment only one process must be present inside the critical section.
+
+    -- Progress:
+        A not interested process should not stop an interested process.
+
+    -- Bounded Waiting:
+        Waiting time of the process outside the critical section should be limited.
+
+    -- Architectural Neutral:
+        No assumption regarding hardware.
+
+
+-- Lock Variable Solution:
+    - N process solution (Supports N processes)
+    - Busy Waiting Solution (Consumes cpu cycles, affects throughput)
+    - Software Solution implemented in user mode
+
+-- Strict Alteration Solution / Two process solution:
+    - 2 process solution (Supports 2 processes)
+    - Busy Waiting Solution (Consumes cpu cycles, affects throughput)
+    - Software solution implemented in user mode
+
+-- Peterson Solution:
+    pass
+
+-- Test and Set Lock (TSL):
+    ( Simply a binary LOCK and since is implemented in hardware so, no preemption
+        can occur while modifying the lock thus works. )
+    
+    - N process solution
+    - Busy waiting solution
+    - Hardware Solution
+        
+    -- Test and Set instruction is introduced in the hardware
+    -- Test and Set Lock(TSL) instruction can be defined as follows:
+            Global FLAG is used to denote the CS status
+            FLAG = 0 ==> CS Free
+            FLAG = 1 ==> CS Busy
+
+            TSL Ri M[FLAG] is equivalent to:
+                MOV Ri, M[FLAG]
+                SET M[FLAG]
+        
+        Process Code:
+            1. TSL Ri M[FLAG]
+            2. JNZ Ri
+            3. < C.S. >
+            4. RESET M[FLAG]
+        
+        --> Guarantees Mutual Exclusion
+        --> Does not guarantee Bounded Waiting as processes can enter randomly 
+            in the Critical Section.
+
+Q. GATE (2013)
+    if not flg:
+        flg = True
+        critical section()
+        flg = False
+    M.E. and Deadlock ?
+    --> Mutual Exclusion is not guaranteed
+        No Deadlock
+
+Q.  P1:                         | P2:
+        while (S1 == S2): pass  |     while (S1 != S2): pass
+        CriticalSection()       |     CriticalSection()
+        S1 = S2                 |     S2 = not S1
+
+    1. ME but not progress
+    2. Progress but not ME
+    3. Neither
+    4. Both
+    --> ME but not progress
+
+
+Q. minimum value is 50 and maximum value is 130
+    the difference is 80
+
+Q.  p1:         | p2:        
+        c = b-1 |     d = 2*b
+        b = 2*c |     b = d-1
+b initialized to 2
+
+the number of distinct values that b can possibly take after the execution is?
+--> 3
+
+
+--> Semaphores:
+    - It is an integer variable which can be accessed by using
+        some atomic operations (cannot be preempted mid execution)
+    - Is an OS Resource
+    - Is invented by dijkstra and also called dijkstra's conditional variable.
+    - Operations are up() / down() or wait() / signal() or p() / v()
+
+    - Types:
+        - Binary Semaphore [0, 1]
+        - Counting Semaphore [0, inf]
+
+    --> Counting Semaphore:
+        ( is similar to shared/exclusive locks like in dbms 
+        but with and upper limit and a blocked queue )
+
+        class Semaphore:
+            def __init__(self, value:int):
+                self.value = value  # defines the no. of concurrent readers allowed
+                self.queue = []     # stores the blocked processes
+
+            def down(self, process):
+                """ Main thing to study"""
+                self.value -= 1
+                if self.value < 0: self.queue.append(process)
+                else: allow(process)
+
+            def up(self):
+                """ Main thing to study"""
+                self.value += 1
+                if self.value <= 0:
+                    allow(self.queue.pop())
+
+    --> Binary Semaphore
+        ( Similar to binary locks with a blocked queue )
+        class BinarySemaphore:
+            def __init__(self):
+                self.busy = False   # Boolean value representing the status of CriticalSection
+                self.queue = []     # stores the blocked processes
+
+            def down(self, process):
+                """ Main thing to study"""
+                if self.busy: self.queue.append(process)
+                else:
+                    self.busy = True
+                    allow(process)
+
+            def up(self):
+                """ Main thing to study"""
+                if self.queue:
+                    allow(self.queue.pop())
+                else:
+                    self.busy = False
+
+
+

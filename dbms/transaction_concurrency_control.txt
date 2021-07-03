@@ -1,0 +1,591 @@
+Transaction:
+    A transaction is an exectuing program that forms a logical unit of database processing. 
+    A transaction includes one or more database access operations-these can include 
+    insertion, deletion modification or retreival operations.
+    If the transactions dont update the database but only retrieve the data are called read-only
+    transactions.
+    the basic database access operations that a transactions can include are :
+    i. read_item(X): Reads a database item named X.
+    ii. write_item(X): Writes the value program to the database item.
+    
+    The read-set of the transaction is the set of all database items that the transaction reads.
+    The write-set of the transaction is the set of all database items that the transaction writes.
+    
+Desirable Properties of a Transaction:
+    1. Atomicity:
+        The transaction is an atomic unit of work. It is either performed entirely or not at all
+        transaction manager responsible for atomicity of transactions
+    2. Consistency:
+        The complete execution of the transaction must take the database from one consistent state to another.
+        Application programmer is responsible is responsible for preserving the consistency of the database.
+    3. Isolation:
+        The transaction must be executed in isolation from other transactions. There should not be interference of other transactions.
+        Concurrency control manager is responsible
+    4. Durabilty:
+        The changes made by the transaction must be saved permanently after the transaction has committed.
+        Recovery manager is responsible
+
+
+Transaction and System Concepts:
+
+    Transaction States and Additional Operators:
+        - BEGIN_TRANSACTION: this marks the start of the transcation
+        - READ/WRITE: These specify the read and write operations on the database 
+            items that are executed as a part of the transaction
+        - END_TRANSACTION: This specifies that all the READ and WRITE operations 
+            are completed and at this point a check is done to see if the changes 
+            made by the transaction can be saved permanently to the database or 
+            the transaction should be aborted.
+        - COMMIT_TRANSACTION: This marks the successful end of the transaction 
+            so that any changes made to the database will be 
+            permanently saved to the database and will not be undone.
+        - ABORT_TRANSACTION: This signals that the transaction has ended unsuccessfully 
+            and that the changes made by the transcation needs to be undone.
+
+    Transaction State Diagram:
+        - The transaction enters the active state as soon as it starts its execution. 
+        Here it issues the read and write operations on the database. 
+        - When the transaction ends the transactions enters the partially completed state. 
+        At this point some recovery protocols need to ensure that the system failure 
+        wont lead to the inability to permanently save the changes of the transaction. 
+        - if the checks are successful the transaction moves to the commited state 
+        and the changes are permanently stored in the database. 
+        - if any of the checks fails then the transaction is aborted and all the changes 
+        made by the transaction needs to be rolledback. 
+        - The terminated state corresponds to the transaction leaving the system. 
+        The info of the transaction stored in the system table is removed.
+
+    System Log:
+        To be able to recover from failure a log is maintained to keep track 
+        of all the transaction operations. The log is kept on a disk to prevent 
+        any failure except disk failure and catastrophic failure to affect it. 
+        The logs are periodically backed up in archival storage to guard aginst such catastrophic failures.
+        Log Records:
+            1. [start_transaction, T]: Indicates that the transaction has started execution.
+            2. [write, T, X, old, new]: Indicates that the transaction has changed the value of the databse item X from the old value 'old' ot the new value 'new'.
+            3. [read, T, X]: Indicates the the transaction has read the value of the database item X
+            4. [commit, T]: Indicates that the transaction has reached its commit point and that the changes will be saved permanently.
+            5. [abort, T]: Indicates the transaction has been aborted.
+
+
+Why Concurency Control is needed?
+    
+    The Lost Update Problem (Write-Write Conflict):
+        This problems occurs when the two transactions that access the same 
+        database items are interleaved in such a manner that the final value 
+        of the item is incorrect. 
+        Simply happens when both the transaction reads the same value of the item; 
+        then the transactions will update their own new value.and then when they 
+        update the the final value wont be the cumulative value. 
+        but the value of the last committing transaction.
+    
+    The Temporary Update Problem/Dirty Read (Write-Read Conflict):
+        This happens when the first transaction updates the database then it 
+        fails and aborts. But before it aborts some other transaction reads the 
+        value updated by the transcation. Hence, the data that the second 
+        transaction is called the dirty data, So, the Dirty Read Problem.
+    
+    Incorrect Summary Problem:
+        IF one transaction is calculating the aggregate function while other 
+        transaction is updating some values then, the earlier transaction may 
+        read some values before they were updated and some after they were updated.
+
+    Unrepeatable read problem:
+        Another problem that may occur is called unrepeatable read, 
+        where a transaction T reads the same item twice and the item is
+        changed by another transaction T′ between the two reads.
+
+    Phantom tuples:
+        refer navathe
+
+Why Recovery Is Needed?
+    Whenever a tranation is submitted the database system must ensure that either
+    1. The transaction is cumpletely executed and that its effects are permenently stored.
+    2. The transaction has no effect whatsoever on the database.
+    
+    Types of Failure:
+    1. Computer Failure.
+    2. A Transaction or system error
+    3. Local errrs or exceptions conditions 
+    4. Concurrency Control enforcements
+    5. Disk Failure
+    6. Physical problems and catastrophes
+
+
+Schedules (Histories) of Transactions:
+    A schedule(history) of n transactions is an ordering of the operations of 
+    the transactions subject to the constraint that the operations of the 
+    transactions tht participate in S must be in the same order as they appear 
+    in the transaction. However the operations of some other transaction may be interleaved.
+
+Types of Schedules:
+    1. Serial Schedule: 
+    A schedule is said to be serial if the transactions are 
+    executed one after another consecutively without interleaving. 
+    The problem with the serial schedules is that they limit concurrency. 
+    Hence, the serial schedules are considered not practical.
+
+    2. Complete Schedule:
+    A schedule S of n transactions is said to be a complete schedule if
+    the operations in S are exactly those operations in the 
+    transactions including the commit or abort operation as the last 
+    operation for each transaction in the schedule.
+
+    3. Recoverable Shedule:
+        We would like to ensure that a transaction onve committed should never be rolled back. this ensures the durablity of transactions. The schedules that theoretically meet this criteria are called recoverable schedules.
+        The condition for recoverable schedules is that
+        no transaction T in S commits until all transactions T' that have written some data item that T has read have committed.
+
+    4. Strict Schedule:
+        A more restrictive type of schedule called a strict schedule is a schedule in which transactions can neither read or write an item X until a transaction that previously wrote the item X has committed.
+
+
+Characterizing the schedules based on Serializibility:
+
+    Serializable Schedules: 
+        A schedule S of n transcation is serializable if it is equivalent to 
+        some serial schedule of the same n transactions. Saying that the non 
+        serial schedule is equivalent to some serial schedule which is considered correct.
+    
+    Result Equivalence:
+        Two schedules are said to be result equivalent if they produce the 
+        same final state of the database. However, two schedules may produce 
+        the same result by accident. Hence, result equivalence alone cannot be 
+        used to define equivalence of the schedules
+
+    Conflict Equivalence:
+        Conflicting Operations:
+            Two operations of the schedule are said to be conflicting if they 
+            satisfy these three conditions:
+                1. The operations belong to different transactions.
+                2. They access the same data item
+                3. One of them is write operation
+        
+        Two schedules are said to be conflict equivalent if the order of the 
+        conflicting operations is same in both the schedules.
+        Hence, a schedule is said to be conflict serializable if it is 
+        conflict equivalent to some serial schedule S'.
+        
+        Testing for Conflict serializibility: 
+            The following Algorithm can be used to test the conflict 
+            serializaibility of the schedule
+            The algorithm uses the read and write operations to form a 
+            directed graph of n verices and edges. The graph has a vertex 
+            for each transaction in the schedule. 
+            and there is an edge from transaction Ti to another transaction Tj if: 
+                1. Tj executes a read_item after Ti executes a write_item on X
+                2. Tj executes a write_item after Ti executes a read_item on X
+                3. Tj executes a write_item after Ti executes a write_item on X
+            
+            The schedule S is serializable iff there is no cycle in the graph.
+            and the serial order is give by the topologial ordering of the nodes
+            i.e the transactions.
+
+    
+    View Equivalence:
+        The schedules are said to be view equivalent of they satisfy the 
+        following three conditions:
+            1. Same set of transactions participate in both the schedules.
+            2. If in the first schedule Ti performs read(X) after Tj 
+                performs write(X) then same should happen in the second schedule.
+            3. If Ti operation does the final write(X) in the first schedule 
+                then the same should happen in the second schedule.
+        
+        The idea behind the view equivalence is that each read_operation reads 
+        the result of the same write operation. hence is said to see the same view. 
+        Condition 3 ensures that the at the end of schedules both the database have the same state. 
+        A schedule is said to be view serializable if it is view equivalent to some serial schedule.
+
+
+
+Lock: 
+    A lock is a variable associated with each data items that specifies the 
+    status of the item with respect to the possible operations that can be applied to it.
+
+Types of Locks:
+
+    1. Binary Locks:
+        A binary lock has two value LOCKED and UNLOCKED (1 and 0 for simplicity). 
+        Each data item is associated with a lock variable. 
+        If the value of the lock is 1 then the item cannot be accessed for any operation. 
+        If the value of the lock is 0 then the item can be accessed when requested. 
+        We refer to the locked state of the database item X as LOCK(X).
+        We have two operations associated with binary locks:
+            1. lock_item(X): Whenever the transaction requires the data item X. 
+                It issues a lock_item(X). If the item is already locked then 
+                the transaction is forced to wait. 
+                Else the LOCK(X) is set to 1 and the transaction can access 
+                the data item for its operations.
+        
+                 lock_item(X)
+                     if(LOCK(X) == 0)
+                         LOCK(X) = 1;
+                     else:
+                         wait while(LOCK(X) != 0) goto B
+        
+            2. unlock_item(X): Once all the read and write operations of the 
+            transactions are done the transaction unlcks the data item by 
+            issuing unlock_item() on X. This sets the LOCK(X) to 0.
+            
+                unlock_item(X)
+                    LOCK(X) = 0;
+                    wake one of the waiting transactions
+            
+            Note that the operations lock and unlock items must be implemented 
+            as indivisible units. i.e no interleaving is allowed.
+        
+        If binary locking scheme is to be used then the transactions need to follow these rules:
+            1. The transaction will issue the lock_item before executing read and write operations.
+            2. The transaction will issue the unlock_item after completing all the read and write operations.
+            3. The trans.action cant lock the item for which it already has a lock
+            4. The transaction cant unlock an item unless they have locked the item.
+        
+    2. Shared/Exclusive Locks (Read/Write locks):
+        The preceeding binary lock scheme is too restrictive for database items 
+        because at most only one transaction can access a data item. 
+        But we should allow multiple transactions to access the database item 
+        if they are accesssing the data item for reading purpose only.
+        For this purpose a different type of locking is used. 
+        The new scheme has three states for the lock. 
+            1. read-locked: 
+                The read-lock is also called the shared-lock as multiple transactions 
+                can access the data item for reading purpose.
+            
+                 read_lock(X):
+                     if LOCK(X) = unlocked:
+                         then LOCK(X) = read_locked
+                         #reads = 1
+                     elif LOCK(X) = read_lock:
+                         then #reads += 1
+                     else:
+                         wait while(LOCK(X) == unlocked)
+                         goto start
+            
+            2. write-locked: 
+                Also called as exclusive lock as only one transaction should 
+                have access to the item for writing purpose.
+            
+                 write_lock(X):
+                     if LOCK(X) = unlock:
+                         LOCK(X) = write_locked
+                     else:
+                         wait while (LOCK(X) = unlocked)
+                         goto start
+            
+            3. unlocked: The data item is unlocked and can be accessed as requested.
+            
+                unlock(X):
+                    if LOCK(X) == write_locked:
+                        LOCK(X) = unlocked
+                    else:
+                        #reads  -= 1
+                        if #reads == 0:
+                            LOCK(X) = unlocked
+                        
+            
+        
+        When using shared/exclusive locks we enforce the following rulse:
+            1. A transaction T must issue read_lock or write_lock before any read operation.
+            2. A transaction must issue a write lock before any write operation.
+            3. the ransaction must issue unlock item after all the read and write operations.
+            4. A transaction will not issue a read lock if it already has read / write lock.
+            5. A transaction will not issue a write lock if it already has a read/write lock.
+            6. A transaction will not issue unlock item unless it has a read/write lock.
+        
+        
+        Conversion of Locks:
+            Pata hai 
+    
+    Using binary locks or shared/exclusive locks alone wont guarantee serializibility. 
+    To guarantee serializibilty we must follow an additional protocol corncerning 
+    the position of the locking and unocking.
+    
+Two Phase Locking Protocol:
+    A transaction is said to follow a two phase protocol if all the locking 
+    operations preceed the first unlock operation. 
+    Such a transaction can be divided into two phase. 
+    The first phase  called the expanding phase where the transaction acquires 
+    all the locks. 
+    And the shrinking phase where the transaction after completing all the operations 
+    releases its locks. If the conversion of locks is allowed then the upgrading 
+    of locks must appear in the expanding phase an the downgrading must 
+    be done in the shrinking phase of the transaction.
+    
+    Basic 2PL: 
+        The technique just described is the basic 2PL scheme. So the transaction 
+        is divided into two phases, the expanding and shrinking phase.
+    
+    Conservative 2PL:
+        Just like the Basic 2PLn the conservative 2PL also requires the transaction 
+        to lock all the data items that it uses. While doing this if there is any 
+        data item for which the transaction cant obtain the lock then, 
+        it will not lock any items at all instead it waits untill all the data 
+        items are unlocked. 
+        The protocol is a dead-lock free protocol. However it is difficult in practice 
+        because of need to predefine the read and write set.
+    
+    Strict 2PL:
+        The most popular variation of the 2PL is the strict 2PL, which guarantees 
+        strict schedule. In this variation, a transaction T does not release its 
+        exclusive lock until after it commits or aborts. 
+        Hence no other transaction can read the changes made by the transaction 
+        unless it commits, leading to a strict schedule for recoverability.
+    
+    Rigorous 2PL:
+        Does not release any of its locks (both shared and exclusive) until 
+        after it commits or is aborted.
+
+TimeStamp Based Protocols:
+    -- A different approach to concurreny control involves using transaction timestamps
+        to order transactions execution for an equivalent serial schedule.
+    -- A timestamp is an unique identifier created by DBMS to identify a transaction.
+    -- timestamp values are assigned in the order in which the transactions are submitted
+        to the system, so a timestamp can be thought of as the transactions start time.
+    -- Concurrency control techniques based on timestamp ordering do not use locks
+        and hence deadlocks cannot occur.
+
+TimeStamp Ordering Protocol:
+    -- The idea for this scheme is to enforce the equivalent order on the transaction
+        based on their timestamps.
+    -- A schedule is then serializable and the only equivalent schedule permitted 
+        has the transactions in order of their timestamp values. This is called
+        timestamp ordering.
+    -- The algorith allows interleaving of transaction operations but it must ensure that
+        for each conflicting operations the order in which the items are accessed must
+        follow the timestamp order.
+    -- Each database item is associated with two timestamps:
+        1. read_ts(x) the read timestamp of the item x is the timestamp of the youngest 
+            transaction that has performed the read operation on the dataitem.
+        2. write_ts(x) the write timestamp of the item x is the timestamp of the youngest 
+            transaction that has performed the write operation on the dataitem.
+    -- Whenever a transaction T issues a write(x) a check is done to see 
+        if any younger transaction has performed a read or write operation on the data item 
+            i.e if write_ts(x) > ts(T) or read_ts(x) > ts(T)
+        if the condition is true then the transaction is rejected 
+        else write operation is performed and the write_ts(x) is updated to the ts(T)
+    -- Whenever a transaction T issues a read(x) a check is done to see 
+        if any younger transaction has done the write operation on the data item
+            i.e. if write_ts(x) > ts(T)
+        if the condition is true then the transaction is rejected
+        else read operation is performed and the read_ts(x) = max(read_ts(x), ts(T))
+    -- The schedules by basic TO are guaranteed conflict serializable and deadlock free.
+        However cyclic restart may occur if a transaction is continually aborted.
+
+Strict TO:
+    -- A variation of TO that gurantees conflict serializibility and ensures strict (cascadeless)
+        schedules.
+    -- If a younger transaction has to perform a read or write operation on a data item X then
+        it has its operations delayed until the last transaction that has written the data item
+        is either committed or aborted.
+
+Thomas Write Rule:
+    -- If the transaction issues write(X) then
+        1. If read_ts(X) > ts(T) then the transaction is aborted
+        2. If write_ts(X) > ts(T) then the write operations is not performed 
+            and the transaction execution is continued
+        3. else the write operation is performed and the write_ts(X) is updated to ts(X)
+
+Deadlocks and Starvation:
+    -- Deadlock occurs when each transaction in a set of transaction is waiting on 
+    some data item that is already locked by some other transaction. 
+    -- So each transaction is in the waiting queue of some data item.
+    -- There are protoclos defined that make a decision about what to do with a 
+    transaction that is possibly involved in a deadlock. 
+    -- These protocols use timestamp which is a unique identifier assigned to each transaction. 
+    Suppose a transaction Ti wants a data item which is already locked by some other transaction Tj then:
+    1. Wait-die: 
+        If TS(Ti) < TS(Tj) (Ti older than Tj) 
+            then Ti is allowed to wait
+       else: abort Ti and restart it by assigning the same time stamp
+
+       In simple words. If the lock is held by a younger transaction and the old wants it then it will wait
+   
+    2. Wound-wait:
+       If TS(Ti) < TS(Tj) (Ti older than Tj)
+           then abort Tj and restart it with the same time stamp
+       else:
+           Allow Ti to wait
+       
+       In simple words. If the lock is held by a younger transaction and the 
+       old wants it then it will abort the younger transaction and take the lock. (SAVAGE)
+
+
+   Deadlock detection and timeouts:
+       A second more practical way to deal with deadlock is deadlock detecion. 
+       This is more appropriate to use when we know there will be no interference 
+       between the transaction i.e. they wil rarely access the same data item, 
+       and the transaction wont be long. 
+   
+       A simple way to detect the detecta state of dead-lock is to create a 
+       wait-for graph. 
+       A node is created for each of the executing transaction and there is a 
+       directed edge from one transaction to the other transaction if the first 
+       one is waiting to lock a data item that is already locked by the second transaction. 
+       When the second transaction releases the lock then the directed edge is dropped. 
+       We have a state of deadlock iff there is a cycle in the wait for graph. 
+       If there is a state of deadlock then we should abort some transaction 
+       that is causing the deadlock. 
+       Selecting transaction to abort is called as VICTIM SELECTION. 
+   
+   TIMEOUT: Another simple scheme to deal with deadlocks is to use timeouts. 
+   This scheme assumes that if a transaction waits for a longer than a predefined 
+   time then the transaction is deadlocked and it is aborted.
+
+Starvation:
+   It occurs when a transaction cannot proceed with the execution but other 
+   transactions are proceeding normally. This happens when the waiting scheme 
+   is unfair, giving priority to some transaction over other. 
+   The solution is using fair waiting schemes such as FCFS. Another scheme 
+   assigns priority to the transaction. This priority is relative to the wait 
+   time of the transaction in the system. Thus, a waiting transaction will eventually 
+   get the highest priority and will be executed.
+
+
+
+Recovery In DBMS
+    Recovery from failures usually means that the database is restored to 
+    the most recent consistent state just before the time of failure.
+
+Typical strategy for recovery may be summarized infomally as:
+    1. If there is extensive damage to a wide portion of the db
+    due to catastrophic failure, such as a disk crash, the recovery
+    method restores a past copy of the db that was backed up in the archival storage
+    and reconstructs the more currnt state by reapplying the operations of 
+    commited transactions from the backed up log.
+    
+    2. When the db is not physically damaged but has become inconsistent. the 
+    strategy is to reverse any changes made to the db by undoing some operations
+    
+
+Conceptually we can distinguish the two main techniques for recovery from 
+non-catastrophic transaction failures:
+    a. Deffered Update :
+        The deferred update techniques do not physically update the database on 
+        disk until after a transaction reaches its commit point; then 
+        the updates are recorded in the database.
+        
+        During commit, the updates are first recorded persistently in the log
+        and then written to the db. If a transaction fails before reaching 
+        the commit point, it will not have changed the db, so UNDO is not needed.
+        But REDO is required to update the db from the log. Hence, deffered
+        update is also called NO-UNDO/REDO algorithm.
+    
+    b. Immediate Update:
+        In the immediate update techniques, the database may be updated by some 
+        operations of a transaction before the transaction reaches its commit 
+        point. However, these operations are typically recorded in the log on 
+        disk by force writing before they are applied to the database. 
+        making recovery still possible.
+        
+
+Caching(Buffering) of Disk Blocks
+    Basically the memory block that contains the data that the transaction wants to 
+    use is first brought into the main memory. Each block is associated with a 
+    dirty bit. When the block is first brought to the main memory its dirty
+    bit is set to 0. When this block is modified then the bit is set to 1, indicating
+    there were some modifications done to the block and it needs to be written in
+    the disk.
+    There is another bit pin-unpin bit, a page in the cache is pinned if it cannot 
+    be written to the disk yet.
+    
+    
+    When flushing the modified buffer back to disk. The first strategy, known as 
+    in-place updating, writes the buffer back to its original location thus,
+    over-writing the old values.
+    
+    The second strategy, known as shadowing, writes an updated buffer at a different
+    location, so multiple versions of data-items can be maintained.
+
+
+Write-Ahead Logging:
+    When in-place updating is used, it is necessary to use a log for recovery. 
+    In this case, the recovery mechanim must ensure that the BFIM of the item is 
+    is recorded in the appropriate log entry and that the log entry is flushed to
+    the disk before the BFIM is overwritten with the AFIM in the db on disk.
+    This process is called Write-Ahead Logging.
+    
+    With the write-ahead logging approach, the log blocks that
+    contain the associated log records for a particular data block update must 
+    first be written to disk before the data block itself can be written back to disk.
+    
+    Steal/No-Steal
+    If a cache page cannot be written to disk before the transaction commits, is 
+    called no-steal approach. Otherwise if the protocal allows writing the updated
+    buffer before the transaction commits, is called steal.
+    
+    Force/No-Force
+    If all pages updpated by transaction are immediately written to disk when the
+    transaction commits, is called force approach. Otherwise no-force.
+    
+
+    WAL-Protocol
+    
+    1. The BFIM cannot be overwritten by AFIM until all UNDO-type log records for 
+    updating transactions have been force-written on disk.
+    
+    2. The commit operation of a transactio cannot be completed untill all 
+    UNDO and REDO type log records have been force-written on disk
+
+
+Checkpoints and Fuzzy Checkpointing:
+    Another type of entry in the log is called a checkpoint. A checkpoint is written 
+    in the log periodically at that point when the system writes out on the db on disk 
+    all dbms buffers that have been modified. So all the transactions that have 
+    COMMIT log do not have to WRITE again in case of a system crash.
+
+    The recovery manager of a DBMS must decide the intervals to take a checkpoint.
+    Taking a checkpoint consists of the following actions:
+    1. suspend execution of transactions temporarily.
+    2. force-write all main memory buffers to the disk
+    3. Write CHECKPOINT record to the log
+    4. Resume executing transactions
+
+    Fuzzy checkpoint ka kucch nahi samjha bro
+
+Transaction Rollback:
+    If a transaction fails for whatever reason after updating the db then it is 
+    necessary to rollback the transaction. If any data item values that have been
+    changed by the transaction must be restored to their previous values.
+    For this the UNDO-type log records are referred. 
+    
+    If a transaction T is rolled back then all the transactions that use the items
+    modified by transaction T must also be rolled back and so on and so forth.
+    This is called as Cascading Rollbacks. This occurs when the recovery protocol 
+    ensures recoverable schedules but not strict or cascadeless schedules.
+
+Shadow Paging:
+    The database is maintained as a directory of n entries. These n enteries are
+    basically a pointer to the page in memory. 
+    The most updated directory is called as "current directory".
+    When the transaction modifies content of a current_directory page. There is a 
+    copy made of the current_directory called 'shadow_directory'. now the entries	
+    in shadow directory also points to these same pages. The modified page is now 
+    written in a new memory block and that locations address is used to update the
+    pointers of the current_directory.
+    So the previous data is never over written. To recover from a failure during 
+    transaction, discard and free the modified pages, discard the current_directory, 
+    and recover using t he shadow directory.
+    
+    Disadvantages:
+    Complex storage management.
+    If large directoory, overhead of copying for creating a shadow
+    Garbage collection
+
+ARIES Algorithm:
+    ARIES uses Steal/No Force approach for writing, and it is based on three concepts:
+    1. Write Ahead Logging
+    2. Repeat history using REDO
+    3. Logging changes during UNDO
+        This will prevent ARIES from redoing completed undo operations if a failure
+        occurs during recovery.  
+    Three phases:
+    1. Analysis Phase
+    2. REDO Phase
+    3. UNDO Phase
+    remember LSN(Log Sequence Number) is used to determine the REDO start point.
+    Among all the dirty pages the smallest LSN is selected for REDO.
+    When the REDO phase is done we start with the UNDO operation for all th active 
+    transactions. The log is maintained while undoing so thet if a crash occurs, We
+    dont have to redo the undo operations.
+
+
