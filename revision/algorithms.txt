@@ -1,0 +1,467 @@
+Algorithms:
+
+0. Analysis of Algorithms:
+    Algorithms can be considered as of two types:
+        1. Iterative Algorithms.
+        2. Recursive Algorithms.
+        Both have the same power but one of them can provide ease over another in some cases
+
+    Analyzing Iterative Algorithms:
+        1. O(1):
+            -- If it does not contain any interation, recursion or a call to a non-constant function
+            -- A constant iteration or recursion is also constant
+            -- In this types of algorithms the input size do not affect the running time
+        2. O(n):
+            -- If the loop variables are incremeneted or decremented by constant amount.
+        3. O(n^k):
+            -- The time complexity for nested loops is the #times the inner most statements are executed.
+        4. O(logN):
+            -- If the loop variables are multiplied or divided by a constant factor
+        5. O(log log N):
+            -- If the loop variables are incremented or decremented exponentially
+
+    Analyzing Recursive Algorithms:
+        For analyzing a recursive algorithm we formulate a recurrence relation and then evaluate the time complexity
+        For solving the recurrence relations we have three methods:
+            1. Back Substitution - WE will use this for solving recurrence relation with decreasing functions
+            2. Recursion Tree method
+            3. Master Theorem - We will use this for solving questions with dividing functions
+
+I. Sorting:
+    1. Insertion Sort:
+        Idea: Inserts a new element in the already sorted space
+                             |
+        arr = [ 1, 1, 3, 10, |  23, 1, 3, 4, 2, 3]
+              ---- Sorted--- | ---- Not Sorted ---
+                               ^^^ - Insert this in the proper position
+                                    in the sorted section
+
+        Code:
+        def insertion_sort(arr):
+            for i in range(1, len(arr)):
+                key = arr[i]
+                pos = i
+                while pos-1 > -1 and arr[pos-1] > key:
+                    arr[pos] = arr[pos-1]
+                    pos -= 1
+                arr[pos] = key
+            return arr
+
+        Analysis:
+        Worst Case: Occurs when the array is in reverse sorted order
+            -- Total #Comparisons: n(n-1)
+            -- Total #Exchanges: n(n-1)
+
+        Best Case: Occurs when the array is already sorted
+            -- Total #Comparisons: n-1
+            -- Total #Exchanges: 0
+
+        Time Complexity: O(n^2)
+        Space Complexity: O(1) - Inplace algorithm
+
+    2. Merge Sort:
+        Idea:
+        Uses Divide and Conquer to partition the array into halves
+        until only one element remains << BASE Condition
+        then simply use merge to merge the two sorted halves into a single sorted part
+
+        Code:
+        def merge(left, right):
+            res = []
+
+            i, j = 0, 0
+            while i < len(left) and j < len(right):
+                if left[i] < right[j]:
+                    res.append(left[i])
+                    i += 1
+                else:
+                    res.append(right[j])
+                    j += 1
+
+            res += left[i:]
+            res += right[j:]
+
+            return res
+
+        def merge_sort(arr):
+            if len(arr) < 2: return arr
+
+            mid = len(arr) // 2
+            left = merge_sort(arr[:mid])
+            right = merge_sort(arr[mid:])
+            res = merge(left, right)
+            return res
+
+        Analysis:
+        Time Complexity:
+            Merge: O(n)
+            Merge Sort: O(nlogn)
+
+        Space Complexity:
+            Stack Space: O(logn)
+            Extra Space: O(n)
+
+    3. Quick Sort:
+        Idea:
+        Choose a pivot element(any) and place it in its correct position
+        The correct position of an element is such that
+        all the elements to its left are smaller and all to its right are greater
+        Then we can recursively call quicksort on the left an right partitions
+
+        Code:
+        def quick_sort(arr, l, r):
+            if r <= l: return
+            pivot = arr[r]
+
+            small = l-1
+            for idx in range(l, r+1):
+                if arr[idx] < pivot:
+                    small += 1
+                    arr[idx], arr[small] = arr[small], arr[idx]
+
+            small += 1
+            arr[r], arr[small] = arr[small], arr[r]
+
+            quick_sort(arr, l, small-1)
+            quick_sort(arr, small+1, r)
+
+        Analysis:
+
+II. Searching:
+    -- Search algorithms are the algorithms that retreive data that is stored in some data structure.
+    -- Data strucutres can be anything like an array, linked lists,  hash tables, or any other structure.
+    -- It also encompasses that algorithms that fetch the data from the database
+
+    A. Linear/Sequential Search:
+        -- Sequentially checks the search space until the match is found or the search space is exhausted.
+        -- Works on both sorted and unsorted data.
+
+        Code:
+            # For Array
+            def linear_search(space, key):
+                for i in range(len(space)):
+                    if space[i] == key: return i    # Match Found!
+                return -1   # Search unsuccessful
+
+            # For LinkedLists
+            def linear_search(head, key):
+                node = head
+                while node:
+                    if node.value == key: return node   # Match Found!
+                    node = node.next
+                return None     # Search unsuccessful
+
+        Analysis:
+            Time complexity: O(n)
+                Best Case: 1, When the first element of the space is the key
+                Worst Case: n, When the last element of the space is the key
+
+    B. Binary Search:
+        -- Binary Search works on the search space that is monotonic
+        -- IF the match is found it can be returned else the search space can be halved depending on the value of the key.
+        -- The search completes when we find the match  r the search space is exhausted
+
+        Code:
+            def binary_search(arr, key):
+                left, right = 0, len(arr)-1
+
+                while left <= right:
+                    mid = left + (right-left) // 2
+
+                    if arr[mid] == key: return mid      # Match Found!
+                    elif arr[mid] > key: right = mid-1  # the key is smaller so check the first half
+                    else: left = mid+1                  # the key is greater so check the second half
+
+                return -1
+
+        Analysis:
+            Time Complexity:
+                T(n) = T(n/2) + 1
+                T(1) = 1
+                ==> O(logn)
+
+            Space Complexity: O(1)
+
+Optimization Problems:
+    -- In such problems the main motive is to find an optimal value for example:
+        a. Minimizing cost or loss
+        b. Maximizing profit or score
+    -- Optimization problems are solved using the following techniques
+        a. Greedy Technique
+        b. Dynamic Programming
+        c. Branch and Bound
+
+
+III. Greedy Technique:
+    a. Fractional Knappsack Problem:
+        Problem Statement:
+            Given weights and values of 'n' items, we need to put these items in a knappsack of
+            capacity 'm'. We can either take the entire item or a fractional part.
+
+        Code:
+            def fractional_knappsack(n_items, capacity, items):
+                cost_per_weight = lambda item: item.value / item.weight
+                items.sort(key=cost_per_weight, reverse = True)
+
+                ans = 0
+                for item in items:
+                    taking = min(item.weight, capacity)
+                    capacity -= taking
+                    ans += taking * cost_per_weight(item)
+
+                retur ans
+
+        Analysis:
+            Time Complexity:
+                O(nlogn)    n = n_items
+            Space complexity:
+                O(logn)     Stack Space for merge sort for sorting implementation
+
+    b. Huffman Coding:
+        -- Used for compression
+        -- Generates variable length prefix codes for the characters in the file.
+        -- prefix codes means that the code for one character does not occur as a prefix for other characters code.
+        -- Characters with high frequency are assigned smaller length code and characters with lower frequency are assigned bigger length code.
+
+        -- The Huffman coding problem can also be restated as the configuration of the tree so as to get the minimum weighted sum path
+
+        Greedy Approach for code generation:
+            1. Form a min heap with all the characters using the frequency of the character as the key.
+            2. Pop out two characters from the heap and form a new node with:
+                a. the character with the least freq as the left child
+                b. the other character as the right child
+                c. the key of the node being the sum of the freq of the the two characters.
+            3. Do this process for all the characters until a single node is present in the heap.
+            4. Traverse the tree and for traersing every left child add '0' to the code and for every right child add '1' to the code,
+
+    c. Job Sequencing:
+        Problem Statement:
+            Given an array of jobs where every job has an associated deadline and profit if the job is finished within the deadline.
+            given that every job is completed in a unit amount of time find the maximum profit that can be obtained.
+
+        Idea:
+            We sort all the jobs in descending order of their profit.
+            For each job we find a slot that is the latest possible before the deadline
+            Assign the job to this slot
+            If no such slot exists then skip the job
+
+        Code:
+
+
+        Analysis:
+            Time Complexity: O(n^2)
+                O(nlogn)    -- Sort the jobs based on the profits
+                O(n^2)      -- Assign slots to the sorted jobs based on their deadlines
+
+    d. Optimal Merge Pattern:
+        -- Given the length of the parts of the arrays to be merged using two-way merge we want to find the way in which the merge will be performed so as to have the minimum merge cost.
+        -- the merge cost for a sinle merge operation is the sum of the lengths of the two parts.
+        -- The problem can also be stated as the configuration of the tree so as to get the minimum weighted sum path
+        -- This is similar to the huffman coding example so a similar strategy will be used
+
+        Idea:
+            From all the possible parts to be merged we will select the parts that have the minimum length and merge them first
+            This will be done repeatedly until there is only one part left.
+
+        Code:
+
+        Analysis:
+
+    e. Spanning Trees
+        Graphs:
+            A graph is a data strucutre containing vertices and edges between these vertices.
+
+            Based on the number of edges between the vertices there can be two types of Graphs:
+                1. Simple: Between any two vertices there can be atmost one edge and also there are no self loops
+                2. Multi: Between any two vertices there can be multiple edges.
+            WE are mainly concerned about the simple graphs.
+            For a simple graph having 'n' vertices there can be atmost n(n-1)//2 edges.
+            ==> E = O(V^2) ==> V = O(log(E))
+
+            Based on whether the edges are assigned any weight there are two types of graphs:
+                1. Weighted Graphs
+                2. unWeigted Graphs
+
+        Complete Graph:
+            A complete graph is defined as the graph that contains all possible edges
+            A complete graph with 'n'vertices is denoted as 'Kn'
+
+        Spanning Tree:
+            For a graph the spanning tree is defined as the subgraph of the graph, which has all the vertices covered with minimum possible number of edges.
+            For a complete graph with 'n' vertices the number of spanning trees is 'n^(n-2)'
+
+            To find the number of spanning trees for UNDIRECTED graphs we use the Kirchoffs Theorem:
+                1. Form the adjacency matrix
+                2. Do the following changes in the matrix:
+                    a. Diagonal 0's --> inDegrees of the node
+                    b. NonDiagonal 1's --> -1
+                3. The number of spanning trees is the co-factor of any element in the matrix
+
+            Now consider a weighted graph:
+                The total number of spanning tree can be found out using the Kirchoffs Theorem
+                however a minimum spanning tree is a spanning tree with the minimum possible cumulative weight sum
+
+                For a given graph there can be multiple spanning trees but there is only one MST
+
+            Prims Algorithm for MST:
+            Kruskals Algorthm for MST:
+
+    Disjoint Set Union:
+        A disjoint set data structure maintains a collection of apirwise disjoint dynamic sets
+        Each set has one of its element as its representative.
+
+        Operations:
+            1. create_set(x):   Creates a new set whose only member is x and is also its representative
+            2. union(x, y):     Performs union of the sets that contain x and y. the individual sets are deleted and their union is added in the collection
+            3. find_set(x):     Returns the representative of the set containing x
+
+        Implementation using Linked List:
+            1. Each set is represented by its own linked list
+            2. Each list has an index node with pointers to the head and the tail of the list
+            3. Each element in the list is represented by an object having three attributes:
+                a. data: contains the data
+                b. next: is a pointer to the next node in the list
+                c. index: is a pointer to the index node of the list
+            4. Within each list the objects may appear in any order
+            5. The first element in the list is the representative of that set
+            
+            Operation Complexity:
+                1. create_set: O(1)
+                2. find_set: O(1)
+                3. union: O(n)
+
+        Implementation using Forest:
+            1. A faster representation of disjoint sets by roote trees
+            2. Each node contains the data and each tree represents a set
+            3. EAch member points only to its parent
+            4. The root of each tree contains the representation and is its own parent
+
+            Operation Complexity:
+                1. create_set: O(1)
+                2. find_set: O(d)
+                3. union: O(1)
+            
+            Heuristice to improve the running time:
+                1. Union by rank/size:
+                    Make the root of the tree with ffewer nodes point to the root of the tree with more nodes
+                    At each root we also store the number of nodes in the tree
+
+                    If the union is done using the rank then
+                    depth of the tree with n nodes is atmost log(n)
+                    ==> the depth of the tree with n nodes is O(logn)
+                    ==> find_set(x) ==> O(depth) ==> O(logn)
+                
+                2. Path compression:
+                    Suppose we perform find_set(x), make every node that we visit point to the root
+                    So all the nodes that were on the path now come at level 1, rendering the find_set() to O(1)
+
+                Appication of both union by rank and path compression we can do all the operations on DSU in constant time
+
+    Dijkstras Algorithm for SSSP:
+        Dijkstras algorithm is used to find the shortest path from a given source to all the nodes in the graph
+        The shortest path is basically the path with the least weight.
+        Note that the algorithm fails when there exists a negative weight LOOP
+        negative weight loop/cycle is a cycle with weights that sum up to a negative number
+
+        Relaxation of edges:
+            suppose we have a source node for which we are solving SSSP
+            suppose there are two nodes u and v for which some distance already exists from the source
+            the distance of a node u from source is denoted by d(u)
+            then relaxation of edge connecting u, v is done as:
+                if d(u) > d(v) + c(v, u):
+                    d(u) = d(v) + (v, u)
+                    parent(u) = v
+
+        Algorithm:
+            def dijstras(graph):
+                Initialize Single Soure(graph)
+                heap = add all vertices and heapify
+                
+                while heap:
+                    extract node with the smallest weight and is not visited
+                    add it to the visited set
+                    relax its edges
+
+        Analysis:
+            Time Complexity O(ElogV)
+
+    Bellman Ford Algorithm for SSSP:
+        For a graph containing 'n' nodes any shortest path with any source will contain atmost n-1 edges in it.
+        When we relax all the edges once then the cost that we get for the nodes is due to one edge only
+        When we relax it one more time then the cost for reaching the nodes will be due to two edges
+        This will be done for n-1 times since the shortest path can contain atmost n-1 edges
+        Now we do one extra relaxation, if during these relaxations there is any node whose cost decreases it means that there exists a negative cost cycle in the graph.
+
+        Algorithm:
+            def bellman_ford(graph):
+                initialize single source
+                for _ in range(V-1):
+                    relax all the edges
+
+                for all the edges:
+                    if relaxation decreases cost then return False
+
+                return SSSP
+
+        Analysis:
+            Time Complexity O(V.E)
+
+    SSSP for DAGS:
+        There are no cycles imples there cant be negative cycles even if there are negative weight edges
+        so it allows negative weight edges
+
+        Algorithm:
+            Find the topogical order for the DAG    -- O(V+E)
+            initialize SSSP
+
+            for each vertex in topological order:   -- O(E)
+                relax all the edges from vertex
+
+        Time Complxity: O(V+E)
+
+Dynamic Programming:
+    Essentially is an optimixation over plain recursion.
+    Whenever we see a reursive solution that has repeated call for same inputs we can optimie it using DP
+    The idea is simply to store the results of the subproblems so that we dont have to re-compute them when needed later
+    
+    Overlapping subproblems:
+        Like Div-and-Con, DP combines solutions to subproblems
+        In DP, the computed solutions to the subproblems are stored so that these dont have to be recomputed
+        DP is useless when there are no overlapping subproblems because there is no point in storing solutions when they are not needed again
+
+    Optimal substructure property:
+        A given problem has optimal substrucutre property if optimal solutions for the given problem can be obtained by the solutions of its subproblems
+
+    How to classify a problem as a DP Problem:
+        Typically all the optimization problems or counting problems with certain conditions
+        All DP problems satisfy the overlapping substrucutre property and most of the classid DP problems also satisfy optimal substrucutre
+        Once these properties are satisfied we can be sure that it can be solved using DP
+
+    1. 0/1 Knappsack:
+        
+        Optimal Substructure:
+            knappsack(item_index, capacity):
+                if item_index < 0 or capacity < 1: return 0 # Base condition
+
+                if weight[item_index] > capacity:
+                    return knappsack(item_index-1, capacity-weight[item_index]) # WE cant take the item 
+                else:
+                    return max(
+                        profit[item_index] + knappsack(item_index-1, capacity-weight[item_index])    # Either take the item
+                        knappsack(item_index-1, capacity)   # or Dont take
+                    )
+
+        Overlapping subproblems:
+            When we derive  reursion tree we see that there are overlapping subproblems
+            Thus both the properties for DP are met
+
+        How many unique subproblems?
+            Assume there are n items and the capacity of the knappsack is w
+            then knappsack(item_index, capacity)
+                item_index ranges from 0, n-1
+                capacity ranges from 0, w
+            ==> there are n*w unique subprobems
+
+            Thus we make a table of dimensions n x w to store the intermediate solutions to the subprobems so that they dont have to computed again and again
+
+

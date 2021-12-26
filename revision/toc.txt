@@ -1,0 +1,575 @@
+Theory of Computation:
+Symbol:
+Alphabet:
+String:
+Language
+    Finite Language
+    inFinite Language
+
+Power of Alphabet:
+    When the alphabet is raised to a power 'k' basically means the "ALL Strings of length 'k' over the alphabet"
+    there are exactly |alpha| ** k strings in the alpha**k
+
+    Sigma^*:
+        When the alphabet is raised to power '*' It basically means 'ALL the strings of any length'
+        So basically all the strings possible over the alphabet
+
+According to Chomsky there are 4 types of grammars:
+    Type 3: Regular Grammar
+    Type 2: CFG - Context Free Grammar
+    Type 1: CSG - Context Sensitive Grammar
+    Type 0: UG - Unrestricted Grammar
+
+II  Languages:                       | Acceptor/Machines:        | Generator/Grammar:
+1.  Regular Language                 | Finite Automata           | Regular Grammar
+2.  Context Free Languages           | Push Down Automata        | Context Free Grammar
+3.  Context Sensitive Language       | Linear Bounded Automata   | Context Sensitive Grammar
+4.  Recursively Enumerable Language  | Turing Machine            | Unrestricted Grammar
+
+Regular Language:
+    A. Acceptor: FA - Finite Automata:
+            1. FA with Output:
+                a. Moore Machine
+                b. Mealy Machine
+            2. FA without Output:
+                a. DFA - Deterministic FA
+                b. NFA - NonDeterministic FA
+                c. epsilon-NFA - NonDeterministic FA with Epsilon transitions
+
+        I.2.a DFA - Deterministic Finite Automata:
+            -- Represented using (Q, alphabet, transitions, initial_state, final_states)
+                Q -                     Set of all the states
+                alphabet(sigma)-        input alphabet
+                initial_state(q_not) -  initial state for the DFA
+                final_states(F) -       set of all the final states
+                transitions(delta) -    delta: Q x Sigma -> Which STATE (singular) to transition when accepting an symbol
+
+            -- We are only concerned about minimal DFA i.e. they have the minimal amount of states.
+
+            -- Operations on DFA:
+                We will consider some examples and then try to understand how some operations can be used to solve some questions
+
+                1. Union:
+                    Supppose we want to create a DFA that accepts strings that start and end with different symobols over {a, b}
+                    then, we can break it down into two languages:
+                        1. DFA that accepts language that starts with 'a' and ends with 'b'
+                        2. DFA that accepts language that starts with 'b' and ends with 'a'
+                    We can create the DFAs for these languages individually and then combine them together to form the final DFA
+                    The final DFA will merge their individual initial state into one
+
+                2. Concatenation:
+                    Suppose we want to create a DFA that accepts language such that it starts with 'a' and ends with 'b'
+                    then, we can break this into two languages:
+                        1. Language such that the string starts with 'a'
+                        2. Language such that the string ends with 'b'
+                    Then the final state of the first DFA and the initial state of the second DFA will be merged
+                    There might be some changes in the transitions
+
+                3. CrossProducts:
+                    Suppose we want to create a DFA that accepts language such even no. of a and even no. of b
+                    then, we can break this into two languages:
+                        1. Language such that the string contains even no. of'a'
+                        2. Language such that the string contains even no. of'b'
+                    Suppose the First DFA has Q1 = {A, B} and for the second DFA Q2 = {C, D}
+                    and the final DFA will have Q' = Q1 x Q2 = {AC, AD, BC, BD}
+
+                4. Complement:
+                    Suppose we want to create a DFA that accepts a language such that the word does not contains 'a'
+                    then, we can create a DFA that accepts the language such that the word contains 'a'
+                    then the final DFA can be obtained by complementing the DFA
+                    complementing involves complementing the states (Final <--> nonFinal)
+
+                5. Reversal:
+                    Suppose we want to create a DFA that accepts language such that the word starts with 'a' and ends with 'b'
+                    Assume we have a DFA that accepts language such that words start with 'a' and ends with 'b'
+                    the final DFA can be obtained by reversing the DFA
+                        Final State <--> Initial State
+                        and Reverse the Transitions
+                    It is possible that the reversed FA maynot be DFA and may become NFA so care must be taken
+
+        I.2.b NFA - Non-Deterministic Finite Automata:
+            -- Represented using (Q, alphabet, transitions, initial_state, final_states)
+                Q -                     Set of all the states
+                alphabet(sigma)-        input alphabet
+                initial_state(q_not) -  initial state for the DFA
+                final_states(F) -       set of all the final states
+                transitions(delta) -    delta: powerset(Q) x Sigma -> Which STATES (plural) to transition when accepting an symbol
+
+            Conversion from NFA to DFA:
+                -- Done using subset construction
+                -- For the NFA having 'n' states then the equivalent DFA may have at most 2^n states
+                -- The resultant DFA may not be the minimal DFA
+
+        I.2.c E-NFA - Epsilon NFA:
+            -- The Machine allows transition from one state to another without accepting any input symbol
+            -- We know, DFA == NFA, now we want to prove that the NFA == E-NFA
+                This equivalence can be proved by proving that they can be converted into one another
+            -- NFA can be considered as an E-NFA without any conversion
+                Now for converting E-NFA to NFA we will use epsilon closures of the states
+            -- Epsilon closure of a state is defined as the set of states that can be reached from that state by only accepting epsilon
+
+        I.1: FA with outputs:
+            -- Moore and Mealy Machine are represented using
+            -- The only difference between the moore and mealy machine is that
+                for Moore the output is associated with every state and
+                for Mealy machine the output is associated with every edge
+            -- Since for Moore Machine the outputs are associated with every state
+                the output length is 'n+1' for an input of length of 'n'.
+                Where as for mealy machine the output length is 'n' for input length 'n'
+            -- Represented using (Q, alphabet, transitions, initial_state, final_states, lambda, delta)
+                Q -                     Set of all the states
+                alphabet(sigma)-        input alphabet
+                initial_state(q_not) -  initial state for the DFA
+                final_states(F) -       set of all the final states
+                transitions -           delta: Q x Sigma -> Which STATE (singular) to transition when accepting an symbol
+                lambda: Q -> Delta(Output) (For Moore Machine)
+                lambda: Q X Alphabet -> Delta(Output) (For Mealy Machine)
+
+            -- Moore and Mealy are both equivalent
+                to prove the equivalence we must be able to convert between them
+
+                1. Converting from Moore to Mealy
+                For all the states,
+                their outputs should be assigned to all the incoming edges as their outputs
+
+                2. Converting from Mealy to Moore
+                Trace and add new states as needed
+                if there are 'N' states and 'M' symbols in the input alphabet
+                then the Mealy Machine can have atmost 'NxM' states
+
+    B. Generator/Grammar: Type3: RG-Regular Grammar
+        Represented using (V, T, P, S)
+            V - Vertices
+            T - Terminals
+            P - Productions
+            S - Start Symbol
+
+        -- Pure LLG or RLG are of type 3
+        -- The language generated by these tye of grammar is Regular.
+        1. LLG - Left Linear Grammar
+        2. RLG - Right Linear Grammar
+
+        FA and Grammar are equivalent in terms of power This can be proved by conversion to and fro
+        1. FA to Grammar:
+            a. FA >> RLG: FA can be converted directly into RLG
+            b. FA >> LLG: For conversion from FA to LLG we have to roceed as follows
+                FA  >>REV>>  FA  >>>>  RLG  >>REV>>  LLG
+
+        2. Grammar to FA:
+            a. RLG >> FA: Can again be easily converted
+            b. LLG >> FA: For conversion from Grammar to FA we have to proceed as follows
+                LLG  >>REV>>  RLG  >>  FA  >>REV>>  FA
+
+    C. Representor: Regular Expressions
+        Regular Expressions contains the following operators:
+            1. '+' - Union
+            2. '.' - Concat
+            3. '*' - Kleene Closure
+        a. Primitives:
+            1. phi      - {} Empty Language
+            2. epsilon  - Empty String
+            3. 'a'   - Symbol
+        b. The primitives can be combined using the above mentioned operators
+
+        FA to RE: using state elimination
+        Rules for State Elimination:
+            1. There should not be any incoming edges to the initial state
+                Form a new initial state with an epsilon transition to the previos initial state
+
+            2.  a. There should not any outgoing edges from the final state
+                Form a new final state with the previos final state epsilon transiting to the new final state
+
+                b. There should be only one final state
+                Form a new final state with all the previous final states epsilon transitioning to the new final state
+
+            3. Other then the initial and the final state we will try to eliminate the remaining states
+
+    D. Membership test: How to test whether a string belongs to the Regular Language:
+        -- Pumping Lemma for Regular Languages:
+            If the language FAILS the test then the language is not Regular
+            If the langauge PASSES the test then the language may or may not be Regular
+            It basically states that, If Language is INFINITE then there must be a repeating pattern in the string
+            We wont be using the Lemma for testing the language.
+
+        -- If the language is FINITE then it is Regular.
+        -- For the INFINITE language if the strings have a certain pattern that is repeating then it is Regular.
+        -- IF you can find a FA / RE / Reg. Grammar then YES
+
+    Some properties of Regular Languages:
+        -- RL is close on all the following operations.
+        1. Union of two RL is a RL
+        2. Intersection of two RL is a RL
+        3. Concatenation of two RL is a RL
+        4. Complement of a RL is a RL
+        5. Kleene Closure of a RL is a RL
+        6. Set Differnce of two RL is also a RL
+        7. Reversal of a RL is also a RL
+        8. Homomorphism of a RL is also a RL
+            -- Homomorphism is basically substituing an alphabet with a string of some othe alphabet)
+            -- Ex: h(a) = 01; h(b) = 10 then h('aab') = 010110
+        9. inverse homomorphism
+        10. Right quotient: L1/L2 =  {X: XY is in L1 and Y is in L2}
+        11. Init operation: Set of all prefixes of all the strings in the language
+        12. RL is close under substition. (Symbol are substituted)
+        13. RL may not be RL under infinite Union
+
+        14. Emtiness problem of RL is decidable.
+            If there exists a reachable final state then the Language is non Empty
+        15. Infiniteness problem for RL is decidable
+            If there is a loop reachable from the initial state and then from this loop the final state is reachable then the infinite language
+        16. Equality probelm for RL is Decidable:
+
+Context Free Language:
+    A. Acceptor: PDA - Push down Automata:
+        Represented using (Q, Sigma, Delta, q0, Z0, F, T)
+            Q -     Set of all the states
+            Sigma - Input Alphabet
+            delta - Transition Function
+            q0 -    Initial State
+            Z0 -    Bottom of the Stack
+            F -     Set of Final states
+            T -     Top of the stack
+
+        1. Deterministic PDA:
+            -- When upon accepting an input symbol and looking at the top of the stack when we move from one state to another SINGLE state and add something on the stack it is the Deterministic PDA
+            -- delta: Q x {Sigma|Epsilon} x T --> Q x T*
+
+        2. NonDeterministic PDA:
+            -- When upon accepting an input symbol and looking at the top of the stack when we move from one state to MULTIPLE states and add something on the stack it is the Deterministic PDA
+            -- delta: Q x {Sigma|Epsilon} x T --> Powerset(Q x T*)
+
+    B. Generator/Grammar: Type2: CFG-Context Free Grammar
+        CFG can be of two types:
+            1. CNF - Chomsky Normal Form
+                -- All the productions are of the form
+                    A --> BC
+                    A --> a
+                -- Advantages:
+                    1. Length of each prodcution is restricted
+                    2. The derivation tree is always a Binary Tree
+                    3. The number of steps for derivation of a string of length |W| is 2*|W| - 1
+                    4. It is easy to aply the CYK algorithm.
+
+            2. GNF - Griebach Normal Form
+                -- If all the productions are of form A --> a(V*); V* - Powerset of variables
+                -- Advantages:
+                    1. The steps required to generate the string of length |W| is |W|
+                        This is because in each step a new terminal is added.
+                    2. GNF is useful for conversion from CFG to PDA
+                    3. Conversion of CFG to PDA: Come back after the introduction of PDA Video number 75
+
+    D. Membership Test:
+        1. Enumeration:
+            -- We will use the grammar to derive all the possible strings and check if our string is possible.
+            -- Brute Force approach
+            -- The enumeration is stopped when the strings generated have length greater then the length of our string
+            -- While enumeration, We would like to get rid of some special productions like:
+                1. A --> epsilon  (Epsilon Productions)
+                2. A --> B (Unit Productions)
+
+            -- Lets see how to get rid of such productions Step by Step:
+                1. Elimination of Epsilon production
+                    -- If the language contains Epsilon then it is not possible to get rid of this production
+                    -- First step is to find all the nullable variables
+                    -- Variable that can be evaluated to epsilon directly or indirectly are nullable variables
+                2. Elimination of Unit Productions:
+                3. Elimination of Useless Symbols:
+                    -- A variable is useful if it is reachable from the start symbols and must derive some part of the string
+                    -- So we will test the reachability and derivability
+                    -- Finding the set of useful states Steps:
+                        a. All the terminals are useful
+                        b. All the states that generate pure terminals are also useful
+                        c. All the states that generate purely the useful states are also useful
+                        d. Remove the productions that have useless states on LHS or RHS
+
+        2. CYK - Membership Algorithm:
+            -- Can only be applied on CNF Grammar.
+            -- Row index is the start index and the column index is the end index of the substring
+            -- Please refer the onlinne video
+
+    Some Important Properties of CFLs:
+        1. Union of two CFLs is also a CFL
+        2. Concatenation of two CFLs is also a CFL
+        3. Kleene Closure of a CFL is also a CFL
+
+        4. Intersection of two CFLs may not be a CFL
+        5. Complement of a CFL may not be CFL
+
+        6. Membership problem for CFLs is Decidable (CYK Algorithm)
+        7. Emptiness problem for CFLs is Decidable (If Start variable is useless, We have discussed earleir how to find uselless states)
+        8. Finiteness problem for CFLs is Decidable (Form the eumeration graph, if cycle exists then infinite language)
+
+Context Sensitive Language:
+    a. Acceptor: TM-Turing Machine or Halting Turing MAchine to be precise.
+
+    b. Generator/Grammar: Type1: CSL- Context Sensitive Language
+        -- A grammar is said to be Context Sensitive if all the productions are of the form
+            u --> v where,
+            u, v is in (V U T)+ (i.e. Both LHS and RHS cannot be Epsilon)
+                This means the CSG cannot generate Empty String.
+            and |u| <= |v| (i.e. the RHS should be more in length then the LHS)
+        -- The presence of the terminals on the LHS makes the grammar context Sensitive
+        -- In CFL: A --> a, means that we can replace any A in the grammar by 'a'
+        -- In CSL: aAb --> aab, means that the A in the grammar can only be replaced when it has 'a' on the left and 'b' on the right. This is the context that the grammar is sensitive to.
+
+    d. Membership Test:
+        -- Unlike REL, For Recursive Language there is no possibility of getting stuck in an INFINITE Loop.
+        -- Hence a algorithm EXISTS to check the membership.
+
+Recursively Enumerable Languages:
+    a. Acceptor/Transducer:
+        Standard Turing Machine:
+            -- The standard Turing Machine is defined using the following tuple
+                M = (Q, Sigma, T, delta, q0, B, F)
+                Q -     Set of all the states
+                Sigma - Input Alphabet on the Tape
+                T -     Tape Alphabet
+                delta - Transition Function
+                q0 -    Initial State
+                B -     Blank Symbol belongs to the Tape Alphabet
+                F -     Set of Final states is a subset of Q
+
+            -- delta: Q x T --> Q x T x {L, R}
+            -- Summary:
+                1. Tape is unbounded, os any number of left and right moves possible.
+                2. It is Deterministic, Atmost one move from one state on one input alphabet.
+                3. No special i/p or o/p file.
+
+            -- A turing machine can compute anu mathematical function
+            -- RL >>Add Stack>> PDA >>Add Stack>> TM
+            -- TM contains Two stacks which can be used to make a Queue
+
+        Some modifications of the standard Turing Machine:
+            -- However there are various modifications done to the standard TM, they do not increase the power.
+            -- There might be cases where the power of the Tm has decreased but never increased.
+            -- However this modifications ease the process of designing and provide flexibility.
+
+            1. TM with stay option:
+                -- So we have the option to stay on the same cell on the tape.
+            2. TM with semi infinite tape:
+                -- For the standard TM the tape is infinitely long on both sides.
+                -- However in this modification the tape is finite in one of the sides.
+            3. Offline TM:
+                -- Input is given in input file and the output is done in other tape.
+                -- So the input is not modified.
+                -- If there is a need to modify the input then we should first copy the input on the output tape and then use it.
+            4. MultiTape TM:
+                -- There are multiple tapes and multiple R/W heads
+                -- the TM can independently move the R/W head for each tape.
+            5. Jumping TM:
+                -- We can jump on the Tape.
+            6. Non-Erasing TM:
+                -- It is not allowed to convert a alphabet to B on the tape.
+            7. Always writing TM:
+                -- It is compulsary to write on very step.
+            8. MultiDimensional TM:
+                -- the tape is not an array like but matrix like.
+                -- So possible to move {L, R, U, D}
+            9. MultiHead TM:
+                -- There are multiple R/W headsfor a single tape.
+            10. Automata with a Queue.
+            11. TM with only 3 states:
+                -- Please remmeber this
+                -- A TM with only 3 states is just as powerful as any other TM.
+            12. MultiTape TM with stay option and atmost 2 states:
+                -- Please remmeber this
+                -- A TM with multiple tapes, option to stay and atmost 2 states is just as powerful as any other TM.
+            13. Non Deterministic TM:
+            14. NPDA with two stacks:
+
+        Universal TM:
+            -- We are going to design a universal TM with the help of multiTape TM
+            -- WE will have three tapes with the follwing input:
+                1. Representation of the TM (Say the transition table)
+                2. Actual Input Tape
+                3. For the internal state of the TM
+
+            -- for solving any problem on the UTM What we do is:
+                1. We design the TM for that particular problem
+                2. We encode the behaviour(say transition table) of the TM using 1's and 0's
+                3. We feed this encoding that defines the behaviour of the TM to the UTM
+                4. The UTM refers this inputs and behaves accordingly
+
+            -- This is how we can make a Universal TM and make it accept any language
+
+        Halting TM:
+            -- Such a TM does not get stuck in a LOOP
+            -- So when the string is not a part of the REL then Halting TM rejects the string by halting in a non final state
+            -- Such a string belongs to RECURSIVE Language. So fall Recursive Language there is always a Halting TM
+
+        Non-Halting TM:
+            -- There may be a turing machine that can get stuck in an INFINITE LOOP
+            -- We wont know whether the TM is busy in computing or is stuck in an LOOP
+            -- This is known as Halting problem (Discussed in Decidability)
+            -- Such strings belnong to Recursively Enumerable Language.
+
+        LBA-Linear Bounded Automata:
+            -- When the Halting TM is allowed to use the Tape only where the input is present is basically LBA-Linear Bounded Automata
+            -- Strings that are accepted using LBA belongs to CSL-Context Sensitive Language
+
+
+        _____________________________________________________       _____________________________________________________
+        | REL- Recursively Enumerable Language              |       | TM- Turing Machine                                |
+        |   _____________________________________________   |       |   _____________________________________________   |
+        |   | RL-Recursive Language                     |   |       |   | HTM- Halting turing Machine               |   |
+        |   |   _____________________________________   |   |       |   |   _____________________________________   |   |
+        |   |   |CSL- Context Sensitive Language    |   |   |       |   |   |LBA- Linear Bounded Automata       |   |   |
+        |   |   |   _____________________________   |   |   |       |   |   |   _____________________________   |   |   |
+        |   |   |   | CFL- Context Free Language|   |   |   |       |   |   |   | PDA- Push Down Automata   |   |   |   |
+        |   |   |   |   _____________________   |   |   |   |       |   |   |   |   _____________________   |   |   |   |
+        |   |   |   |  | RL-Regular Language |  |   |   |   |       |   |   |   |  | FA- Finite Automata |  |   |   |   |
+        |   |   |   |  |_____________________|  |   |   |   |       |   |   |   |  |_____________________|  |   |   |   |
+        |   |   |   |___________________________|   |   |   |       |   |   |   |___________________________|   |   |   |
+        |   |   |___________________________________|   |   |       |   |   |___________________________________|   |   |
+        |   |___________________________________________|   |       |   |___________________________________________|   |
+        |___________________________________________________|       |___________________________________________________|
+
+        Limitting the Tape:
+            By Limitting the way the tape is used we reduce the power of TM.
+            1. When a NTM-Non Deterministic TM is only allwed to used as a stack. Then it degades to a PDA
+            2. When a NTM is given only finite amount of tape then it degrades to a FA. Finite tape ==> finite memory.
+            3. When the NTM is allowed to use the Tape only where the input is present is basically LBA-Linear Bounded Automata
+
+            Thus,
+                1. NTM + Tape(Stack) == PDA
+                2. NTM + Finite Tape == FA
+                3. NTM + Tape (Input Cell space) == LBA
+
+    b. Generator/Grammar: Type0: UG- Unrestricted Grammar
+        -- A grammar is called Unrestricted Grammar if all the productions are of the form
+            u --> v
+            u is in (V U T)+
+            v is in (V U T)*
+            V and T are variables and Terminals
+
+    d. Membership Test:
+        When a string is fed to the TM and it accepts it then it is a part of REL
+        When a string that is not a part of the REL is fed to the TM then it may either reject the string or get stuck in a LOOP
+        As there is a possibility of getting stuck in an inFinite LOOP there is NO MEMBERSHIP ALGORITHM
+
+    Turing Thesis:
+        -- Any computation that can be carried out by mechanical means that can also be performed by some Turing Machine
+        -- Arguements why turing thesis is accepted:
+            a. anything that can be done on the digital computer can also
+            b. No one has yet been able to suggest a problem, solvable by what we intuitively consider an algorithm, for which a turing machine cannot be designed.
+            c. Alternative models have been proposed for mechaincal machine but none of them have proven to be more powerful then the Turing Machine
+
+    Theorem:
+        If a language L and its complement L' both are REL, then both the languages are recursive.
+            -- Since L is REL there must exists a TM that halts when the string belongs to the Language, Let this TM be TM1
+            -- Also for L' there must exist a TM that halts when the string belongs to it. Let this tM be TM2
+            -- Thus, this two machine can be used simultaneously to check for the membership
+            -- This makes both L and L' Recursive as now their machines are coupled and halted whenever one of the machine accepts the string.
+        If a language L is Recursive then its complement L' is also Recursive.
+            -- Since L is Recursive then there exists a Halting TM.
+            -- Thus L' can also use this Halting TM with the states swapped.
+            -- Hence Halting TM exists for them both hence both are Recursive and thus REL.
+
+For every Language is there a TM?
+    First we develop some mathematical foundation to answer this question.
+    Sets:
+        |--> Finite
+        |--> inFinite
+            |--> Countable
+            |--> unCountable
+
+    Countable Sets:
+        -- A Set 'S' is said to be countable if all the elements of the set can be generated and for any particular element, it takes only finite number of steps to generate it.
+        -- By correspondence what we mean is we can establish a mapping from the natural number(index) to the elements in Countable Set.
+        -- Ex: Set of all even numbers is Countable Infinte Set.
+            Even# Set:     {0, 2, 4, 6, 8, .....}
+            Natural# set:  {0, 1, 2, 3, 4, .....} <<<< ALso known as index
+            Therefore a mapping function can be established on the indices to get the elements of the Countable sets.
+        -- A subset of a countable set is Finite or if inFinite is countable.
+
+    For a given Alphabet the set of all possible Strings over this alphabet is also a countable set.
+        To prove this we have to give some mapping for the strings and some indices.
+        Consider Sigma = {a, b}
+        So the set of all possible strings that can be generated on this alphabet is given by
+        {epsilon, a, b, aa, ab, ba, bb, aaa ...}
+            0       1           2           3
+
+        So basically we generate the strings in the ascending order of their lengths.
+        and hance an index can be given with a mapping.
+        Thus, the set of all the strings possible over a alphabet is Countable.
+
+    A language over a given alphabet(sigma) is a subset of sigma*
+        yeh toh satya hai
+
+    We have already seen that a subset of a countable set is either finite or is an countable infinite.
+    Thus, Language that is defined over an alphabet is also an infinite countable set
+
+    Now, We have seen in the UTM that every TM can be represented in the form of 1's and 0's
+    A set of TM represented as 0's and 1's is also a subset of all the strings over {0, 1} which is infinite countable set.
+    Thus implying that the set of all the TM is a infinite countable set.
+
+    Since the set of all TM are countable   | Since the set of all TM are countable and
+                                            | there is exactly ne language accepted by one TM it implies that,
+        So, are the set of all LBA          |   The set of all REL is also countable and,
+        So, are the set of all PDA          |     So, are the set of all Recursive Language
+        So, are the set of all FA           |     So, are the set of all Context Sensitive Language
+                                            |     So, are the set of all Context Free Language
+                                            |     So, are the set of all Regular Language
+
+    Now, The powerset of a infinite countable set is unCountable
+        -- can be proved using 101 digonalization (Amazing concept)
+
+    Since the powerset of Sigma* is basically a set of all the languages over the Sigma
+    The set of all languages over a given Sigma is unCountable
+
+    -- IF S1 and S2 are countable then (S1 U S2) is countable
+    -- The Cartesian product of a finite number of countable sets is countable
+    -- The set of all languages that are not REL are unCountable
+        Why?
+            For a given Sigma
+                We know that the set of all languages over this Sigma is unCountable.
+                Also we know that the set of all REL over this sigma is Countable.
+                now, If we assume that the set of all language that are not REL are countable
+                    then, the union of REL and not REL which is the set of all languages over Sigma should also be countable
+                    this is not true, hence our assumption that the set of all not REL is countable is wrong
+            Thus Set of all languages that are not REL are unCountable
+
+Computability and Decidability:
+    -- Computability: IF there is a function that is defined on a domain if there is a Halting TM then it is a computable
+    -- Decidability:
+        -- If there is a problem whose outcome is boolean and there exists a HTM then that problem is Decidable
+        -- The Domain of the problem is important when deciding the decidability of the problem.
+
+        -- How to prove a Problem is unDecidable:
+            Consider a problem P1
+                and there exists an algorithm to convert it to P2
+                Such that the answer for P2 is the answer for P1
+                This procedure of converting a probelm to some other problem is called Reducibility
+                And the algorithm to convert the problem is called Reducible Algorithm
+
+                Now if P2 is Decidable meaning it has an Algorithm
+                then P1 is also Decidable
+
+                Also if it has already been proven that the problem P1 is unDecidable
+                Then P2 cannot be decidable(i.e. P2 is also unDecidable)
+
+            TM Halting Problem:
+                Given a description of the TM and an input.
+                Does the TM halts eventually when it is fed the input?
+
+            Theorem: If the halting problem were decidable then All REL would get Recursive Language meanning here would be a Halting TM
+            How? If the Halting Problem were decidable then there would be a Halting TM
+                telling us whether the TM woud halt given an input.
+
+                If the TM halts for a given input then the input can be fed to the TM of the Language and the machine will halt with the output YES or NO
+                If the TM does not halts then we know that the input does not belong to the language and we can answer NO
+
+                Thus All REL becomes Recursive Language and thus has a Halting TM
+                However this claim is False.
+
+            Thus our initial assumption that the Halting Problem is decidable is wrong
+            Hence, the Halting Problem in unDecidable
+
+            We use the Halting Problem and the Reducibility to find the decidability of the Problem
+            We try to reduce the Halting Problem to the problem to which we are tryinf to find the decidability
+            If we can reduce it then the Problem is unDecidable
+
+
+Complexity Classes:
+    P-Class: The set of all languages that are accepted by some deterministic TM in polynomial time
+    NP-Class: The set of all lanuages that are accepted by non-deterministic TM in polynomial time

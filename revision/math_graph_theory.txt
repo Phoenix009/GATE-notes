@@ -1,0 +1,353 @@
+Graph Theory:
+    Graph (G): 
+        A graph G is a tuple consisting a vertex set V, and and edge set E, 
+        and the relation that associates with each edge two vertices called its endpoint.
+        Ex: 
+            G(V, E);
+            V = {1, 2, 3}   Set of all the vertices
+            E = {(1, 2), (2, 3), (3, 1)}    Set of all the edges
+
+        Set E contains ORDERED pairs if the graph is DIRECTED
+                        UNORDERED pairs if the graph is UNDIRECTED
+
+    Loop: 
+        An edge who endpoints are equal is called a loop
+
+    Multi Edges:
+        Edges having the same pair of endpoints are called multi-edges
+
+    Simple Graph:
+        A graph having no self-loops and multi-edges is a simple graph
+
+    Representation of Graph:
+        1. Adjacency List:
+        2. Adjacency Matrix:
+            a. For a simple graph the adjacency matric has 0 for all leading diagonal entries
+            b. For a undirected graph the adjacency matrix is symmetric
+            c. The sum of a nodes row is equal to the out-degrees of that node (Also indegrees if the graph is undirected)
+    
+    Hand Shaking Lemma:
+        In any graph G(V, E), the sum of the degrees of vertices is equal to twice the number of edges
+            sum(deg(node) for node in V) == 2*|E|
+
+    Isomorphism:
+        An isomorphism from a simple grph G to H is a bijection f: V(H) -> V(H)
+        and (u, v) in E(G) iff (u, v) in E(H)
+        Basically in isomorphic graphs we can map the vertices such that the edges are exactly equal
+    
+    #simple graphs that can be formed using 'n' Labelled vertices:
+        Consider a complete graph with n vertices
+        There are n(n-1)//2 edges in the complete graph
+        A simple graph will have edges that are a subset of the edges present in the complete graph
+        the total subsets that can be formed are 2**|E(Kn)| where Kn is a complete graph with n vertices
+    
+    Degree Sequence:
+        The arrangement of degrees in non-decreasing or non-increasing order
+    
+    Given a degree sequence can we have a SIMPLE graph giving that degree sequence:
+        The procedure works only for SIMPLE graph
+        so the graph has not multiple edges or loops
+        Havel Hakimi Procedure:
+            From the graph if we remove a node wth degree d then,
+            the degree of the remaining 'd' distinct nodes with be decremented
+            We will do this iteratively until all the nodes are eliminated 
+
+        Ex:
+            1. 6 6 6 6 3 3 2 2
+               x 5 5 5 2 2 2 1
+               x x 4 4 1 1 1 1
+               x x x 3 1 0 0 0
+                Not Possible
+
+            2. 7 6 6 4 4 3 2 2
+               x 5 5 3 3 2 1 1
+               x x 4 2 2 1 0 1
+               x x x 1 1 0 0 0
+               x x x x 0 0 0 0
+                Possible
+    
+    **
+    Relation between MinDeg and MaxDeg of nodes in graph:
+        MinDeg <= 2|E| / |V| <= MaxDeg
+                    (AvgDeg)
+
+    SubGraph:
+        A subgraph of G is a graph H such that
+            V(H) is a subset of V(G) and
+            E(H) is a subset of E(G) and 
+            the assignment of endpoints for edges in H is same as in G
+
+        Simply said a graph that can be obtained by deleting some vertices or some edges
+
+    Induced Subgraph:
+        A subgraph that is obtained by deleting only some vertices
+    
+    NOTE: Whenever a node is deleted then all its associated edges are also deleted
+    
+    Path:
+        A Path is a simple graph whose vertices can be ordered so that the nodes are adjacent iff they are consecutive in the list
+        Basically a path
+        A Path with 'n' vertices is denoted as Pn
+
+    Cycle:
+        A Cycle is a path with the same start and end
+        A cycle has same number of vertices and edges included
+    
+    Complete Graph:
+        A graph G in which each an every edges are present is called a complete Graph thus in complete Graph any two pair of vertices are adjacent
+        A graph with 'n' vertices has atmost nC2 = n(n-1)//2 edges
+        
+        For a complete Graph Kn:
+            the degree of each vertex is n-1
+            the total number of edges is n(n-1)//2
+
+    Clique:
+        A clique is defined as a subgraph of the graph that is also complete
+        Every edge forms a clique of size 2 (K2)
+    
+    Independent Set:
+        A set of vertices in a graph that are pairwise non-adjacent
+        So basically the set of vertices that are not adjacent to one another
+
+        A complete graph's independent set is a empty set as all pair of vertices are adjacent in a cmplete graph
+
+    Bipartite Graph:
+        A graph which can be divided into to independent sets U and V
+        such that each edge maps a node from U to a node to V
+        Since sets U and V are independent no pair of vertices within each set are non-adjacent
+
+    NOTE: A Graph is bipartite iff it has no odd cycle
+            The proof is based on the fact that a bipartite can be colored with two colors.
+            If there is an odd cycle then the two adjacent nodes of a node will have different colors and then we cant assign any color to our node
+
+    Complete Bipartite Graph:
+        A Bipartite Graph in which
+        there is an edge from each u in U to all v in V
+        A Bipatite Graph such that |U| = n and |V| = m is denoted as K(n, m)
+
+    Maximum number of edges in bipartite graph with 'n' vertices:
+        Halve the vertices into two sets u, v
+        the maximum edges is u*v
+    
+    Regular Graph:
+        A Graph G is k-Regular graph if all the vertices has degree 'k'
+    
+        A complete graph Kn is also n-1 Regular
+        A cycle graph is also 2-Regular
+        number of edges of a k-Regular graph with n vertices is n*k//2 (using Handshaking Lemma)
+
+    HyperCube or K-dimensional Cube (Qk):
+        A simple graph whose vertices are binary strings of length 'k'
+        and edges are present between the vertices such that their binary strings differ by one
+
+        A binary string of length 'k' can differ with exatly 'k' other binary strings
+        Thus each node has degree exactly 'k'
+        This a K-dimensional cube is also a K-Regular Graph
+
+        Since the binary strings are of length 'k' then there 2*k binary strings possible and thus
+        there are 2**k vertices in K-dimensional Cube
+
+        The number of edges in K-Dimensional Graph is k*(2**(k-1)) and can be obtained by using HandShaking Lemma
+
+    Distance:
+        If a graph has a path from u to v, then 
+        the distance from u to v i.e. d(u, v) is the minimum cost path from u to v
+        If there is no path from u to v then d(u, v) is INF
+
+    Diameter:
+        The Diameter of a graph is defined as the longest path between any two pair of vertices
+        diameter(G) = max(d(u, v) for u, v in edges(G)) 
+        For graph having disconnected components Diameter = INF
+        Also means that
+            d(u, v) for any pair u, v in G  <= diameter(G)
+
+    Eccentricity of a vertex:
+        Defined as the maximum distance that we would have to travel in the worst case to reach any other vertex
+        eccentricity(u) = max(d(u, v) for v in vertices(G))
+
+    Radius of a Graph:
+        The minimum of athe eccentricities of all the vertices is the radius of the graph
+        radius(G) = min(eccentricity(u) for u vertices(G)) 
+
+    Walk:
+        It is a list of v0, e1, v1, e2, v2, ...en, vn
+        such v[k-1]--e[k]--v[k]
+        An edge or a vertex can be visited multiple times in a walk
+
+    Trail:
+        A trail is a walk with no repeated edges
+
+    Eularian Graph:
+        A graph is called euleria graph if it has a CLOSED TRAIL that includes
+        ALL EDGES
+        -- We call a closed trail a CIRCUIT
+        -- If every vertex of the G has degree atleast 2 then G contains a cycle
+        -- A Graph G is euleria iff it has atmost ne non trivial component and its vertices all have even degrees
+
+    Connected and Disconnected Graph:
+        A Graph is connected if for all pairs u, v there is a direct/indirect path from u to v
+        
+        All Complete Graphs are connected Graphs but all connected graphs are not complete graphs:
+            This is because in the Complete Graph there is a direct edge from the src to dest for all vertice pairs
+            but in the connected graph there may not be all direct edges from the src to dest for all vertice pairs
+
+    Components:
+        A subgraph of a graph that is a connected graph is called a connected component
+
+        For a connected graph that is only one connected component: the graph itself
+        For a disconnected graph there can be multiple connected components
+
+        NOTE:
+            -- Adding an edge in the graph can reduce the number of connected components by 0 or 1
+            -- Removing an edge in the graph can increase the number of connected components by 0 or 1
+            -- A graph having n vertices and k edges has atleast n-k components
+
+    Directed Graph/DiGraph:
+        DiGraph G is a tuple consisting of a vertex set V(G) and an edge set E(G)
+        such that each edge is an ORDERED pair (u, v) where u is the src/tail and v is the dest/head of that edge
+        
+        Simple DiGraph:
+            A DiGraph is a simple DiGraph if there are 
+                1. no multiedges: Multiple edges with the same src and dest
+                2. no self loops: Edges with the src == dest
+    
+    Underlying Graph:
+        The underlying graph of a Digraph is 
+        the graph that is obtained by treating the directed edges as undirected
+
+    Connectedness:
+        For a Directed graph there are two ways to discuss the connectivity:
+        1. STRONGLY Connected: If for each ordered pair of vertices there is a direct/indirect path from u to v.
+        2. WEAKLY Connected: If the underlying graph of the diGraph is connected
+
+        NOTE:
+            -- IF Weakly then may not be STRONGLY
+            -- IF STRONGLY then also WEAKLY
+            -- When a unDirected Graph is connected then there is a path from src to dest for all vertice pairs
+            -- When a Directed Graph is STRONGLY connected then there is a path from src to dest for all vertice pairs
+            -- When a DiGraph is WEAKLY connected there may not a path for src to dest vertice pairs
+
+    Strong Components:
+        The STRONG components of a diGraph is its maximal subgraph that is also STRONGLY connected
+
+    Degrees:
+        1. inDegrees: For a vertex the inDegrees is the number of edges that are incident on it
+        2. outDegree: For a vertex the outDegrees is the number of edges that are outgoing from it
+        
+        Each edge contributes a value of one to the total indegree and to the total outdegree
+        Thus
+            sum(inDegrees) == |E| == sum(outDegrees)
+    
+    Matching:
+        A matching in a graph G is a set of non-loop edges with no shared endpoints
+        For a given Graph there can be multiple matchinFor a given Graph there can be multiple matchingg
+
+        Saturated and unSaturated vertices:
+            The endpoints of the edges that are included in a matching are saturated vertices
+            the rest are unSaturated
+
+        Perfect Matching:
+            A mathing that saturates all the vertices of the grapg is called the perfect matching
+        
+        Maximal Matching:
+            A Matching in which no mre edges can be added without violating the property of the match is called a maximal Matching
+
+        Maximum Matching:
+            A Matching with the maximum size is called a Maximum Matching
+            A Matching is a set of edges, so its size is the number of edges included in the match
+        Ex:
+            A -- B == C -- D and A == B -- C == D
+
+            -- not included in the match
+            == included in the match
+            The above two matchings are both maximal but only the right one is maximum
+    
+    Vertex Cover:
+        A vertex cover of a graph is a subset of vertices such that all the edges get covered by these vertices
+        
+        Since no vertex can cover two edges of a matching the 
+        size of the vertex cover is atleast the sixe of every matching
+        
+        Minimal Cover:
+            A Cover from which we cannot remove any vertex is called a minimal cover
+        
+        Minimum Cover:
+            A Cover in which there are minimum number of vertices 
+            Finding the Minimum Cover for a graph is a NPC Problem
+        
+        **
+        NOTE:
+            1. Obtaining a Vertex Cover and MAtching of the same size proves
+                that each is optimal
+            
+            2. |Maximal Matching| <= |Minimal Cover| <= 2*|Maximal Matching|
+
+
+Questions:
+
+1. Let G be a undirected complete graph K6.
+    If vertices of G are labelled, 
+    then the number of distinct cycles of length 4 in G are?
+        Cycle of length 4 is as follows
+        1 -- 2 -- 3 -- 4 -- 1
+
+        So we choose 4 vertices in 6C4 ways
+        we set the first vertex as the start and end        in 1 way
+        and permute the remaining vertices in the middle    in 3! ways
+
+        But 
+        1 -- 2 -- 3 -- 4 -- 1
+        1 -- 4 -- 3 -- 2 -- 1 are same cycles but counted twice
+
+        So finally 
+            (6C4 * 3!) // 2 is the answer
+
+2. Graph G has N vertices and K connected componetnts.
+    What is the numunum and maximum number of edges?
+        MIN = N-K
+        MAX = ((N-K+1)(N-K)) // 2
+
+3. Let G be an arbitrary graph with N nodes and K components
+    If a vertex is removed from G, the number of components in the res
+    lies between k-1 and n-1 ??
+
+    TRUE: Lies between k-1 and n-1
+        Assume all isolated components and we get the answer
+
+4. For a graph G there are 2**n vertices corresponding to a subset of a set of size n
+    Two vertices G are adjacent iff the sets intersection has two elements.
+    
+    The number of vertices having zero degrees: ?
+        the null set and all the set that have only one element
+        
+        So there are (n+1) sets that when intersected with any other set has intersection with elements less than two
+        So there are n+1 nodes with degree 0
+
+
+    The number of connected components: ?
+        So the nodes having degree zero are isolated components => n+1
+        All the remaining nodes form one component => 1
+        Total components ==> n+2
+
+5. For a complete Bipartite Graph K(n, n) find the number of perfect matching possible
+        Assume 1, 2, 3, 4...n and k1, k2, k3, ..kn in two sets
+
+        We will math the corresponding nodes from the two vertices
+        then we just have to arrange the elements in one set to form all possible matchings
+        and all these matchings will be perfect
+        Thus there are n! perfect matchings for K(n, n)
+
+6. For a complete Graph K(n) find the number of perfect matching possible
+    
+    If |V| is ODD then there cant be any perfect matching
+        Since there will always be one vertex left and all will be saturated
+    
+    Else if n =|V| is even then
+        WE have n! permutations and we will form the match of adjacent vertices
+        so there are k=n//2 groups in a permutation
+        Individual groups can be again be arrange in k! ways and also within a group there are 2 configs
+        
+        Hence the number of perfect matchings are:
+            n! / (k! * 2**k) where k = n//2
+
+

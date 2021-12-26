@@ -1,0 +1,391 @@
+Set theory:
+1. Sets:
+    Set: A set is defined as a well defined UNORDERED collection of DISTINCT elements.
+
+    Null Set: A set with no elements in it is called an empty set denoted by {} or phi.
+
+    Subset: If all the elements of set A are also in set B then A is a subset of B
+        Note:
+            -- For a set A, A and {} are called trivial subsets of A
+            -- If A is a subset of B and B is also a subset of A then A == B
+
+    Proper Subset: Any subset of A that is not a trivial subset is called a proper subset of A
+
+    Powerset:
+        -- If A is a finite set then the set of all the subsets of set A is called the powerset of A.
+        -- It is denoted as P(A) and |P(A)| = 2^(|A|)
+        -- EX: A = {0, 1} then P(A) = { {}, {0}, {1}, {0, 1} }
+
+    Universal Set: Set of all the objects under discussion.
+
+    Complement of a Set: If A is any set, then the complement of A is denoted by A'and contains all the elements in the universal set that are not a part of A
+
+    Set Difference: If A and B are two sets, then the set difference of A and B is A-B and contains all the elements that ARE IN A and NOT IN B
+
+    Intersection: If A and B are two sets, then the intersection of A and B and contains all the elements that ARE IN BOTH A and B
+    NOTE: IF the intersection of two sets is {} then these sets are disjoint sets
+
+    Union: For two sets A and B, their union Gcontains all the elements that are either in A or B or BOTH
+
+    Symmetric Difference: for two sets A and B their symmetric difference is a set of all elements are are EITHER IN A or B but NOT IN BOTH
+
+    Commutative Laws:
+        -- A union B = B union A
+        -- A intersection B = B intersection A
+        -- A symmetric difference B = B symmetric difference A
+
+    Associative Laws:
+        -- (A union B) union C = A union (B union C)
+        -- (A intersection B) intersection C = A intersection (B intersection C)
+        -- (A sym.diff B) sym.diff C = A sym.diff (B sym.diff C)
+
+    Distributive Laws:
+        -- A union (B intersection C) = (A union B) intersection (A union C)
+        -- A intersection (B union C) = (A intersection B) union (A intersection C)
+
+    DeMorgans Laws:
+        -- (A union B)' = A' intersection B'
+        -- (A intersection B)' = A' union B'
+
+    Idempotent Laws:
+        -- A union A = A
+        -- A intersection A = A
+
+    Using Venn Diagram all of the above laws can be verified and derived
+
+2. Relations:
+    Cartesian Product:
+        --For two sets A and B the cartesian product is a set of ordered pairs where each element of set A is paired with each element of set B
+            Ex: A = {0, 1} and B = {a, b} then A x B = {(0, a), (0, b), (1, a), (1, b)}
+        -- If |A| = n and |B| = m then |A x B| = n*m
+
+    Relation:
+        -- A Relation can be defined as a subset of the cross product
+            Ex: R = {(x, y) | (x, y) belongs to Z x Z and x < y}
+        -- For two sets A and B we know that the number of elements in A X B is |A|*|B| and thus the total number of relations that can be defined over A X B is 2**(|A|*|B|)
+
+    Reflexive Relation:
+        -- IFF EVERY ELEMENT IN A is RELATED TO ITSELF
+        -- Ex: Suppose A = {1, 2, 3} then
+            R1 = {(1, 1), (1, 2), (2, 1), (2, 2)} is NOT reflexive
+            R2 = {(1, 1), (2, 2), (3, 3), (1, 2)} is reflexive
+
+    Irreflexive Relation:
+        -- IFF EVERY ELEMENT IN A is NOT RELATED TO ITSELF
+        -- Ex: Suppose A = {1, 2, 3} then
+            R1 = {(1, 1), (1, 2), (2, 1), (2, 2)} is neither reflexive nor irreflexive
+            R2 = {(1, 1), (2, 2), (3, 3), (1, 2)} is reflexive and not irreflexive
+        -- There is no relation that can be reflexive as well as irreflexive
+        -- However a relation can be neither reflexive nor irreflexive
+
+    Symmetric Relation:
+        -- IFF xRy then yRx for all x, y in R
+        -- IF a is related to b then b has to be related to a
+        -- Ex: Suppose A = {1, 2, 3} then
+            R1 = {(1, 1), (1, 2), (2, 1), (2, 2)} is SYMMETRIC and neither reflexive nor irreflexive
+            R2 = {(1, 1), (2, 2), (3, 3), (1, 2)} is reflexive and not irreflexive and not symmeteric
+
+    AntiSymmetric Relation:
+        -- IF xRy and yRx then x == y
+        -- Ex: Suppose A = {1, 2, 3} then
+            R1 = {(1, 1), (1, 2), (2, 1), (2, 2)} is NOT ANTISYMMETRIC
+            R2 = {(1, 1), (2, 2), (3, 3), (1, 2)} is  ANTISYMMETRIC
+        -- Properties:
+            1. Every subset of antisymetric relatio is antisymmetric
+            2. every superset of antisymmetric relation may NOT be antisymmetric
+            3. Antisymmetric relatoins are NOT CLOSED under union
+            4. Antisymmetric relations are CLOSED under intersection
+            5. Antisymmetric relations are CLOSED under set difference
+            4. Antisymmetric relations are NOT CLOSED under complement
+
+    Asymmetric Relation:
+        -- IF xRy then y!Rx
+        -- IF x is related to y then y should not be related to x
+        -- Ex: Suppose A = {1, 2, 3} then
+            R1 = {(1, 1), (1, 2), (2, 1), (2, 2)} is NOT ASYMMETRIC
+            R2 = {(1, 2), (1, 3)} is  ASYMMETRIC
+        -- NOTE: These is only set that is both Asymmetric ans Symmetric and that is NULL set
+        -- Properties:
+            1. Every subset of asymetric relatio is asymmetric
+            2. every superset of asymmetric relation may NOT be asymmetric
+            3. Asymmetric relatoins are NOT CLOSED under union
+            4. Asymmetric relations are CLOSED under intersection
+            5. Asymmetric relations are CLOSED under set difference
+            4. Asymmetric relations are NOT CLOSED under complement
+
+    Transitive Relation:
+        -- IFF xRy and yRz then xRz
+        -- IF x is related to y and y is related to z then x has to be related to z.
+        -- Ex: Suppose A = {1, 2, 3} then
+            R1 = {(1, 1), (1, 2), (2, 1)} is TRANSITIVE
+            R2 = {(1, 2), (1, 3)} is  TRANSITIVE
+            R3 = {(1, 2), (2, 1)} is NOT TRANSITIVE
+            R4 = A X A is TRANSITIVE and is the largest TRANSITIVE relation.
+
+    Equivalence Relations (R-S-T):
+        -- A relation R is said to be Equivalence Relation IFF it is
+            a. Reflexive
+            b. Symmetric
+            c. Transitive
+
+    Partially Ordered Relation (R-A-T):
+        -- A relation R is said to be Partially Ordered Relation IFF it is
+            a. Reflexive
+            b. ANTISymmetric
+            c. Transitive
+
+    POSET- Partially Ordered Set:
+        -- A set A with a partial order R defined on A is considered partially ordered set POSET and it is denoted by [A ; R]
+
+    Totaly Ordered Relation:
+        -- A POSET [A ; R] is called a  Totally ordered set if every pair of elements in A are related.
+        -- IF for all a,b in AxA either aRb or bRa
+
+3. Partial Order Sets and Lattices:
+    Hasse Diagram:
+        Let [A ; R] be a POSET. The POSET diagram is as follows:
+            1. There is a vertex for every element in set A
+            2. There are no transitive edges.
+                if aRb and bRc and aRc then there is an edge from a to b and from b to c but not an edge from a to c
+
+    LUB - Least Upper Bound(Join or Supremum):
+        Let [A ; R] be a POSET. Then for a, b in A , if there exists an element c such that
+            1. aRc and bRc
+            2. if there exists an element 'd' such that aRd and bRd and cRd
+            then 'c' is called the LUB or Join or Supremum
+
+    GLB - Greatest Lower Bound(Meet):
+        Let [A ; R] be a POSET. Then for a, b in A , if there exists an element c such that
+            1. cRa and cRb
+            2. if there exists an element 'd' such that dRa and dRb and dRc
+            then 'c' is called the GLB or Meet
+
+    Join Semi Lattice: If for every pair of element there exists a LUB then it is a Join Semi Lattice
+
+    Meet Semi Lattice: If for every pair of element there exists a GLB then it is a Meet Semi Lattice
+
+    Lattice:
+        -- If for every pair of element there exists both GLB and LUB then it is a Lattice
+        -- Properties:
+            1. Commutative Law:
+                a LUB b = b LUB a
+                a GLB b = b GLB a
+
+            2. Associative LAw:
+                (a LUB b) LUB c = a LUB (b LUB b)
+                (a GLB b) GLB c = a GLB (b GLB b)
+
+            3. Idempotent Law:
+                a LUB a = a
+                a GLB a = a
+
+            4. Absorption Law:
+                a LUB (a GLB b) = a
+                a GLB (a LUB b) = a
+
+            5. In a lattice  a LUB b = a IFF a GLB b = b
+
+    SubLattice:
+        Let L be a lattice. A subset M of L is called a sublattice of : if
+            1. M is a lattice. i.e. for any pair of element in M their GLB and LUB exists and belongs to M iteself
+            2. For any pair of elements in M their LUB and GLB is same in both L and M
+
+    Bounded Lattice:
+        -- Upperbound for Lattice:
+            Let L be a lattice wrt R, if there exists an element 'u' such that aRu for all a in A then 'u' is called the upperbound of L
+        -- Lowerbound for Lattice:
+            Let L be a lattice wrt R, if there exists an element 'l' such that lRa for all a in A then 'l' is called the lowerbound of L
+        -- If for a lattice there exists BOTH upperbound and a lowerbound then that lattice is called bounded lattice
+        -- Properties:
+            1. LUB of a and u is always u
+            2. GLB of a and u is always a
+            3. LUB of l and a is always a
+            4. GLB of l and a is always l
+            Where,
+                u is the upperbound of the lattice
+                l is the lowerbound of the lattice
+                a is any element in the lattice
+
+    Complement of an element in the Lattice:
+        Let L be a bounded Lattice then for any element 'x' in L if there exists an element 'y' such that xLUBy = u and xGLby = l then x and y are complements of one another
+        NOTE: Complements can only be found in Bounded Lattice
+
+    Complemented Lattice:
+        Let L be a bounded lattice, if each element of L has ATLEAST one complement in L then L is a complemented Lattice
+
+    Distributive Lattice:
+        A Lattice is said to be Distributive if the distributive law holds good
+            1. a GLB (b LUB c) = (a GLB b) LUB (a GLB c)
+            2. a LUB (b GLB c) = (a LUB b) GLB (a LUB c)
+        In a Distributive lattice, complement of an element if exists is unique. i.e. each element in Distributed Lattice has atmost one complement
+
+    Boolean Algebra:
+        A Lattice L is called a boolean algebra if it is distributive and complemented.
+        Since it is both distributive and complemented lattice the number of complements for any element is exactly one.
+        If a lattice has to be a Boolan algebra then its structure has to be isomorphic to the structure of the [P(A); subset] poset where A has the same number of elemets
+        It will also contain number of elements that is an integral power of 2
+        and contain edges equal to n*2^(n-1) where n is the number of nodes/elements in the set.
+
+    Theorem:
+        The POSET [Dn, /] is a boolean algebra iff n is a square less number. i.e if Dn does not contain any perfect squares.
+        If [Dn, /] is a Boolean Algebra then the complement of 'x' is 'n/x'
+
+    Maximal Element: IF there exists an element that is not related to any other element then that element is called the maximal element
+    Minimal Element: IF there exists an element such that no element is related to it then that element is called the minimal element
+
+    NOTE:
+        -- There can be multiple minimal and maximal elements in a POSET
+        -- Lowerbound and Upperbound exist only for bounded lattice
+        -- Minimal and Maximal elements can be found for POSETs it need not be a Lattice
+        -- IF there are more than one minmal element then it is not a lattice as for these minimal there is no GLB
+        -- IF there are more than one maximal element then it is not a lattice as for these maximal there is no LUB
+
+4. Groups:
+    Algebraic Structures:
+        A non-empty set 'S' is called an algebraic structure wrt binary operation '*' if (a * b) is in S for all pairs (a, b) in S. i.e. '*' is closed on operation on 'S'
+        Ex:
+            -- S = {1, -1} and '*'= * together form an algebraic structure. So the result of the operation '*' on any pair of elements in S is in S itself
+            -- S = Set of all Relexive relations and union operation is also a algebraic structure
+            -- S = Set of all Relexive relations and intersection operation is also a algebraic structure
+
+    SemiGroup:
+        An algebraic structure (S, *) is called a semigroup, if * is associative. i.e. (a * b) * c = a * (b * c)
+        Ex:
+            -- For (N, +):
+                1. It is an algebraic structure
+                2. '+' operation is also associative so it is a semiGroup
+            -- For (Z, -):
+                1. It is an algebraic structure
+                2. '-' operation is not associative so it is not a semiGroup
+
+    Monoid:
+        A semiGroup (S, *) is called a monoid if there exists an element 'e' in S such that a * e = e * a = a for all a in S
+        The element 'e' is called an identity element of S wrt * operation
+        Ex:
+            -- For (N, *):
+                1. It is an algebraic structure as it is closed on operation *
+                2. The operation * is associative so it is a semiGroup
+                3. Also 1 is in S such that 1 * a = a * 1 = a for all a in S. Thus 1 is a identity element
+                Thus (N, *) is a monoid
+            -- For (Z, +):
+                1. It is an algebraic structure as it is closed on operation +
+                2. The operation + is associative so it is a semiGroup
+                3. Also 0 is in S such that 0 + a = a + 0 = a for all a in S. Thus 0 is a identity element
+                Thus (Z, +) is a monoid
+
+    Group:
+        A monoid (S, *) with identity element 'e' is called a group if for ach element 'a' in S, there exists an element 'b' such that a * b = b * a = e.
+        'b' and 'a' are called inverse of one another
+        Ex:
+            -- For (Z, +):
+                1. It is an algebraic structure as it is closed on operation +
+                2. The operation + is associative so it is a semiGroup
+                3. Also 0 is in S such that 0 + a = a + 0 = a for all a in S. Thus 0 is a identity element
+                4. For any element 'a' there exists '-a' in Z such that a - a = 0 thus inverse exists for each element
+                Thus (Z, +) is a Group
+            -- For (Q, *):
+                1. It is an algebraic structure as it is closed on operation *
+                2. The operation * is associative so it is a semiGroup
+                3. Also 1 is in Q such that 1 * a = a * 1 = a for all a in Q. Thus 1 is a identity element
+                4. For 0 in Q there does not exist '1/0' in Q. Thus, inverse does not exist for all elements
+                Thus (Q, *) is not a Group
+        -- In a Group (S, *) the following properties hold good:
+            1. The identity element of 'S' is unique.
+            2. The inverse of any element in 'S' is unique
+            3. The inverse of identity element 'e' is 'e' itself
+            4. Cancellation law: a * b = a * c then b = c
+            5. (a * b)_inv = b_inv * a_inv for all a, b in S
+
+    Abelian Group:
+        A group (G, *) is said to be abelian if the operation * is commuatative i.e. a * b = b * a
+        Ex:
+            -- For (M, *):
+                M is a set of all n*n matrices and * is matrix multiplication operation
+                1. It is an algebraic structure as it is closed on operation *
+                2. The operation * is associative so it is a semiGroup
+                3. Also Identity Matrix I is in M such that I*a = a*I = a for all a in M. Thus I is a identity element
+                4. For any element 'a' there exists 'a_inv' is in M such that a * a_inv = I thus inverse exists for each element
+                5. However, matrix multiplication is not commutative
+                Thus (M, *) is a Group but not an Abelian Group
+
+    Finite Group:
+        A group with finite no of elements is called a finite group
+        O(G): Order of the finite group and is the number of elements in the group
+
+    Order of an ELEMENT of a group:
+        Let (G, *) be a group and 'a' in G then order of element 'a' is the SMALLEST POSITIVE integer 'n' such that a^n is identity element.
+        Dont confuse with the exponential operation the power means the number of times '*' opeations is applied
+        NOTE: The Order of the GROUP will always be divisible by Order of any element in the group G (Langranges Theorem)
+
+    SubGroups:
+        Let (G, *) be a group. A subset 'H' of 'G' is called a subgroup of 'G' if (H, *) is a group
+        Let (G, *) be a group with 'e' identity element then, {e} and G are trivial subGroups of G
+        Proprties:
+            1. The UNION of any two subgroups of a group G may not be a subgroup of G
+            2. The INTERSECTION of two subgroups of a group G is also a subgroup of G
+
+    Theorem1: Let 'H' be a non-empty subset of a group (G, *). H is a subgroup of 'G' IFF a * b_inv is in H for all pairs a, b in H
+    Theorem2: Let 'H' be a non-empty subset of a group (G, *). H is a subgroup of 'G' IFF H is closed on '*'. i.e. a * b is in H for all pairs a, b in H
+    Theorem3: Langranges Theorem: IF 'H' is subgroup of 'G' then O(G) is divisible by O(H)
+
+    Cyclic Groups:
+        A group (G, *) is called a cyclic group if there exists an element 'a' in G such that every element of G can be writter as some integer power of 'a'.
+        The element 'a' is called the generating element/generator
+
+        Theorem1: Let (G, *) be a cyclic group of order 'n' with generator 'a' then
+            1. The number of generators in G = totient function of n. i.e. the number of elements smaller than 'n' that are coprime with 'n'
+            2. a^m is also a generator of G if m and n are co-prime.
+
+        For calculating the totient function of a number:
+            -- For a prime number 'p':
+                phi(p) = p-1
+            -- For two co prime integers 'p' and 'q':
+                phi(p * q) = phi(p) * phi(q)
+            -- Then by extension of the above two properties:
+                We can do te prime factorization of the number 'n' and then apply the totient function on it
+
+        Properties:
+            For a group with 'a' as the generator then,
+            1. 'a_inv' is also a generator.
+            2. The order of the generator = O(G)
+            3. Every cyclic group is an abelian group
+            4. Every group of the prime order is a cyclic group and thus an abelian group
+            5. Every subGroup of a cyclic group is also a cyclic group but the generator need not be same in the subgroup
+            6. For a group with even order there exists atleast one element apart from the identity element that is inverse of itself
+
+5. Functions:
+    Function:
+        A Relation 'f' from a set 'A' to a set 'B' is called a function iff for each element in 'A' there is EXACTLY single mapping to an element in 'B'
+        It is denoted as f: A -> B. Where A is the domain and B is called the co-domain of the function
+        The value that is mapped for 'a' from domain to co-domain is called the image of 'a'.
+        Every element of the domain should have a SINGLE image whereas every element in co-domain need not have a pre-image
+
+        For two given sets A and B, |A| = n and |B| = m
+            Total #(relations): 2^(n*m)
+            Total #(functions): m^n
+            Total #(relations that are not functions): 2^(n*m) - m^n
+
+    Range:
+        The subset of the elements in the CoDomain that participate in the function is called the Range of the function
+        Thus the range is a subset of co-domain
+
+    One-to-One function (Injection):
+        A function 'f' from 'A' to 'B' is said to be injection if there are distinct images for every value in domain
+        Sine there is a one to one mapping the relation between the number of element in the domain and co-domain is |co-domain| >= |domain|
+
+        For two given sets A and B, |domain| = n and |co-domain| = m
+            Total #(1to1 functions): mPn
+
+    Onto Function:
+        The function f:A -> B is said to be Onto if each element in the co-domain is mapped to atleast one element in the domain.
+        This implies range = co-domain
+        Since there should be atleast one mapping for each element in the co-domain then |co-domain| <= |domain|
+
+    Bijection:
+        A function f:A -> B is called a bijection if it is both ONE-TO-ONE and ONTO
+        As it is both one-to-one and onto then the number of element in the domain and co-domain are equal
+        If there are n elements in domain and codomain there are n! bijective functions
+
+    Inverse of a function:
+        Let f: A -> B, if the inverse relation f_inv: B -> A is a function then it is called inverse of 'f' and is denoted by f_inv: B -> A
+        Theorem: An inverse of a function f: A -> B exists only if 'f' is a Bijection

@@ -1,0 +1,6 @@
+Terminology:
+    1. Datagram: Packets used by the IP are called datagrams
+
+
+
+

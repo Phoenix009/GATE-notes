@@ -1,0 +1,544 @@
+Operating System:
+    Content:
+        1. Introduction
+        2. Process Management
+        3. Process Scheduling
+        4. Threads and MultiThreading
+        5. Process Synchronization
+        6. Deadlock
+        7. Memory Management
+        8. Virtual Memory
+        9. File System
+
+1. Introduction:
+    -- Kernel: Defines all the functionalities of the OShe P implements
+    -- Shell: Provides an interface to use the functionalites of the kernel
+    -- System Calls: To use any functionality of the OS system calls are made by the processes
+    -- Dual Mode: The operating system implements dual mode of operation. User mode and Kernel Mode. System Calls are executed in Kernel Mode only
+    
+    Types of OS:
+        -- UniProgramming: Allows only one process to reside in main memory
+        -- MultiProgramming: ALlows multiple OS to reside in the main memory
+        -- MultiTasking/Time-Shared: MultiProgramming OS with RoundRobin
+        -- MultiUser: Allows multiple users
+        -- MultiProcessing: Used in systems with multiple CPUs.
+                Tightly coupled: Shared Main Memory
+                Loosely Coupled: Independent Main Memory
+        -- Embedded: used in Embedded computer systems
+        -- Real-Time: used in environment where the response is to be processed in terms of external events and in short time
+                Hard RTOS: Strict deadline
+                Soft RTOS: Not that Strict
+        -- Hand Held: used in hand held devices
+
+2. Process Management:
+    Process:
+        -- Program under execution
+        -- Unit of execution
+        
+        Representation:
+            -- Stack: For local variables, function params, etc.
+            -- Heap: For dynamic memory allocation
+            -- Data Section: public and static variables
+            -- Code Section: stores the source code/instructions
+
+    PCB- Process Control Block:
+        All the attributes of a process are stored in a single structure called a PCB
+        The content of the PCB represents the context of a process
+
+    Context Switch:
+        When a process is preempted the current context of the process is stored in its PCB and the new processes context is loaded from its PCB
+        This storing and loading of contexts of processes is called as context switching
+    
+    Process States:
+        -- NEW: All installed programs are in the new state
+        -- READY: ALl processes which are waiting to run on a CPU are in this state
+        -- RUNNING: currently executing process is in this state.
+        -- TERMINATED: A process that has completed his execution coompletely
+        -- BLOCKED: processes waiting for and IO/MEM event are in this state
+        -- SUSPENDED: processes that are SWAPPED OUT are in this state
+
+3. Process Scheduling:
+    Goals:
+        Mimimize Wait Time
+        Mimimize Turn Around Time
+        Maximize CPU Utilization
+    
+    Scheduling Queues:
+        1. Job Queue: All processes in NEW state
+        2. Ready Queue: ALl the processes in READY state
+        3. Device Queue: Processes waiting for IO devices. Each device has its on device queue
+
+    Types of Schedulers:
+        1. Long Term: dispatches a process from NEW to READY state
+        2. Short Term: SELECTS a process for transition from READY to RUNNING state
+        3. Mid Term: does SWAPPING
+
+    Scheduling Times:
+        AT- Arrival Time: TIME at which the process arrives in the system. (NEW -> READY)
+        BT- Burst Time: AMOUNT OF TIME for which the process runs on the CPU
+        CT- Completion Time: TIME at which the process completes its execution
+        TAT- Turn Aroud Time: AOUNT OF TIME the process spends in the system. (CT - AT)
+        WT- Wait Time: TAT - BT
+        RT- Response Time: AMOUNT OF TIME from the arrival till it is scheduled.
+        Scheduling Length: MAX(CTs) - MIN(ATs)
+        Throughput: #processes executed pr unit time. (#processes/scheduling_length)
+
+    Schduling Algorithms:
+        Non-PreEmptive                          PreEmptive
+        -- FCFS                                 -- SRTF- Shortest Remaining Time First
+        -- SJF- Shortest Job First              -- Priority Based Scheduling
+        -- HRRN- Highest Responst Ratio Next    -- Round Robin
+        -- Priority Based Scheduling
+
+    Non-PreEmptive:
+        1. FCFS: Schedules the processes in ascending order of their AT
+            -- FCFS -> PID
+            -- Convoy Effect: If a process with a greater BT is admitted first then the throughput decreases in FCFS scheduling
+        2. SJF: Schedules the process in ascending order of their BT
+            -- SJF -> FCFS -> PID
+            -- Starvation
+        3. HRRN: Schedules the process that has the highest response ratio
+            -- HRRN -> FCFS -> PID
+            -- ResponseRatio = (WT + BT)/BT
+        4. Priority Based Scheduling
+            -- PRIORITY -> FCFS -> PID
+            -- PRIORITY can be static or dynamic.
+    
+    PreEmptive:
+        1. SRTF: Schedules the process that has the smallest remaining BT
+            -- SRTF -> FCFS -> PID
+            -- Starvation
+        2. Priority Based Scheduling
+            -- PRIORITY -> FCFS -> PID
+            -- PRIORITY can be static or dynamic.
+        3. Round Robin:
+            -- First Admit in the READY queue then switch.
+            -- #scheduled: ceil(BT/Q) << For a particular process
+            -- If Q very small and comparable to context switch time then less responsive due to repeated context switches
+            -- If Q very large and comparable to the BT of processes then behaves like FCFS
+    
+    MultiLevel Queue Scheduling:
+        -- Processes are segregated into types like
+            1. Sys. Process
+            2. Foreground Process
+            3. Background Process
+        -- There are individual queues for each type and employ its own scheduling algorithm
+        
+        Scheduling Among Queues:
+            Fixed Priority Scheduling: First all the processes from higher priority queues are executed
+            Time Slicing: Processes from queues are executed for a fixed time.
+
+4. Threads and MultiThreading:
+    Thread: If multiple instances of a process is needded then insted of creating multiple processes, threads can be created that share resources
+
+    What is not Shared?        What is Shared?
+        Thread ID                 Code Section -> Instructions
+        Register Set              Data Section -> globals and static
+        Stack                     OS Resources
+        Program Counter           Files
+
+    Advantages:
+        Faster Context Switch
+        Resource Sharing
+        Communication
+        Utilization
+
+5. Process synchronization:
+    Types of Proceses:
+        1. Independent: Do not share any resources with any other process and thus their execution cannot be affected by any other process
+        2. Cooperating/Coordinating/Communicating: Share resources with other processes
+        --  Two coordinating processes share resources and thus synchronization is needed. If not synchronized may lead to inconsistencies.
+
+    Critical Section:
+        The code section where the shared resources are accessed is the critical section
+        Synchronization is required between processes for this section only
+
+    Solution for Critical Section Problem:
+        Any solution for the Critical Section Problem should satisfy the following three requirements:
+            1. Mutual Exclusion: Only one process must be in the CS at any given instant
+            2. Progress: One interested process should not be blocked by any other non-interested process
+            3. Bounded Waiting: One process should wait for a definite amount of time before entering in CS.
+        
+        Software Solutions:
+            1. LOCK variable / Binary lock:
+                Process Code:
+                    while(LOCK): wait
+                    LOCK = True
+                    <CS>
+                    LOCK = False
+                -- MUTUAL EXCLUSION FAILED: preemption after the while fails the mutual exclusion
+
+            2. TURN variable / Strict Alteration:
+                TURN = 0 (Global)
+                Process 1 Code:           |  Process 0 Code:
+                    while TURN != 1: wait |      while TURN != 0: wait
+                    <CS>                  |      <CS>
+                    TURN = 0              |      TURN = 1
+                -- MUTUAL EXCLUSION SATISFIED
+                -- PROGRESS FAILED: It is necessay that process 0 enters the CS first
+
+            3. Petersons Solution:
+                "I want to go, but you go"
+                -- FLG is used to denote if a process wants to enter the CS
+                -- TURN is used to denote whose turn is it next to enter CS
+                FLG = {false, false}
+                TURN = None 
+                Process 0 code:                        |     Process 1 code:
+                    FLG[0] = 1      // I want to go    |         FLG[1] = 1      // I want to go
+                    TURN = 1        // But you go      |         TURN = 0        // But you go
+                    while(FLG[1] and TURN==1): wait    |         while(FLG[0] and TURN==0): wait
+                    <CS>                               |         <CS>
+                    FLG[0] = False  // I am done       |         FLG[1] = False // I am done
+                -- MUTUAL EXCLUSION SATISFIED
+                -- PROGRESS SATISFIED
+                -- BOUNDED WAITING SATISFIED
+
+        Hardware Solution:
+            1. TSL- Test and Set Lock
+                -- Simply a binary LOCK
+                -- Implemented in H/W and is atomic and thus works
+                -- TSL Ri FLG:
+                    1. MOV Ri FLG
+                    2. SET FLG
+                Process Code:
+                    LOOP: TSL Ri FLG
+                    JNZ Ri LOOP
+                    <CS>
+                    RESET FLG
+                -- MUTUAL EXCLUSION SATISFIED
+                -- PROGRESS SATISFIED
+                -- BOUNDED WAITING FAILED: A single process can enter the CS without giving turn to other process
+
+        Synchronization Tools:
+            1. Semaphore:
+                An integer variable that can be accessed only using some allowed atomic operations
+                The value indicates the count of the processes that can enter the CS
+                There are only two allowed operations 
+                    down() / p() -> decrements the value of the semaphore. Called before entering the CS
+                    up() / v() -> increments the value of the semaphore. Called after exiting the CS
+                The initial value of the semaphore denotes tha maximum no of processes that can be in the Cs at any instant
+                If initial value = 1, then binary semaphore / MUTEX
+                If initial value > 1, then counting semaphore
+
+6. Deadlocks:
+    Deadlock: If two or more processes are waiting for an event that will never occur
+    Necessary conditions for deadlock:
+        1. Mutual Exclusion: A resource is allowed to be used by only one process at a time
+        2. Hold and Wait: A process can hold some resources and wait for some other resources
+        3. No PreEmption: The resources will be released by the process only when its work is completed
+        4. Circular Wait: The processes are waiting for one another in a circular way
+
+    Deadlock Handling:
+        1. Deadlock Prevention: The main idea is to dissatisfy any one of the necessar conditions for deadlock
+        2. Deadlock Avoidance: The OS tries to keep the system in safe state.
+        3. Deadlock Detection and Recovery: Deadlock is not prevented but allowed. Then it is detected and recovered.
+        3. Deadlock Ignorance: Simply Ignore the existence of deadlock
+
+    Deadlock Prevention:
+        1. DisSatisfying Mutual Exclusion:
+            -- There are some resources where it can be allowed for multiple processes to access at the same time
+            -- However there are some resources where it is necessary that it be accessed by single process at a time
+            -- Thus not possible to dissatisfy mutual exclusion every time
+        2. DisSatisfy Hold and Wait:
+            -- The process either obtains all the resources that are needed for its complete execution or waits until they are all available
+            -- Highly inefficient and leads to poor utilization
+            -- May cause Starvation
+        3. DisSatisfy No PreEmption:
+            -- Resources can be preempted from the process if it is not using them
+            -- Depends on the nature of the resource
+            -- Starvation may occur
+        4. DisSatisfying Circular Wait:
+            -- Each resource is assigned a numerical value
+            -- The process can acquire these resources in a particular order
+            -- The process can acquire only those resources that have a value greater than the value of its currently acquired resources
+    
+    Deadlock Avoidance:
+        In deadlock avoidance the request of a process is granted only if the system continues to be in the safe state
+        Safe State is where the OS can complete the maximum requirement of all the process
+        
+        Resource Request Algorithm:
+            1. Check if the request made is valid
+            2. Check if the requested number of instances are available
+            3. If available then virtually allocate the resources and run safety algorithm
+            4. If stays in the safe state then allocate resources else hold
+        
+        Bankers Safety Algorithm:
+            while unfinished_process:
+                for process in queue:
+                    if process.needs < available:
+                        available += process.hold
+                        process.complete
+                else: return False
+            return True
+
+            Ex:
+            PID |  Alloc            | MAX            | NEED
+                |  A   B   C   D    | A   B   C   D  | A   B   C   D
+            1   |  0   0   1   2    | 0   0   1   2  | 0   0   0   0
+            2   |  1   0   0   0    | 1   7   5   0  | 0   7   5   0
+            3   |  1   3   5   4    | 2   3   5   6  | 1   0   0   2
+            4   |  0   6   3   4    | 0   6   5   2  | 0   0   2   2
+            5   |  0   0   1   4    | 0   6   5   6  | 0   6   4   2
+            
+            PID     AVAIL
+                    A   B   C   D
+                    1   5   2   0
+            1       1   5   3   2
+            3       2   8   8   6
+            4       2   14  11  10
+            5       2   14  12  14
+            2       3   14  12  14
+
+    Deadlock Detection and Recovery:
+        RAG- Resource Allocation Graph:
+            Is a directed graph
+            Nodes:
+                Each process and resource are represented by nodes
+                Resource nodes are of two types
+                    Single instance
+                    Multiple instance
+            Edges:
+                1. Request edge: A request edge is drawn from a process to the resource that it is requesting
+                2. Allocation edge: A allocation edge is drawn from a resource to the process that it has been allocated to
+
+        Detection:
+            If all the resources have only single instance then the RAG can be created to detect a deadlock
+            However if the resources have multiple instance then the cycle in RAG cannot confirm the presence of a deadlock
+            When do we run detection algorithm?
+                1. Do deadlock detection after every resource allocation
+                2. Do detection when the throughput of the system falls below a threshold
+        Recovery:
+            There are three basic strategis to recover form a deadlock
+            1. Inform the system manager and allow manual intervention
+            2. Terminate processes
+                a. Terminate all the processes involved in deadlock
+                b. Terminate processes one by one until no deadlock
+            3. PreEmpt Resources
+
+7. Memory Management
+    Functions:
+        1. Memory Allocation
+        2. Memory deAllocation
+        3. Memory Protection
+    
+    Goals:
+        1. Maximize utilization
+        2. Run lager programs with limited space
+    
+    Techniques:
+        1. Contiguous             | 2. NonContiguous
+            -- Fixed Partition    |     -- Paging
+            -- Variable Partition |     -- Segmentation
+
+    1. Contiguous Memory Allocation:
+        ENTIRE process is stored in consectuive locations
+        Internal Fragmentation: When there is unused space in partition it is called internal fragmentation
+        External Fragmentation: When there is available space but since it is non contiguous it cant be used is called external fragmentation
+
+        A. Fixed Partition: The main memory is partitioned into FIXED NUMBER of DIFFERENT SIZED partitions
+            -- A partition can be allocated to a single process only
+            -- Partition Allocation Policy: It will decide which partition to assign to the process
+                1. First Fit: Allocate the first partition that can accomodate the process
+                2. Best Fit: Allocate the smallest partition that can accomodate the process
+                3. Worst Fit: Allocate the biggest partition that can accomodate the process
+                4. Next Fit: From the previously allocated process find the first fit
+            -- Due to FIXED NUMBER OF PARTITIONS: max. degree of multiprogramming = # partitions
+            -- Internal Fragmentation
+            -- External fragmentation
+
+        B. Variable Parition: Main memory is partitioned according to the process size
+            -- Main Memory is not partitioned and is initially like a single entire partition.
+            -- As the processes are admitted a new partition is created for them.
+            -- No internal fragmentation
+            -- external fragmentation. COMPACTION is used to avoid external fragmentation
+            -- Compaction: collect entire allocated processes on one side of memory so the entire other side of memory is free
+    
+    2. Non Contiguous Memory Allocation:
+        A. Paging:
+            -- Main Memory is divided into fixed sized partitions called the frames.
+            -- The process is divided into fixed sized partitions called the pages.
+                -- FRAME SIZE == PAGE SIZE and ONE FRAME can be allocated to ONE PAGE.
+            
+            -- Page Table is maintained to map the page number to the frame number.
+                -- #enteries in Page Table = ceil(Process Size / Page Size)
+                -- page table entry size = frame number bits + information bits (optional)
+                -- page table size = #enteries * entry size
+            -- Each Entry in the page table stores the frame number and some extra information bits.
+            -- Page table is also stored in the main memory
+
+            -- Logical/Virtual Addreses are the adresses generated by the CPU.
+            -- Physical Addresses are the addreses that are actually used for storage.
+            -- Conversion:
+                Logical Addresses: | Page No | Byte No |
+                Physical Address:  |Frame No | Byte No |
+                    -- #bits in byte no. = log2(Page Size) = log2(Frame Size)
+                    -- #bits in page No. = log2(#pages)
+                    -- #bits in frame No. = log2(#frames)
+
+                Steps for conversion:
+                    1. Get the page no. from the logical address: page N film star in 12 hours for promoting the same film.o. + byte No.
+                    2. Get the frame no. where the page is stored from the page table
+                    3. Form the physical address: frame No. + byte No.
+
+            -- Multi Level Paging:
+                -- Paging is done repeatedly on the page table until the resultant pge table can be accomodated in a single frame
+                -- #page table entries per page = Page size / page table entry size
+                -- #bits in page no. at each level = log2(#page table enteries per page)
+                -- #levels = ceil(# bits in page no. / #bits in page no.)
+
+            -- Effective Memory Access Time in Paging:
+                Time = Page Table Access + Data Access
+                Time = n(Tmm) + Tmm   n -- no. of levels
+
+            -- Performance improvement using TLB
+                -- TLB - Translation Lookaside Buffer
+                -- Stores frequently accessed pages so no need to access page table to get the frame no.
+                -- Each entry in the TLB stores the page no. and the associated frame no.
+
+                -- Effective Memory Access Time in Paging with TLB:
+                    H - Hit Ratio
+                    Time = H(TLB Access + Data Access) + (1-H)(TLB Access + Page Table Access + Data Access)
+                    Time = Ttlb + Tmm + (1-H)Tmm
+                    Tmm -- Main Memory Access Time
+                    Ttlb -- TLB Access Time
+
+                -- TLB Mappings: How the entries in the TLB are stored
+                    1. Fully Associative Mappings:
+                        -- Basically Key Value Pairs are stored and all the cells can be checked in parallel
+                        -- page no. is the key and its associated frame no. is the value
+
+                    2. Direct Method:
+                        -- Concept of TAGS
+                        -- Each entry in TLB can store only one mapping i.e the frame no.
+                        -- Logical Address: |TAG|TLB Entry No.|Byte No.|
+                        -- Each entry in the TLB stores the TAG bits and the Frame No.
+                        -- #bits in TLB entry No. = log2(#TLB enteries)
+                        -- #bits in TAG = #bits in page no. - #bits in TLB entry no.
+
+                    3. Set Associative Mapping:
+                        -- Each entry of the TLB can store multiple mappings i.e. frame no.
+                        -- For k-way set associative mapping K enteries can be stored in each set
+                        -- Logical Address: |TAG|TLB Set No.|Byte No.|
+                        -- #sets in TLB = #enteries / k  for k-way mapping
+                        -- #bits in TLB set = log2(#sets in TLB)
+
+        B. Segmentation:
+            -- Process is divided into logical segments of variable size
+            -- A segment table is maintained to map the logical address to the physical address
+            -- Logical address: |Segment No.|Byte No.|
+            -- Each entry in the segment table store the base and the limit for each segment.
+            -- #bits in Byte no. = log2(Maximum segment size)
+            
+            -- Segmented Paging:
+                -- Segmentation and Paging can be used together to get the best of both techniques
+                -- Process is first divided into logical segments and then paging is done on each segments
+                -- For each segment a page table is maintained
+                -- In segment table the base address points to the page table for each segment
+                -- Logical Address: |Segment No.|Page No.|Byte No.|
+
+8. Virtual Memory:
+    -- Enables to run larger programs with limited memory.
+    -- Ony the required pages are kept in the main memory others are brought in as and when required.
+    -- Demand Paging:
+        -- brings the pages in the main memory only when the CPU demands
+        -- page fault occurs when the demanded page is not already present in the main memory
+        -- page fault service is called to handle page fault that brings the page from the secondary memory to the main memory.
+        -- EMAT:
+            Time: p(EMAT) + (1-p)(Page Fault Service time)
+            p -- page fault percentage
+            EMAT: is the EMAT for accessing data
+
+    -- Page Replacement Policies:
+        -- When bringing a new page in the main memory we might need to replace some existing page
+        -- which page to replace is defined by these policies:
+        1. FIFO-First In First Out: Replace the pages in the order they were brought.
+        2. Optimal Policy: Look into the future and replace the page that wont be used soon.
+        3. LRU-Least Recently Used: Replace the page that wasnt referred most recently.
+        4. LFU-Least Frequently Used: Replace the page that was referred the least.
+        5. MFU-Most Frequently Used: Replace the page that was referred the most.
+
+    -- Thrashing:
+        -- As the degree of multiprogramming increases the throughput increases.
+        -- After a certain threshold the throughput decreases.
+        -- This is because the time is spent in Page Fault Service rather than actual execution
+        -- This is called as thrashing
+
+        -- Handling Thrashing:
+            -- Page Fault Frequency:
+                -- For a process if the Page Fault Rate is greater then a particular threshold then increase the #frames allocated
+                -- For a process if the Page Fault Rate is lesser then a particular threshold then decrease the #frames allocated
+
+9. File Systems:
+    Disk Blocks: Is a logical representation for smallest unit of disk
+    -- Free Space Management:
+        1. Free List: Linked List of all the free blocks
+        2. BitMap: array of binary bits that store the status of each disk block.
+        Points:
+            -- Search needed in BitMap for free blocks. Not needed in Free List
+            -- Free List faster in free block allocation then BitMap
+            -- BitMap size constant Free List size variable
+
+    -- File Allocation Techniques:
+        A. Contiguouos Allocation:
+            -- Contiguouos disk blocks are allocated
+            -- File Allocation Table stores the BASE and LIMIT for each file
+            -- Internal and External Fragmentation
+            -- Inflexible to Increase in File Size
+            -- Sequential and Random Access possible
+        B. Linked Allocation:
+            -- Disk Blocks are linked to allow non-contiguous allocation
+            -- File Allocation Table stores the HEAD and the TAIL node for each file
+            -- Only Internal Fragmentation
+            -- Flexible to increase in size
+            -- Only Sequential Access
+        C. Indexed Allocation:
+            -- A index table is maintained to store the disk block no.
+            -- File Allocation Table stores the address of the Index table for each file
+            -- Only Internal Fragmentation
+            -- Flexible to increase in size
+            -- Sequential and Random Access possible
+        D. I-Node:
+            -- Each INode stores the following information:
+                1. Administration Information
+                2. Direct Blocks stores the address of the first k blocks
+                3. Single Level Indexing
+                4. Double Level Indexing and so on
+
+    -- Disk Scheduling:
+        To schedule the incoming request for Disk
+        Goal is to save seek time
+        Disk Scheduling Algorithms:
+            1. FCFS:
+                -- Serve the requests in order how they were received
+                -- Does not try to optimize seek time
+            2. SSTF-Shortest Seek Time First:
+                -- Serve the request based on the seek time
+                -- Better Response Time
+                -- Provides overhead of calculating the shortest seek time
+                -- Starvation
+            3. SCAN:
+                -- Move from one END to another END ALTERNATIVELY servicing requests
+                -- Even if no request still move till the END
+                START            END
+                         init----->
+                <------------------
+                ------------------>
+                <------------------
+            4. CSCAN:
+                -- Move from one END to another END servicing requests
+                -- Even if no request still move till the END
+                START            END
+                         init----->
+                ------------------>
+                ------------------>
+            5. LOOK:
+                START            END
+                         init-->max
+                   min<---------
+                      ------>max
+            6. CLOOK:
+                START            END
+                         init-->max
+                   min------->max
+                min------------>max
+
