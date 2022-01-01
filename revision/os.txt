@@ -11,14 +11,14 @@ Operating System:
         9. File System
 
 1. Introduction:
-    -- Kernel: Defines all the functionalities of the OShe P implements
+    -- Kernel: Defines all the functionalities of the OS
     -- Shell: Provides an interface to use the functionalites of the kernel
     -- System Calls: To use any functionality of the OS system calls are made by the processes
-    -- Dual Mode: The operating system implements dual mode of operation. User mode and Kernel Mode. System Calls are executed in Kernel Mode only
+    -- Dual Mode: The operating system implements dual mode of operation. User mode and Kernel Mode. SYSTEM CALLS ARE EXECUTED IN KERNEL MODE ONLY
     
     Types of OS:
         -- UniProgramming: Allows only one process to reside in main memory
-        -- MultiProgramming: ALlows multiple OS to reside in the main memory
+        -- MultiProgramming: ALlows multiple programs to reside in the main memory
         -- MultiTasking/Time-Shared: MultiProgramming OS with RoundRobin
         -- MultiUser: Allows multiple users
         -- MultiProcessing: Used in systems with multiple CPUs.
@@ -50,12 +50,12 @@ Operating System:
         This storing and loading of contexts of processes is called as context switching
     
     Process States:
-        -- NEW: All installed programs are in the new state
-        -- READY: ALl processes which are waiting to run on a CPU are in this state
-        -- RUNNING: currently executing process is in this state.
-        -- TERMINATED: A process that has completed his execution coompletely
-        -- BLOCKED: processes waiting for and IO/MEM event are in this state
-        -- SUSPENDED: processes that are SWAPPED OUT are in this state
+        -- NEW:         All installed programs are in the new state
+        -- READY:       All processes which are waiting to run on a CPU are in this state
+        -- RUNNING:     Currently executing process is in this state.
+        -- TERMINATED:  A process that has completed his execution completely
+        -- BLOCKED:     Processes waiting for and IO/MEM event are in this state
+        -- SUSPENDED:   Processes that are SWAPPED OUT are in this state
 
 3. Process Scheduling:
     Goals:
@@ -64,24 +64,24 @@ Operating System:
         Maximize CPU Utilization
     
     Scheduling Queues:
-        1. Job Queue: All processes in NEW state
-        2. Ready Queue: ALl the processes in READY state
-        3. Device Queue: Processes waiting for IO devices. Each device has its on device queue
+        1. Job Queue:       All processes in NEW state
+        2. Ready Queue:     All the processes in READY state
+        3. Device Queue:    Processes waiting for IO devices. Each device has its on device queue
 
     Types of Schedulers:
-        1. Long Term: dispatches a process from NEW to READY state
-        2. Short Term: SELECTS a process for transition from READY to RUNNING state
-        3. Mid Term: does SWAPPING
+        1. Long Term:   Dispatches a process from NEW to READY state
+        2. Short Term:  SELECTS a process for transition from READY to RUNNING state
+        3. Mid Term:    Does SWAPPING
 
     Scheduling Times:
-        AT- Arrival Time: TIME at which the process arrives in the system. (NEW -> READY)
-        BT- Burst Time: AMOUNT OF TIME for which the process runs on the CPU
-        CT- Completion Time: TIME at which the process completes its execution
-        TAT- Turn Aroud Time: AOUNT OF TIME the process spends in the system. (CT - AT)
-        WT- Wait Time: TAT - BT
-        RT- Response Time: AMOUNT OF TIME from the arrival till it is scheduled.
-        Scheduling Length: MAX(CTs) - MIN(ATs)
-        Throughput: #processes executed pr unit time. (#processes/scheduling_length)
+        AT - Arrival Time:      TIME at which the process arrives in the system. (NEW -> READY)
+        BT - Burst Time:        AMOUNT OF TIME for which the process runs on the CPU
+        CT - Completion Time:   TIME at which the process completes its execution
+        TAT- Turn Aroud Time:   AMOUNT OF TIME the process spends in the system. (CT - AT)
+        WT - Wait Time:         TAT - BT
+        RT - Response Time:     AMOUNT OF TIME from the arrival till it is scheduled.
+        Scheduling Length:      MAX(CTs) - MIN(ATs)
+        Throughput:             #processes executed per unit time. (#processes/scheduling_length)
 
     Schduling Algorithms:
         Non-PreEmptive                          PreEmptive
@@ -103,7 +103,7 @@ Operating System:
         4. Priority Based Scheduling
             -- PRIORITY -> FCFS -> PID
             -- PRIORITY can be static or dynamic.
-    
+
     PreEmptive:
         1. SRTF: Schedules the process that has the smallest remaining BT
             -- SRTF -> FCFS -> PID
@@ -541,4 +541,10 @@ Operating System:
                          init-->max
                    min------->max
                 min------------>max
+
+
+NOTES:
+    LiveLock:
+        A Process which has acquired locks on some resources and
+        is stuck in a deadlock to acquire new resources
 

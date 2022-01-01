@@ -34,7 +34,7 @@ Graph Theory:
         An isomorphism from a simple grph G to H is a bijection f: V(H) -> V(H)
         and (u, v) in E(G) iff (u, v) in E(H)
         Basically in isomorphic graphs we can map the vertices such that the edges are exactly equal
-    
+
     #simple graphs that can be formed using 'n' Labelled vertices:
         Consider a complete graph with n vertices
         There are n(n-1)//2 edges in the complete graph
@@ -265,8 +265,10 @@ Graph Theory:
     Vertex Cover:
         A vertex cover of a graph is a subset of vertices such that all the edges get covered by these vertices
         
-        Since no vertex can cover two edges of a matching the 
-        size of the vertex cover is atleast the sixe of every matching
+        Since for covering a edge that is in a matching we need to select any one of the endpoints
+        There will be atleast one endpoint of the matching edge in the vertex cover
+        Thus the |Cover| >= |Matching|
+
         
         Minimal Cover:
             A Cover from which we cannot remove any vertex is called a minimal cover
@@ -277,10 +279,144 @@ Graph Theory:
         
         **
         NOTE:
-            1. Obtaining a Vertex Cover and MAtching of the same size proves
+            1. Obtaining a Vertex Cover and Matching of the same size proves
                 that each is optimal
+                i.e. the vertex cover will be minimal and the matching will be maximal
             
             2. |Maximal Matching| <= |Minimal Cover| <= 2*|Maximal Matching|
+            
+            3. If G is a bipartite Graph then the maximum size of a mathcing in G
+                is equal to the minimum size of vertex cover
+            
+            4. For K(m, n) the size of the minimum vertex cover is min(m, n)
+
+    Independent Sets:
+        An independent set of vertices is the set of vertices that are pairwise non adjacent
+        The INDEPENDENCE NUMBER of graph is the maximum size of an independent size of the vertices
+
+        The independence number for a K(m, n) graph is max(m, n)
+    
+    Edge Cover:
+        An edge cover of G is a set of edges such that every vertex is a end point of atleast one edge
+        If there is a isolated vertex then there is no possible edge cover as no edge can cover that isolated vertex
+        A Perfect matching forms a edge cover with size |V|//2
+        To form a edge cover we can add edges for te unsaturated vertices in a maximal matching
+
+    Notations:
+        Maximum Size of the independent set = alpha(G)
+        Maximum Size of the Matching = alpha'(G)
+        Minimum Size of the Vertex Cover = beta(G)
+        Minimum Size of the Edge Cover= beta'(G)
+
+        For Bipartite Graph:
+            Alpha == Beta'
+            Alpha' == Beta
+
+        For Graph:
+            Alpha + Beta = |V|
+            Alpha' + Beta' = |V|
+
+    Cuts:
+        A seperating Set or vertex cover of a graph is a set of vertices S
+        such that V-S has more than one component
+        
+        Basically a set of vertices which when removed lead to a component in the graph
+
+        For a graph there is no vertex cut possible
+
+    Connectivity:
+        Connectivity of a graph is defined as the minimum set of vertices S
+        such that V-S is disconnected or has only one vertex
+
+    Properties of Cuts and Connectivity
+        1. Connectivity(Kn) == n-1
+            Connectivity(K(m, n)) = min(m, n)
+
+        2. Connectivity(G) <= |V|-2, G is not Complete
+            Since G is not complete, there is atleast one pair of verteices which are not adjacent
+            Thus we can atmost remove all the other vertices leaving these two vertices alone forming a disconnected component
+        
+        3. In a Graph, it is possible to remove all the neighbors of a vertex and isolate it forming a disconnected component
+            Thus choose any one vertex with the least number of neighbors and remove the neighbors forming a disconnected component
+            Thus, Connectivity(G) <= minDegree(V)
+
+        4. In a HyperCube Qk the neighbors of one vertex is a seperating set
+            This is because a vertex in Qk is adjacent to exactly 'k' vertices
+            and if we want to islate a vertex we must remove all its neighbors which will form the vertex cut set
+            Hence, Connectivity(Qk) <= k
+
+    Edge Connectivity:
+        A minimal number of edges that when removed disconnects the graph is called the edge connectivity.
+        The edge connectivity
+        The edge connectivity of a graph is atmost the minDegree of a vertex
+
+    Graph Coloring:
+        A K-coloring of a graph G is f: V --> S, where S is a set of colors and |S| = K
+        A K-coloring of a graph is PROPER If every adjacent vertices have distinct colors
+        A Graps is K-colorable iff it has a PROPER K-Coloring
+
+    Chromatic Number:
+        The least number of colors required for the proper coloring of the graph
+        
+        The chromatic number of a biPartite Graph is 2
+        The cromatic number of an even length cycle is 2
+                                an odd length cycle is 3
+
+        If the chromatic number of a subgraph of G is less than Chromatic number of G i.e. K then G is called K-Critical
+        
+        For a graph G having a clique of size n then Chromatic number of G >= n
+        For a graph G having max degree as D the Chromatic number will never exceed D+1
+            i.e. K <= D+1
+
+        Greedy Coloring:
+            A greedy coloring to a vertex ordering is obtained by coloring 
+            vertices in order and assigning to vi the smallest inderced color not already
+            used by its neighbors
+
+    Planarity of Graphs:
+        Cross Over: When the edges of the graph overlap/cross one another
+        A planar representation of a graph is drawing the graph on the plane without any crossovers
+        
+        A Graph having planar representation is called Planar Graph
+        The planar representation of planar graph divides entire plane into faces
+        
+        Eulers Formula:
+            IF G is simple planar graph with v vertices, e edges and f faces and k connected componennts
+            n - e + f = k + 1
+
+        Using the ideas discussed above WE can find new identities for a connected simple planar graph:
+            1. f <= 2n - 4
+            2. e <= 3n - 6
+
+    Four Color Theorem:
+        Every planar graph is 4-colorable i.e. it can be colored with at most 4 colors
+    
+    Hamiltonian cycle:
+        Is a cycle that passes through every vertex exactly once
+        A graph having a hamiltonian cycle is called a hamiltonian graph
+
+        If for a graph if deg(v) >= n/2 for all vertices then the graph is hamiltonian
+        This is a sufficient but not necessary condition 
+        There can be graphs that do not satisfy this property but are hamiltonian
+    
+    Edge Cuts:
+        Given S, T , subsets of vertices, we write [S, T] for the set of edges 
+        having one endpoint in S and the other in T
+
+        An edge cut is an edege set of the form [S, S'], where S is a proper subset of V(G)
+        and S' = V(G) - S.
+
+        An edge cut is also called as a disconnecting set. If the edges are removed that are in the edge cut
+        would produce a disconnected graph
+        
+        For an edge cut it is necessar to form two partitions S and S'
+        So every edge cu is a disconnecting set
+        But every disonnecting set is not a edge set
+        
+        Every MINIMAL disconnecting set of edges is a edge cut
+        Minimal implies that no element of the set can be removed while satisfying the properties
+
+
 
 
 Questions:
@@ -350,4 +486,9 @@ Questions:
         Hence the number of perfect matchings are:
             n! / (k! * 2**k) where k = n//2
 
+7. Comment on the connectivity of a Kn graph:
+    Connectivity is the minimum number of vertices which when removed disconnect the graph or there remains only one vertex in the graph
+    When we remove a vertex from a Kn graph it becomes K(n-1)
+    Thus we have to remove all n-1 vertex and leave only one vertex in the graph
+    Thus the connectivity of Kn is n-1
 

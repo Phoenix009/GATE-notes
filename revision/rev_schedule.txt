@@ -1,0 +1,40 @@
+Recurring Subject Wise Revision                 1 JAN - 20 JAN
+Full Length Test Series                        21 JAN - 31 JAN
+Final Revision                                 31 JAN -  4 FEB
+
+Operating Systems       2 DAYs      2 JAN
+Theory of Computation   2 DAYs      4 JAN   
+COA                     4 DAYs      8 JAN
+Database Sytems         3 DAYs     11 JAN
+Algorithms              1 DAYs     12 JAN
+Computer Networks       3 DAYs     14 JAN
+Digital Logic           4 DAYs     18 JAN
+Data Structures         1 DAYs     19 JAN
+
+
+From where to solve the questions:
+    1. GATE 2020 Book
+    2. Unacademy Playlists
+    3. GFG GATE Practice Problems
+
+Operating Systems:
+    DAY1:
+        1. Introduction
+        2. Process Management
+        3. Process Scheduling
+
+    DAY2:
+        4. Threads and MultiThreading
+        5. Process Synchronization
+        6. Deadlock
+
+    DAY3:
+        7. Memory Management
+        8. Virtual Memory
+        9. File System
+
+    DAY4:
+        Complete Revision and GFG
+    
+    DAY5:
+        Complete Problem Set
