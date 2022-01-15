@@ -1,0 +1,705 @@
+Register Overview:
+    AC - Accumalator: Used to stroe the result of ALU and sometimes to store the i/p for the instruction
+    PC - Program Counter: Holds the address of the memory location where the next instruction is stored
+    IR - Instruction Register: Currently executing instruction's opcode is stored in the Instruction Register
+    SP - Stack Pointer: Stores the address of top of the stack
+    PSW - Flag Register:
+    MAR - Memory Address Register:
+    MDR - Memory Data Register:
+
+Types of Architecture:
+    1. AC Based
+    2. REG Based
+    3. REG-MEM Based
+    4. Complex 
+    5. Stack Based
+
+Instructions:
+    An instruction may contain two parts of information
+        1. What instruction to perform (Opcode)
+        2. On what operands to perform the operation
+    
+    ISA - Instruction Set Architecture: Collection of all instructions a CPU can execute
+
+    Instuction Types based on the Operand Info:
+        1. 4-Adress Instuction:
+            | Opcode | Op_Addr1 | Op_Addr2 | Dest_Addr3 | Next_inst_addr4 |
+            Dont have a PC and thus the link address for the next instruction
+        
+        2. 3-Adress Instuction:
+            | Opcode | Op_Addr1 | Op_Addr2 | Dest_Addr3 |
+
+        3. 2-Adress Instuction:
+            | Opcode | Op_Addr1 | Op_Addr2 |
+            Where to save the result is either implicit or 
+                one of the source is assigned the result which is explicitly specified
+        
+        4. 1-Address Instruction:
+            | Opcode | Op_Addr1 |
+            AC is the implicit second operand and the result is stored in the AC
+
+        5. 0-Address Instruction:
+            | Opcode |
+            The operands are taken from the top of the stack and the result is also placed in the stack
+
+        NOTE: If a processor supports X-Address Instruction
+            Then it also supports instuction having addresses less than X
+    
+Addressing Modes:
+    Effective Address: Address of a operand in a computation type instruction or the target address for a branch type instruction
+
+    Instruction Cycle: The complete execution of the instruction there are 6 phases that a CPU performs and is called an instruction cycle
+        Instruction Cycle:
+            1. Instruction Fetch Cycle:
+                1. IF - Instruction Fetch: Move instruction from the MEM to the IR and Increment PC
+            2. Execution Cycle:
+                2. ID - Insturction Decode
+                3. Effective Address Calculation
+                4. OF - Operand Fetch
+                5. Perform Operation
+                6. WB - Write Back
+
+    Modes:
+        1. Implied Mode: 
+            The operands are implicit Ex. INCA
+            EFF ADD = Address of the implied REG
+        2. Immediate Mode: 
+            The operand values are specified in the instruction
+            EFF ADD = ADD of the operand in instruction
+        3. Direct Mode: 
+            The effective address of the operands are specified in the instruction
+            EFF ADD = ADD that is specified in the instruction
+        4. inDirect Mode: 
+            The address of a memory location is specified where the effective address is stored
+            EFF ADD = ADD that is stored in the specified instruction
+        5. REG Direct Mode: 
+            The operands are stored in a REG which is specified in the instruction
+            EFF ADD = ADD of the specified REG
+        6. REG inDirect Mode: 
+            The effective address of the operands are stored in a REG which is specified in the instruction
+            EFF ADD = ADD that is stored in the specified REG in the instruction
+        7. Auto INC/DEC Mode: 
+            Extension of REG inDirect,  the content of the REG is auto INC/DEC
+            EFF ADD = ADD that is stored in the specified REG in the instruction
+            NOTE: If INC then POST INC; If DEC then PRE DEC
+        8. Index Mode:
+        9. Index, BASE Mode:
+        10. Index, BASE, DISPLACEMENT Mode:
+        11. Scaled Mode:
+        12. PC-Relative Mode aka Position Independent Mode: 
+            If the branch is not taken then the next instruction is executed so the PC is not modified
+            Else the PC is updated. The offset that is added is based on the current value of PC
+
+    NOTE:
+        1. The PC Relative mode is used to write position independent codes
+        2. PC Relative Mode and Base REgister Mode allow relocation of the code without any changes in the code
+        3. For implementing:
+            pointers        Indirect Mode
+            arrays          Index Mode or inDirect Mode
+            records         BASE + REG + DISPLACEMENT or Indirect mode
+            recursion       Indirect Mode
+
+CPU:
+    CPU cycle: The time in which the CPU performs the smallest operation i.e. micro-operation
+    
+    CPI - Cycles per Instruction: #CPU cycles needed for a instruction
+    
+    Execution Time: 
+        The time required for execution of a instruction is (#CPI * CPU Cycle)
+        For a program having 'k' instructions the time required for execution is (k * #CPI_avg * CPU Cycle)
+
+    ALU - Arithmetic and Logic Unit:
+                     Operands
+                        |
+                        V
+                 _________________
+                 |               |
+    Control -->  |      ALU      |--> Status
+    Signals      |               |
+                 -----------------
+                        |
+                        V
+                     Results
+    
+    Control Unit:
+        Generates ans sends the control signals to the components
+        
+        Control Word:
+            Collection of all control signals for all the components forms a control signal
+            -----------------------------------------------------------------
+            | IR_in | IR_out | AR_in | AR_ out | MEM_read | MEM_write | ... |
+            _________________________________________________________________
+
+    Control Unit Organization:
+        A. Hardwired Control Unit: Control Logic implemented using Digital Circuits
+            Adv:    Can be optimized fo faster mode of opeation
+            DisAdv: Updates to control logic are difficult to implement
+
+        B. MicroProgrammed Control Unit:
+            Control Logic are implemented using microprograms
+            Control Memory is in the CPU and the CWs for each instruction are stored in sequential manner
+
+        Control Memory:
+                            ----------
+                Inst1 -->   |  CW 1  |
+                            |  CW 2  |
+                            |  CW 3  |
+                            |  CW 4  |
+                            ----------
+                Inst2 -->   |  CW 1  |
+                            |  CW 2  |
+                            |  CW 3  |
+                            |  CW 4  |
+                            |  CW 5  |
+                            ----------
+                                ...
+
+        Control Word sequencing:
+                                _______________     ______________   ____________   __________________
+            External I/P    --> | Next Addr   |     | Control Add|   |  Control |   |  Control Data  |
+               Next Addr    --> |   Generator |     |  Register  |   |  Memory  |   |     Register   | ___
+                            |   ---------------     --------------   ------------   ------------------   |
+                            |                                                                            |
+                            ------------------------------------------------------------------------------
+
+                               ---------------------------------
+            Micro Instruction: | Control Word | MUX | NextAddr |
+                               ---------------------------------
+                MUX is needed to select whether to accept the next CW in the sequence or to accept the new incoming instruction
+                NextAddr is used to specify the address of the next CW
+        
+        Type of  MicroProgrammed Control Unit:
+            A. Horizontal MicroProgrammed CU
+                In horizontal MicroProgram CU each control signal have one bit in the CW
+                So the length of the CW is equal to the #Control Signals
+
+            B. Vertical MicroProgrammed CU
+                The controls signals are grouped in a manner such that at any given time only one of the signal in this group is active
+                So suppose there 8 signals in a group then only three bits need to be stored
+                The decimal value determines which signal is active
+        
+        NOTE:
+            In terms of speed:
+            Hardwired < Horizontal uProgrammed < Vertical uProgrammed
+    
+    RISC V/S CISC:
+        RISC: Reduced Instruction Set Computer
+            -- Less Instructions
+            -- Fixed Length Instruction
+            -- Limite Addressing Mode
+            -- More #REG
+
+        CISC: Complex Instruction Set Computer
+            -- More Instructions
+            -- Variable Length Instruction
+            -- More and Complex Addressing Mode
+            -- Less #REG
+
+I/O Organization:
+    Peripheral Devices: Devices connected to the processor externally are known as peripherals
+        This excludes the main memory
+
+    Can CPU access I/O directly? NO
+        The interface is required for
+            1. Synchronization
+            2. Signal Conversion
+            3. Data Format Conversion
+            4. Management and Control
+    
+
+    BUS Configuaration:
+        The CPU accesses the Devices using the Data, Address and the control BUSes
+        The same BUSes are used for accessing the MEM.
+        There are three types of configurations:
+            
+            A. Seperate BUSes: Seperate Data, Address and Control BUS are used for MEM and I/O
+            
+            B. Common Data and Address BUS:
+                The Data or Address are send to both the I/O and MEM but the Control Signal specify who uses the data/addr
+                The I/O devices and the MEM have seperate address space thus this config. is aka. "I/O mapped I/O"
+
+            C. Common BUS:
+                The IO devices are assigned some address from memory
+                So whenever operation is performed referencing these addresses then they are performed on appropriate IO device
+                Since the IO devices are addressed using the Address Space of MEM this config. is also known as "MEM mapped I/O"
+    
+    Modes of Transfer:
+        
+        Asynchronous and Synchronous Data Transfer:
+            Synchronous Data Transfer:
+                Both the communcating devices are synchronized using a common CLK
+                The CLK provided should be the minimum of the data transfer rates of the two devices
+                This reduces the overall transfer speed
+
+            Asynchronous Data Transfer:
+                Both the communcating devices communicate using their own data transfer rates
+                Synchronization done externally using IO Interface
+
+        Serial and Parallel Transfer:
+            Serial: One bit transferred at a time
+            Parallel: 'n' bits transferred at a time
+
+            NOTE:
+                -- The last bit transferred on the line remains there until a new bit arrives
+                -- This creates ambiguity between data transfer
+                -- To remove this ambiguity a START and STOP bits are used | START | DATA | STOP |
+                -- Suppose START bit is 0 and STOP bit is 1 then distinguishing is done
+                -- There can be any #bits in START and STOP but '1' and '0' are sufficient
+        
+        Mode of Transfer:
+            A. Programmed I/O (Polling):
+                CPU periodically checks whether devices wants to transfer data
+                If a device wants to transfer data then it sets its status and waits for the CPU
+                
+                Time = Time to check status  ==>  (Transfer the Status register (~transfer time for 1B)  + Check the status(~negligible) )
+                       + Data transfer time
+
+            B. Interrupt initiated I/O:
+                I/O devices have provision to inform the CPU about communication
+
+                Interrupts:
+                    Vectored and Scalar Interrupts:
+                        In vectored interrupts the instruction contains the BASE addr of the ISR
+                        Scalar interrupts lead to the execution of a default service routine and from there we go to the interrupt specific ISR
+
+                    Maskable and Non-Maskable Interrupts:
+                        Maskable interrupts can be ignored due to their low priority/importance
+                        Non-maskable interrupts cannot be ignored
+
+                    Internal and External Interrupts:
+                        If the interrupts are generated by any exteral device then external interrupts
+                        If the interrupts are generated due to unexpected errors during instruction execution
+
+                Simultaneous Interrupts Handling:
+                    If multiple interrupts are received at a time then they are serviced based on their priority
+                    A. Software Solution:
+                        1. Polling: Higher priority devices are checked first for communication.
+                    B. Hardware Solution:
+                        1. Daisy Chaining: The priorities of the devices are based on the electrical distances. High Priority Less Distance.
+                        2. Parallel (Out of Syllabus).
+
+                Time = Interrupt Overhead + Service Time
+
+            C. Direct Memory Access:
+                Steps:
+                    1. DMA REQ from I/O to DMA
+                    2. DMAC requests contrl of Sys. BUS by sending HOLD
+                    3. CPU sends the BASE Addr and #Bytes to transfer
+                    4. CPU gives the control of Sys. BUS to DMAC by sending HLDA
+                    5. DMAC sends DMA ACK to I/O to start data transfer
+                    6. I/O starts Data transfer to the MEM
+                
+                NOTE: 
+                    During DMA transfer the control of the Sys. BUS is with DMAC
+                    and thus the CPU can only perform operations in the meantime which do not require BUS
+
+                Modes of DMA transfer:
+                    For how much time the CPU gives the control of the BUS to DMAC
+
+                    A. Burst Mode:
+                        Burst of data is transferred before the CPU takes back the control.
+                        % Time CPU Blocked = (transfer_time * 100 )/ (transfer_time + prepare_time)
+
+                    B. Cycle Stealing:
+                        The preparation time is the time taken to prepare the byte to transfer
+                        during this time the CPU keeps the control of the BUS
+                        Once the word is ready the CPU gives the control to DMAC for transfer
+                        % Time CPU Blocked = (transfer_time * 100 )/ prepare_time
+                    
+                    C. Interleaving DMA:
+                        When the CPU does not need BUS and is busy in internal work only then the control is given to the DMAC
+                        Thus CPU is never blocked
+                        % Time CPU BLocked = 0%
+
+Memory Organization:
+    RAM: Also is the main memory taht is used to store the currently executing processes and their data
+        Types of RAM:
+            1. SRAM:
+                -- Made up of FlipFlops and no refresh needed
+                -- No refresh needed so continuous R/W operations possible
+                -- Idle Power Consumption less
+                -- Operation Power Consumption more
+                -- Used to implement Cache Memory
+
+            2. DRAM:
+                -- Made up of Capacitors that discharge and need periodic refresh
+                -- R/W not possible while refreshing
+                -- Idle Power Consumption More
+                -- Operation Power Consumption less
+                -- Used to implement Main Memory
+
+                -- DRAM cells organiation:
+                    Cells in the DRAM are organized in a matrix form
+                    So suppose the DRAM is of size 1GB => 2^30B then the cells of 1B can be arranged in a matrix having 2^20 Rows and 2^10 Columns
+                    Refreshing of DRAM is done row wise and in one refresh the entire row is refreshed
+                    
+                    So Refresh Time = #rows * refresh_time
+                    
+                    Also If there are multiple DRAMs used then they are refreshed parallely
+                    So RefreshTime for 'n' chips = Refresh time for 1 chip = #rows * refresh_time
+
+        Chips:
+            The Pins that are needed for RAM Chips:
+                1. Address Lines:   Depends on the Address BUS
+                2. Data Lines:      Depends on the Data BUS
+                3. Chip Select:     Depends on the organization of RAM Chips
+                4. READ:            One line
+                5. WRITE:           One line
+
+            The Pins that are needed for ROM Chips:
+                1. Address Lines:   Depends on the Address BUS
+                2. Data Lines:      Depends on the Data BUS
+                3. Chip Select:     If selected then is used for READ else not selected => 1 line
+        
+        Multi Chip Support:
+            Basically discusses how multiple RAMS can be arranged and used to support higher capacities using lower capacity RAM chips
+            Background:
+                Each RAM chip has a Address Line : for sending the address from where to read the data
+                and a Chip Select Line: for selecting the chip form which the data is to be read
+
+                CS - Chip Select and Addr Line enables us to break the address space into smaller peices that can be accomodated on smaller RAM chips
+                       -----------------
+                ADDR = |  CS  |  ADDR  |
+                       -----------------
+
+            If we want to increase the #cells then we arrange the RAMs in Vertical Fashion.
+
+                Address Space: 2^8 = 256B using 128x1B
+                -------------------------   -------------------------
+                | CS(1b) |   ADDR(7b)   |   |         128x1B        |
+                -------------------------   -------------------------
+                                            -------------------------
+                                            |         128x1B        |
+                                            -------------------------
+
+            If we want to increase the word size of the RAMS then we arrange them in Horizontal Fashion.
+                Implementing 128x2B using 128x1B
+                -------------------------
+                |        ADDR(7b)       |
+                -------------------------
+                -------------------------  -------------------------
+                |         128x1B        |  |         128x1B        |
+                -------------------------  -------------------------
+        
+        NOTE: 
+            Vertical Arrangement to increase the #cells
+            Horizontal Arrangement to increase the cell size
+            #Horizontal Levels = ceil(cellsize_needed/cellsize_present)
+            #Vertical Levels = ceil(#cells_needed/#cells_present)
+
+    Cache:
+        Locality of Reference: If CPU has requested a particular address then there is a high probab then the nearby locations will also be accessed.
+        Based on this concept current demanded localities are kept into a smaller and faster memory called cache.
+        This reduces the average memory access time.
+
+        Types of Cache Misses:
+            a. Cold/Compulsory Miss:
+                First time access of a block will always lead to a miss
+                Increase block size to reduce cold miss
+            
+            b. Capacity Miss:
+                If cache is full and hence miss ocurs
+                Inrease cache size to reduce the capacity miss
+
+            c. Conflict Miss:
+                Miss ocurs due to tag mismatch
+                Increase the assoiativity to reduce conflict miss
+
+        Types of Cache Access:
+            1. Simultaneous Access:
+                Request for Cache and Main memory are done simultaneously
+                So no need to wait for the cache to miss to request the MM
+
+                Tavg_r = H * t_CM + M * t_MM
+                Tavg_r = H * t_CM + M * (t_Block + t_CM) (When The block copy in cache time is included)
+
+            2. Heirarchical Access:
+                Cache Memory is accessed first and if missed
+                then Main Memory is accesses
+
+                Tavg_r = t_CM + M * t_MM
+                Tavg_r = t_CM + M * (t_Block + t_CM) (When The block copy in cache time is included)
+
+        Cache Write Propagation:
+            a. Write Through:
+                As the CPU updates the contents in the cache simultaneously the contents in the MM are updated
+                Since in this case the main memory is accessed for write operations and also for cache miss, the effective hit ratio drops
+                But the Main Memory always has updated values.
+
+                Tavg_w = max(t_CM, t_MM)        For both simultaneous access and heirarchical access
+                T_overall = (%READ * Tavg_r) + (%WRITE * Tavg_w)
+
+            b. Write Back:
+                CPU only updates the content of the block in the cache and when the block is replaced then the contents are written back in the main memory.
+                In this approach there is no loss in effective hit ratio
+                But the Main Memory does not contain the updated values
+
+        Cache Mapping:
+            1. Fully Associative Mappings:
+                Basically Key Value Pairs are stored and all the cells can be checked in parallel
+                Block no. is the key and its associated memory location is the value
+
+                H/W implementation:
+                    Each cache etnry stores the block no we just want to see if there is any tag that matches our current tag
+                    # Comparators = # cache enteries
+
+            2. Direct Method:
+                Concept of TAGS
+                Each entry in cache can store only one block
+                                 -------------------------------------
+                Logical Address: | TAG |      Block      | Byte Off. |
+                                 -------------------------------------
+                Each entry in the TLB stores the TAG bits and the block
+                #bits in Cache entry No. = log2(#Cache enteries)
+                #bits in TAG = #bits in Block no. - #bits in Cache entry no.
+
+                H/W implementation:
+                    A MUX is fed the tags for all the blocks and then the block of the current address is send to the MUX to select the appropriate tag
+                    One MUX can only select one bit so one MUX is used to select one tag bit
+                    Therefore,
+                        #MUX needed == #Tag bits
+                    The MUX needed is of size 
+                        #cache_entries:1
+
+                    Once the Tag is selected using the MUX the selected tag bits are compared with the current tag bits using a comparator
+                    The comparator needed is of 
+                        size = #tag_bits
+
+            3. Set Associative Mapping:
+                Each entry of the TLB can store multiple mappings i.e. frame no.
+                For k-way set associative mapping K enteries can be stored in each set
+                                 -------------------------------------
+                Logical Address: | TAG |     Set No.    |  Byte Off. |
+                                 -------------------------------------
+                #sets in Cache = #enteries / k  for k-way mapping
+                #bits in Cache set = log2(#sets in Cache)
+
+                H/W implementation:
+                    The H/w configuration that is used for direct addressing will not be used for each column (samjha na).
+                    MUX size = #sets : 1
+                    #MUX = #tag_bits * k
+                    #comparators = k
+
+Magnetic Disk:
+    Disk > multi Plates > each plate 2 Surfaces > each surface multi tracks > each track mutiple sectors
+    Sector is the smalletst unit of the disk that can be read/written at once
+
+    Disk Access Time:
+        Basically the time required to access one sector on the disk
+        
+        Seek Time: Time Required to position the r/w hand at the appropriate track
+        Rotational Latency: Time Required to bring the appropriate sector below the head
+        Transfer time: Time required to read the data from the sector
+
+        Disk Access Time = Seek Time + Rotational Latency + Transfer Time
+
+        If multiple sectors(n) are to be accessed sequentially then
+            Disk Access Time = Seek Time + Rotational Latency + n(Transfer Time)
+        If multiple sectors(n) are to be accessed in random manner then,
+            Disk Access Time = n * (Seek Time + Rotational Latency + Transfer Time)
+
+    Cylinder:
+        To save the seek time data is stored in a cylindrical fashion
+        A cylinder is a set of tracks at multiple surfaces at the same radius
+
+Data Format:
+    Floating Point Representation(Conventional Representation):
+        Why? Provides representation for a large reange of numbers using limited number of bits
+        ---------------------------------
+        | Sign |  Exponent  | Mantissa  |
+        ---------------------------------
+        Mantissa is signed normalized fraction number
+        Exponent is stored in biased form (only unsigned value)
+        
+        Biased Exponent:
+            Basically, we want to represent the range of the exponent which can be both positive and negative using only positive numbers
+            So for exponent we will add a bias to map the negative range to the positive range
+            For exponent represented using 'k' bits
+            Bias = 2**(k-1)
+            So the exponent is stored in XS-Bias form
+            E(Stored_exponent) = e(actual_exponent) + BIAS
+
+        Normalized Mantissa:
+            Explicit Normalization: After decimal point immediately '1' should appear
+            Implicit Normalization: Before decimal point there should be a '1'
+            
+            Assume, num = 1101.10
+            Explicit Normalization: 0.110110 * 2^4
+            Implicit Normalization: 1.10110  * 2^3
+
+            After Normalization the part of th number after the decimal becomes our mantissa
+            
+            NOTE: If not mentioned in the question use Explicit Normalization by default
+        
+        Value Formula:
+            e = E - BIAS
+            m = 0.M     Explicit Normalization
+            m = 1.M     Implicit Normalization
+            value = (-1)^s * m * 2^e
+
+        OVERFLOW <----------|-----0-------|--------> OVERFLOW
+                             UNDERFLOW
+        
+        If more bits in mantissa then more precisiton
+        If more bits in exponent then more range stored
+        Cannot Store 0
+        Cannot reresent INF
+    
+
+    ** REMEMBER **
+    IEEE 754 Representation:
+        Single Precision: Total 32b
+            Sign        1b
+            Exponent    8b
+            Mantissa    23b
+            Bias        127 (2^(k-1) - 1)
+
+        Double Precision: Total 64b
+            Sign        1b
+            Exponent    11b
+            Mantissa    52b
+            Bias        1023 (2^(k-1) - 1)
+
+        Special Numbers and how they are represented:
+            S   E           M           special number
+            0   all 0's     all 0's     +0
+            1   all 0's     all 0's     -0
+
+            0   all 1's     all 0's     +INF
+            1   all 1's     all 0's     -INF
+
+            X   all 1's     !all 0's    NAN
+            X   all 0's     !all 0's    Denormalized
+
+            X   !all 0/1's      X       Implicit Normalized
+
+
+Pipelining:
+    Pipelining is the process of decomposing a sequential process into sub-operations which are done in segments
+    Pipelining is useful when the same process is applied over multiple inputs
+
+    Pipeline cycle time tp:
+        The maximum tme for a segment ot complete its execution
+        suppose in a pipeline there are segments that take 10ns, 12ns, 8ns and 9ns then tp = max(segment_time) = 12ns
+
+        General considerations about pipeline:
+            Consider 'k' segments pipeline with clock cycle time 'tp' to perform 'n' tasks
+            1. Time taken to perform the first task = k*tp
+            2. Time required to perform the remaining 'n-1' tasks = (n-1)tp
+            3. Total time taken to complete 'n' tasks = k*tp + (n-1)tp = (k+n-1)tp
+                The factor (k+n-1) is also the total number of clock cycles needed to complete the 'n' tasks
+            4. For 'n' operations the time taken is (k + n - 1) * tp / n
+            5 The average number of cycles taken is (k + n - 1) / n
+
+        Speed Up Ratio: Performance of a pipeline is given by speed-up ratio
+            S = non-pipeline time / pipeline time
+            S = n*tn / (k+n-1)tp
+
+            As the number of tasks increase n >>>> k and the factor k-1 becomes negligible
+            S_ideal = n*tn / n*tp = tn / tp
+            This is the ideal case in which the maximum speed up is acheived
+
+            NOTE: Speed Up is always S <= k
+
+    Sychronous Pipeline:
+        Due to mismatch of the delay time for each segment it is possible that some intermediate results are lost.
+        So buffers are used in between each segments to store the intermediate results.
+        In this case, tp = max(segment_delays) + register_delay
+
+    Latency and Throughput:
+        Latency is the amount of time after which the next input is taken for execution
+            For a non-piplined system the next input is taken only after complete execution of the current input. So, latency = tn
+            For a pipelined system the next input can be taken after the first segment completes its execution. So, latecy = tp
+
+        Throughput is the #taks that are performed per unit time
+        Throughput = #tasks / amount of time taken to complete the tasks
+                    = n / (k+n-1)tp
+                    = 1/tp (Ideal conditions n >>>>> k)
+
+    Instruction Pipeline:
+        Basically pipelining for the instruction cycle
+        Assume the following instruction pipeline IF, ID, OF, EX and WB
+
+        Instr.      1   2   3   4   5   6   7   8   9   10  11  12  13
+        1           IF  ID  OF  EX  WB
+        2               IF  ID  OF  EX  WB
+        3                   IF  ID  OF  EX  WB
+        4                       IF  ID  OF  EX  WB  <-----------------  JMP
+        5                           IF  ID  OF  x
+        7                            |  IF  ID  x
+        8                            |      IF  x
+        9                            |       |  IF  ID  OF  EX  WB <--  here
+        10                           |       |      IF  ID  OF  EX  WB
+        11                           |       |          IF  ID  OF  EX  WB
+                                     | stall |
+                                       cycles
+        **
+        NOTE: 
+            As per standard the target address for the JMP instruction is calculated in the EX cycle
+            So after the target address is done IF can be done in the next cycle
+            If the target address of a brach is calculated at the ith stage then the #stall cycles = i-1
+
+        Pipeline Hazards:
+            Situations that prevene the next instruction from being executed during its designated clock cycle
+            Leads to Stall Cycles
+
+            1. Structural Hazards / Resource Conflict: Two inputs try to use the same resources at the same time
+                Ex:         1   2   3   4   5   6   7   8
+                    MUL     IF  ID  OF  EX  EX  EX  WB
+                    ADD         IF  ID  OF  --  --  EX  WB
+
+            2. Data Hazard / Data Dependency:
+                Result of an instruction used as an input in another instruction
+                Ex:                 1   2   3   4   5   6   7   8
+                    r1 = r2 + r3    IF  ID  OF  EX  WB
+                    r4 = r1 * r1        IF  ID  --  --  OF  EX  WB
+                
+                Types:
+                    There are three types of data dependency:
+                    1. RAW - Read After Write (True dependency, Solutions discussed)
+                    2. WAW - Write after Write (Write Dependency, Is a False Dependency, solved using register renaming)
+                    3. WAR - Write after Read (Anti Dependency, Is a False Dependency, solved using register renaming)
+
+                Solutions:
+                    A general pipeline cannot detect data dependency and this may lead to faulty operation
+                    
+                    a. Delayed Load (S/W Solution):
+                        -- Compiler generates instruction such that no data dependency ocurs
+                        -- We insert dummy instructions to provide stalls between the dependent instructions
+                        Ex:                 1   2   3   4   5   6   7   8
+                            r1 = r2 + r3    IF  ID  OF  EX  WB
+                            NO                  IF
+                            NO                      IF
+                            r4 = r1 * r1                IF  ID  OF  EX  WB
+                    
+                    b. Hardware Interlock (H/W Solution):
+                        Attempts to LOCK the segment to provide delays
+                        Kya solution hai yeh ??? kab pata chalega kab lock karna hai ??
+                        Number one BS Guy...
+
+                    c. Operand Forwarding (H/W Solution):
+                        The result of the operation is passed/forwarded to the next instruction and overwrites its operands
+                        A h/w is used to determine whether forwarding is needed
+                        If ALU to ALU dependency then operands can be forwarded and no Stall cycles are needed
+                        However for the following cases stall cycles cant be saved
+                            LOAD:   r1 <- M[add]    |   STORE:  r1 <- r4 + r5
+                                    r4 <- r1 + r5   |           M[add] <- r1
+            
+            3. Control Hazards / Branch Difficulty:
+                Hazards because of the branch instructions
+                Solutions:
+                    a. Delayed Branch (Similar to Delayed Load):
+                        Inserts dummy instruction after a branch instruction
+                        # dummy cycles to insert = # stalls needed
+                                                 = i - 1
+                                                 where i is the stage where the target address is obtained
+                    
+                    b. Prefetch target instruction:
+                        In the ID phase we get the address of the instruction that we would execute if the branch is taken
+                        A seperate pipeline is started at this instruction and he current pipeline is also allowed to continue
+                        then depending upon the outcome of the branch instruction the appropriate pipeline is selected and other is discarded
+
+                    c. Branch Prediction:
+                        Static: Assumes a branch is taken always or branch is not taken always
+                        Dynamic: Prediction based. 80-90% accurate.
+

@@ -1,9 +1,7 @@
 Operating System:
     Content:
         1. Introduction
-        2. Process Management
-        3. Process Scheduling
-        4. Threads and MultiThreading
+        2. Process Management 3. Process Scheduling 4. Threads and MultiThreading
         5. Process Synchronization
         6. Deadlock
         7. Memory Management
@@ -357,7 +355,7 @@ Operating System:
         A. Paging:
             -- Main Memory is divided into fixed sized partitions called the frames.
             -- The process is divided into fixed sized partitions called the pages.
-                -- FRAME SIZE == PAGE SIZE and ONE FRAME can be allocated to ONE PAGE.
+            -- FRAME SIZE == PAGE SIZE and ONE FRAME can be allocated to ONE PAGE.
             
             -- Page Table is maintained to map the page number to the frame number.
                 -- #enteries in Page Table = ceil(Process Size / Page Size)
@@ -376,7 +374,7 @@ Operating System:
                     -- #bits in frame No. = log2(#frames)
 
                 Steps for conversion:
-                    1. Get the page no. from the logical address: page N film star in 12 hours for promoting the same film.o. + byte No.
+                    1. Get the page no. from the logical address: page No. + byte No.
                     2. Get the frame no. where the page is stored from the page table
                     3. Form the physical address: frame No. + byte No.
 
@@ -468,6 +466,24 @@ Operating System:
                 -- For a process if the Page Fault Rate is greater then a particular threshold then increase the #frames allocated
                 -- For a process if the Page Fault Rate is lesser then a particular threshold then decrease the #frames allocated
 
+    -- Types of Page Table:
+        -- Page Table is maintained for each process and most of the entries in the table are invalid
+        -- So it makes no sense in maintaining huge page tables
+        -- So to avoid these new techniques are proposed to efficiently manage the mapping
+
+        1. Heirarchical Paging: The generic age table technique that we have already discussed
+        2. Inverted Page Table:
+            -- A global page table is maintained where for each frame which page of which process is stored in that frame, this information is stored.
+            -- So the entries in the page table is equal to the number of frames in the main memory
+            -- Each page table entry stores the process id and the page no.
+            -- Thus all the entries in this table are valid entries
+        3. Hashed Table:
+            -- A page table is maintained for each process.
+            -- The page table is basically a hash table.
+            -- The page no. is hashed to a key and the collision resolution is done using chaining
+            -- Each node in the chain stores the page no., frame no. and the next pointer
+
+
 9. File Systems:
     Disk Blocks: Is a logical representation for smallest unit of disk
     -- Free Space Management:
@@ -547,4 +563,17 @@ NOTES:
     LiveLock:
         A Process which has acquired locks on some resources and
         is stuck in a deadlock to acquire new resources
+    
+    Process switches or Context switches can occur in only kernel mode . So for process switches first we have to move from user to kernel mode . Then we have to save the PCB of the process from which we are taking off CPU and then we have to load PCB of the required process . At switching from kernel to user mode is done. But switching from user to kernel mode is a very fast operation(OS has to just change single bit at hardware level) Thus T1< T2
+    
+    Interrupt handling steps:
+        1. Processor finishes the execution og the current instruction
+        2. Processor signals acknowledgement for interrupt
+        3. Processor pushes the process status of current process onto the stack
+        4. The processor loads the new PC based on the interrupt
+
+        5. Save remainder of the process state information
+        6. The processsor executes the ISR
+        7. Restore process state information
+        8. Proessor pops the processs status from the stack
 

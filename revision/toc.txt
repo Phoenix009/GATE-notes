@@ -238,6 +238,10 @@ Context Free Language:
             -- When upon accepting an input symbol and looking at the top of the stack when we move from one state to MULTIPLE states and add something on the stack it is the Deterministic PDA
             -- delta: Q x {Sigma|Epsilon} x T --> Powerset(Q x T*)
 
+        NOTE: 
+            1. The strings can be accepted by PDA by either halting in a final state or by emptying the stack
+            2. The power of a N-PDA is more than that of D-PDA
+
     B. Generator/Grammar: Type2: CFG-Context Free Grammar
         CFG can be of two types:
             1. CNF - Chomsky Normal Form
@@ -395,7 +399,7 @@ Recursively Enumerable Languages:
         Halting TM:
             -- Such a TM does not get stuck in a LOOP
             -- So when the string is not a part of the REL then Halting TM rejects the string by halting in a non final state
-            -- Such a string belongs to RECURSIVE Language. So fall Recursive Language there is always a Halting TM
+            -- Such a string belongs to RECURSIVE Language. So all Recursive Language there is always a Halting TM
 
         Non-Halting TM:
             -- There may be a turing machine that can get stuck in an INFINITE LOOP
@@ -504,7 +508,7 @@ For every Language is there a TM?
     Thus implying that the set of all the TM is a infinite countable set.
 
     Since the set of all TM are countable   | Since the set of all TM are countable and
-                                            | there is exactly ne language accepted by one TM it implies that,
+                                            | there is exactly one language accepted by one TM it implies that,
         So, are the set of all LBA          |   The set of all REL is also countable and,
         So, are the set of all PDA          |     So, are the set of all Recursive Language
         So, are the set of all FA           |     So, are the set of all Context Sensitive Language
@@ -573,3 +577,52 @@ Computability and Decidability:
 Complexity Classes:
     P-Class: The set of all languages that are accepted by some deterministic TM in polynomial time
     NP-Class: The set of all lanuages that are accepted by non-deterministic TM in polynomial time
+
+
+
+NOTES TO REMEMBER:
+        FA and Grammar are equivalent in terms of power This can be proved by conversion to and fro
+        1. FA to Grammar:
+            a. FA >> RLG: FA can be converted directly into RLG
+            b. FA >> LLG: For conversion from FA to LLG we have to roceed as follows
+                FA  >>REV>>  FA  >>>>  RLG  >>REV>>  LLG
+
+        2. Grammar to FA:
+            a. RLG >> FA: Can again be easily converted
+            b. LLG >> FA: For conversion from Grammar to FA we have to proceed as follows
+                LLG  >>REV>>  RLG  >>  FA  >>REV>>  FA
+
+        Membership for Regular Language:
+        -- If the language is FINITE then it is Regular.
+        -- For the INFINITE language if the strings have a certain pattern that is repeating then it is Regular.
+        -- IF you can find a FA / RE / Reg. Grammar then YES
+        
+        Power of a NonDeterministic PDA is more than that of Deterministic PDA
+        The languages accepted by a D-PDA are called D-CFL
+        The languages accepted by a N-PDA are called N-CFL
+        and D-CFL are a subset of N-CFL
+
+        
+        Theorem:
+        If a language L and its complement L' both are REL, then both the languages are recursive.
+            -- Since L is REL there must exists a TM that halts when the string belongs to the Language, Let this TM be TM1
+            -- Also for L' there must exist a TM that halts when the string belongs to it. Let this tM be TM2
+            -- Thus, this two machine can be used simultaneously to check for the membership
+            -- This makes both L and L' Recursive as now their machines are coupled and halted whenever one of the machine accepts the string.
+        If a language L is Recursive then its complement L' is also Recursive.
+            -- Since L is Recursive then there exists a Halting TM.
+            -- Thus L' can also use this Halting TM with the states swapped.
+            -- Hence Halting TM exists for them both hence both are Recursive and thus REL.
+        
+
+        Now, We have seen in the UTM that every TM can be represented in the form of 1's and 0's
+        A set of TM represented as 0's and 1's is also a subset of all the strings over {0, 1} which is infinite countable set.
+        Thus implying that the set of all the TM is a infinite countable set.
+
+        Since the set of all TM are countable   | Since the set of all TM are countable and
+                                                | there is exactly ne language accepted by one TM it implies that,
+            So, are the set of all LBA          |   The set of all REL is also countable and,
+            So, are the set of all PDA          |     So, are the set of all Recursive Language
+            So, are the set of all FA           |     So, are the set of all Context Sensitive Language
+                                                |     So, are the set of all Context Free Language
+                                                |     So, are the set of all Regular Language

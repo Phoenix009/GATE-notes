@@ -1,4 +1,4 @@
-Algorithms:
+9 Algorithms:
 
 0. Analysis of Algorithms:
     Algorithms can be considered as of two types:
@@ -289,6 +289,7 @@ III. Greedy Technique:
         Spanning Tree:
             For a graph the spanning tree is defined as the subgraph of the graph, which has all the vertices covered with minimum possible number of edges.
             For a complete graph with 'n' vertices the number of spanning trees is 'n^(n-2)'
+            For a Graph with distint edge weights there is always a distinct MST
 
             To find the number of spanning trees for UNDIRECTED graphs we use the Kirchoffs Theorem:
                 1. Form the adjacency matrix
@@ -383,7 +384,13 @@ III. Greedy Technique:
                     relax its edges
 
         Analysis:
-            Time Complexity O(ElogV)
+            Time Complexity
+                Depends upon the implementation:
+                    1. If Binary Heap used then O((E + V) log V) ~ ElogV
+                    2. If Fibonacci Heap used then O(E + VlogV)
+                    3. If Adjacency Matrix then O(V^2)
+                
+        NOTE: There is a possibility that there exists more than one distinct shortest path btween two edges
 
     Bellman Ford Algorithm for SSSP:
         For a graph containing 'n' nodes any shortest path with any source will contain atmost n-1 edges in it.
