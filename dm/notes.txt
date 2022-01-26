@@ -1,0 +1,63 @@
+Propositional Logic:
+    Propositional Statement: 
+        -- Basic building blocks for Logic
+        -- Statements that can either be true or false.
+        -- Ex: Sun rises in the East and sets in the West --> Is a proposition
+               Go out and play --> Not a proposition
+        -- Propositional variables are used to represent propositions (small case alphabets)
+        -- Are of two types:
+            1. Simple Propositional statements: 
+                -- That can be broken down into smaller steps.
+                -- In mathematical logic the truth value can only be directly determined for simple statements.
+            2. Complex Propositional statements: 
+                -- Statements that are formed by combining simple statements by using logical connectives
+                -- Complex statements can be broken down only on the breakable points (connectives)
+
+        Logical Connectives:
+            1. AND (^): TRUE iff both TRUE
+            2.1 Inclusive OR (v): TRUE if any one is TRUE
+            2.2 EXclusive OR: TRUE only if only one is TRUE
+            3. Single Implication: TRUE ke baad FALSE nahi aayega
+                -- FOR P --> Q: 
+                            -- Q if P
+                            -- P only if Q
+                            -- Q unless ~P
+            4. Double Implication: Same as EXOR
+
+        Special Conditional Statements:
+            1. Converse: 
+                The converse of the propositions p -> q is q -> p
+            2. Inverse:
+                The inverse of the proposition p -> q is ~p -> ~q
+            3. ContraPositive: 
+                The contraPositive of the proposition p -> q is ~q -> ~p
+
+            Example:
+                Consider the proposition "If today is Friday then it is raining"
+                
+                If p - Today is Friday and q - It is raining
+                Then the proposition can be represented as p -> q
+
+                Statement:      p -> q      If today is Friday and it is raining
+                Converse:       q -> p      If it is raining then today is Friday
+                Inverse:        ~p -> ~q    If it is not Friday then it is not raining
+                ContraPositive: ~q -> ~p    If it is not raining then today is not Friday
+        
+        Equivalece of Propositional Statements:
+            When the two propositional statements have the same truth value they are said to be equivalent
+            Therefore, 
+                p -> q is equivalent to its inverse
+                p -> q is equivalent to its contraPositive
+
+        -- Satisfiable: The Statement is said to be satisfiable if there exists atleast one input combination that evaluates to TRUE
+
+        Types of propositional statements based on the truth values:
+            -- Tautology: The statement is said to be tautology if for all the input combinations the output is TRUE.
+            -- Contradiction: If all the input cmbinations lead to FALSE then it is contradiction
+            -- Contingency: If output is a combination of TRUE and FALSE. Neither Tautology nor Contradiction
+
+    Inference Rule:
+        -- Considering the premises to be TRUE, our conclusion must be TRUE
+        
+
+

@@ -14,6 +14,7 @@ Conditions for deadlock:
         resources.
 
     -- No Preemption:
+        The resources that cannot be preempted
         Processes will realease the assigned resources voluntarily.
 
     -- Circular waiting:

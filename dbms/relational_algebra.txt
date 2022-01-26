@@ -26,7 +26,6 @@ Unary Relational Operations: SELECT and PROJECT
             -- pi is the symbol used to represent the PROJECT operation
             -- attr_list is the sublist of attributes from attributes of relation R.
     -- The result of the PROJECT operation has only the attributes specified in the attr_list in the same order as specified in the list.
-    -- degree(pi(attr_list, R)) == degree(R)
     -- The PROJECT operation when applied on a set of attributes that do not form any super key, then the result may contain duplicate tuples.
     -- The PROJETC operation removes any duplicate tuples, so the result of the {ROJECT operation is a set of distinct tuples, and hence a valid relation.
     -- |pi(attr, R)| <= |R|

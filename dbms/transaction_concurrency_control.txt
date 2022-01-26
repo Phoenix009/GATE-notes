@@ -181,6 +181,9 @@ Characterizing the schedules based on Serializibility:
             and the serial order is give by the topologial ordering of the nodes
             i.e the transactions.
 
+        NOTE: Once the transaction commits then we wont conisder its operations for further
+            discussion of conflicting operations
+
     
     View Equivalence:
         The schedules are said to be view equivalent of they satisfy the 
@@ -237,7 +240,7 @@ Types of Locks:
         If binary locking scheme is to be used then the transactions need to follow these rules:
             1. The transaction will issue the lock_item before executing read and write operations.
             2. The transaction will issue the unlock_item after completing all the read and write operations.
-            3. The trans.action cant lock the item for which it already has a lock
+            3. The transaction cant lock the item for which it already has a lock
             4. The transaction cant unlock an item unless they have locked the item.
         
     2. Shared/Exclusive Locks (Read/Write locks):
@@ -314,26 +317,48 @@ Two Phase Locking Protocol:
     Basic 2PL: 
         The technique just described is the basic 2PL scheme. So the transaction 
         is divided into two phases, the expanding and shrinking phase.
+
+        NOTE:
+            The last lock operation of the transaction is called the lock point and determines the serial order of the transactions
+
+            Although 2PL GUARANTEES SERIALIZIBILITY
+            But there is still possibilities of DEADLOCKS and CASCADING ROLLBACKS 
     
     Conservative 2PL:
+        DisSatisfying Hold and Wait to prevent deadlocks
+
+        The protocol is a dead-lock free protocol. However it is difficult in practice 
+        because of need to predefine the read and write set.
+    
         Just like the Basic 2PLn the conservative 2PL also requires the transaction 
         to lock all the data items that it uses. While doing this if there is any 
         data item for which the transaction cant obtain the lock then, 
         it will not lock any items at all instead it waits untill all the data 
-        items are unlocked. 
-        The protocol is a dead-lock free protocol. However it is difficult in practice 
-        because of need to predefine the read and write set.
-    
+        items are unlocked.
+
+        
     Strict 2PL:
         The most popular variation of the 2PL is the strict 2PL, which guarantees 
-        strict schedule. In this variation, a transaction T does not release its 
-        exclusive lock until after it commits or aborts. 
+        strict schedule. In this variation, a transaction T DOES NOT REALEASE ITS EXCLUSIVE LOCKS UNTIL IT COMMITS OR ABORTS. 
         Hence no other transaction can read the changes made by the transaction 
         unless it commits, leading to a strict schedule for recoverability.
     
     Rigorous 2PL:
         Does not release any of its locks (both shared and exclusive) until 
         after it commits or is aborted.
+
+Graph based Protocols:
+    Orders the dataitems in a DAG thus dissatisfying CircularWait and preventing Deadlocks
+    However some modifications are needed for CASCADELESS and RECOVERABILITY 
+
+    Rules for locking an item by a transaction:
+        1. First lock by the transaction can be done on any unlocked data item
+        2. Subsequently, a data item can be locked by the transaction iff it holds the lock on its parent
+        3. A data item can be unlocked at any time, thus improving the concurrency
+        4. A dataitem once locked and unlocked cannot be locked again by the same transaction
+
+    If there is a set of item we want to lock then we start by locking the LCA of the set of dataitems in the Tree and then progress down out desired list of items
+
 
 TimeStamp Based Protocols:
     -- A different approach to concurreny control involves using transaction timestamps

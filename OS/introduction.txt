@@ -82,6 +82,7 @@ Requirements if a synchronization solution:
     - N process solution (Supports N processes)
     - Busy Waiting Solution (Consumes cpu cycles, affects throughput)
     - Software Solution implemented in user mode
+    - Fails to provide mutual exclusion
 
 -- Strict Alteration Solution / Two process solution:
     - 2 process solution (Supports 2 processes)

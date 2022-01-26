@@ -21,8 +21,7 @@ Step 3: Mapping a 1:1 Binary Relations:
 		-- Include all the simple attributes of the relationship type as the attributes in S.
 
 	2. Merged Relation Approach:
-		-- An alternative mapping of a 1:1 relationship is to merge the participating entities and the relationship type into a single relation.
-		-- This ispossible when both the participating entities have total participation as this would indicate that the two relations will have the same number of tuples at any time.
+		-- POSSIBLE when both the participating entities have TOTAL PARTICIPATION as this would indicate that the two relations will have the same number of tuples at any time and can be merged into a single relation.
 
 	3. Cross-reference or relationship relation approach:
 		-- The third option is to set up a third relation R for the purpose of cross referencing the tuples of relations S and T. Such a relation is called a relationship relation.

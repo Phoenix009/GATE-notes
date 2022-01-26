@@ -3,7 +3,7 @@ Schema and Catalog in SQL:
     -- An SQL schema is identified by a schema name and includes authorization identifier to indicate the user who owns the schema
     -- It also includes descriptors for each element in the schema.
     -- Schema elements includes tables, types, constraints, views, domains and other constructs that describe the schema.
-    -- Schema is creter using the CREATE SCHEMA statement, which can include all the schema elements defintion.
+    -- Schema is created using the CREATE SCHEMA statement, which can include all the schema elements defintion.
     -- Alternatively the schema can be assigned name and authorization identifier and the elements can be defined later.
         CREATE SCHEMA <schema-name> AUTHORIZATION <auth-identifier>;
     -- Not all users are authorized to create schema and schema elements.
@@ -182,6 +182,57 @@ INSERT, DELETE and UPDATE:
         -- As in DELETE command, a WHERE clause in the UPDATE command selects the tuples to be modified from a single relation.
         -- However, updating a primarykey may propagate to the foreign key of tuples in other relation if such referential integrity actions are specified.
         -- an additional SET clause in the UPDATE command specifies the attributes to be modified and their new values.
+
+
+Three Valued Logic:
+    -- NULL is used to represent a missing value, but that it usually has one of three different interpretations:
+        1. value unknown
+        2. value withheld or not available
+        3. value not applicable
+        SQL does not distinguish between these three interpretations
+    -- In general, each individual NULL value is considered to be different from every other NULL value in the various database records.
+    -- When a record with NULL in one of its atributes is involved in a comparison operation, the result is considered to be UNKNOWN
+    -- Hence SQL uses a three valued logic with values TRUE, FALSE and UNKNOWN
+    -- In select, project and join, the general rule is that only those combinations of tuples that evaluate the logical expression in the WHERE clause of the query to TRUE are selected.
+    -- Tuple combinations tht evaluate to FALSE or UNKNOWN are not selected.
+    
+    -- SQL allows queries tht check whether an attribute value is NULL.
+    -- Rather than using = or <> to compare an attribute value to NULL, SQL uses the comparison operator IS and IS NOT.
+    -- This is because each NULL value is considered different in different records, so equality would be inappropriate.
+
+    - EX: Retrieve the names of all employees who do not have a supervisor
+        SELECT fName, lName 
+        FROM Employee
+        WHERE super_ssn IS NULL;
+
+Nested Queries:
+    -- Some queries require that existing values in the database be fetched and then used in a comparison condition. Such queries can be conviniently formullalted using nested queries.
+    -- The nested queries can appear in the WHERE clause or the FROM clause or SELECT clause or other SQL clauses as needed.
+    -- The comparison operator IN compares a value v with a set or multiset of values V and evaluates to TRUE when v appears in V.
+    -- If a nested query returns a single tuple AND a single attribute, the query result will be scalar and it is permissible to use = instead of IN
+    -- We also have <op> ANY and <op> ALL
+    -- In general, we can have reveral levels of nested queries. We can once again be faced with possible ambiguity among the attribute names
+    -- The rule is that a reference to an unqualified attribute refers to the relation declared in the innermost nested query.
+    -- It is generally advisable to create tuple variable fo all the tables referenced in an SQL query to avoid potential errorrs and ambiguities.
+
+Correlated Queries:
+    -- Whenever a condition in WHERE clause of an inner query references some attributes of a relation declared in the outer query, the two queries are said to be correlated.
+    -- We can understand a correlated query better by considerint that the nested query is evaluated once for every tuple in the outer query.
+
+EXISTS and UNIQUE:
+    -- The EXISTS functions in SQL is used to check whether the result of a nested query is empty or not.
+    -- The result of EXISTS is TRUE if the nested query result contains atleast one tuple, else FALSE.
+    -- There is another SQL function UNIQUE, which returns TRUE if there are not duplicate tuples in the result of a nested query.
+    -- This can be sued to test whether the result of a nested query is a set or a multiset.
+
+Explicit Sets:
+    -- It is also possible to use an explicit set of values in the WHERE clause instead of a nested query.
+    -- Such a set is enclosed in parentheses in SQL.
+    -- EX: Retrieve the SSn of all employees who work on project no 1, 2, or 3
+        SELECT DISTINCT ssn
+        FROM Works_on
+        WHERE p_no IN (1, 2, 3)
+
 
 
 

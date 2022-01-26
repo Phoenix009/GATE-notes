@@ -8,13 +8,16 @@ Entities and Attributes:
     Entity Set:
         A company employing hundreds of employees may want to store similar information corncerning each employees
         These employees entities share the same attributes, but each entity has its own values for each attribute
+        
         The collection of all entities of a partiular entity type in the database is called an entity set or an entity collection.
         An each entity set define a collection of entites that have the same attribute. Each entity set in the database is described by its name and attributes.
+
         An entity set is represented in ER diagram as a rectangular box enclosing the entity set name
         An entity type describes the schema for a set of entities that share the same structure.
         
     Attributes:
         Each entity has attributes - the particular properties that describe it. For example EMPLOYEE entity may be described by the employees name, age, adress, salary, and job.
+        
         Attributes are represented by attribute name enclosed in ovals and are attached to the entity type by straight lines.
         
         Several type of attributes exist in the ER model:
@@ -31,21 +34,29 @@ Entities and Attributes:
 
     Key attributes:
         An entity type usually has one or more attributes whose values are distinct for each individual entity in the entity set. Such an attribute is called a key attribute and its values can be used to identify each entity uniquely.
+        
         Sometimes several attributes together form a key, meaning that the combinatin of attribute values must be distinct for each entity.
+        
         If a set of attributes possess this property, the proper way to represent this in the ER model is to define a composite attribute and designate it as a key.
+        
         Such a key must me minimal; that is, all the component attributes must be included in the composite attribute to have the uniqueness property.
+        
         In ER diagrammatic notation, each key attributes has its name underlined inside the oval.
 
     Value Sets Domains of attributes:
         Each simple attribute of an entity type is associated with a value set which specifies the set of values that may be assigned to that attributes for each individual entity. 
+
         VAlue sets are not displayed in the ER diagrams and are similar to the basic data types available in most programming languages.
+
         Additional data types to represent common database types such as date time and other concepts are also employed.
         Mathematically an attribute A of entity set E whose calue set is v can be defindes as a function from E to power set of V.
         A: E --> P(V)
 
     Relationships:
-        Whenever an attribute of one entity refers to aonther enity type, some relationships exists.
+        Whenever an attribute of one entity refers to another enity type, some relationships exists.
+        
         In the ER model, these references should not be represented as attributes but as a relationships.
+        
         A relationship type R among n entity types defines a set of associations or a relationship set among entities from these entity types.
 
     Degree of relationships:
@@ -54,9 +65,13 @@ Entities and Attributes:
 
     Role names and Recursive Relationships:
         Each entity type that participates in a relationship type plays a particular role in relationship. 
+        
         The role name signifies the role that a participating entity from the entity type plays in each relationship instance and it helps to explain what the relationship means.
-        Role names are not technically necessary in relationship types where all the participating entities are ditinct. 
+
+        Role names are not technically necessary in relationship types where all the participating entities are distinct.
+
         However in some cases the same entity types participates more than once in a relationship type in different roles. 
-        In such cases the role naes becomes essential for distinguishing the meaning of the role that each participating entity plays.
+
+        In such cases the role names becomes essential for distinguishing the meaning of the role that each participating entity plays.
+
         Such relationships types are called recursive relationship or self-referencing relationships.
- 

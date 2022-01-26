@@ -6,19 +6,23 @@ Normalization of Relations:
     -- Can be considered a process of analyzing the given relation schemas based on thir FDs and primary keys to achieve the desirable properties of minimizing the redundancy and minimizing the updation anomalies.
 
     -- Normal forms in isolation from other factors, do not guarantee a good database design. The process of normalization through decomposition must also confirm the existence of additional properties that the relational schemas, taken together should possess.
-    1. The nonadditive join or lossless join property, which guarantees that the spurious tuple genereation problem does not occur with respect to the relation schemas created after decomposition.
+    
+    1. The nonadditive join or lossless join property, which guarantees that the spurious tuple generation problem does not occur with respect to the relation schemas created after decomposition.
+    
     2. the dependency preservation property which ensures that each functional dependency is represented in some individual relation resulting after decomposition.
+
     -- The nonadditive join property is extremely critical and must be achieved at any cost whereas the dependency preservation property although desirable is some times sacrified.
 
-    -- To ensure lossless decomposition the decomposed relation should have a set common attributes which serves as a candidate key in atleast one of the two relations.
+    -- To ensure lossless decomposition the decomposed relation should have a set of common attributes which serves as a CANDIDATE KEY in atleast one of the two relations.
 
-First Normal Form:
+First Normal Form: No multivalued attributes
+
     -- It states that the values in the tuples for each attribute must be a single atomic value from its own domain. (No multivalued attributes allowed).
     -- The only attribute values permitted by 1NF are single atomic values.
     -- There are three main techniques to achieve first normal form for a relation.
 
     1. Remove the attribute that violates 1NF form and place it in a seperate relation along with the primary key of the parent relation.
-    The primary key of this new relation is the combination of the primar key and the attributes.
+    The primary key of this new relation is the combination of the primary key and the attributes.
     This decomposition decomposes a non-1NF relation into two 1-NF relations
 
     2. Expand the primary key to include the attribute that does not obey 1-NF. now there will be a distinct tuple for multiple values of that attribute for that tuple.
@@ -27,6 +31,10 @@ First Normal Form:
     -- The first solution is generally considered best because it does not suffer from redundancy and its is completely general; it places no maximum limit on the number of values. 	 
 
 Second Normal Form:
+
+    Partial Dependency:
+        Partial dependency is the case when a NON-PRIME attribute is functionally dependent on a proper subset of the CANDIDATE KEY
+
     -- Second Normal Form is based on the concept of full functional dependency.
     -- A FD X --> Y, is said to be full functional depenendency if we remove any attribute A from X then the functional dependency does not hold.
 
@@ -36,6 +44,11 @@ Second Normal Form:
     -- If a relation schema is not in 2NF, it can be second normalized into a number of 2NF relations in which non prime attributes are associated only with the part of the primary key that they are fully functionally dependent on.
 
 Third Normal Form:
+    The relation is in 3NF if for EVERY NON_TRIVIAL FD the 
+        LHS is a super key OR
+        RHS is a set of prime attributes
+
+
     -- Transitive DEpendency:
         A functional dependency X--> Y is said to be a transitive dependency if there exists a set of attributes Z, which is neither a candidate key nor is a subset of a key in the relation and X --> Z and Z --> Y holds
 
@@ -43,3 +56,7 @@ Third Normal Form:
     -- The test involves finding Fds in which the LFS is a non key attribute.
 
 
+
+BCNF:
+    The relation is in BCNF if for every NON-TRIVIAL FD the
+    LHS is a superkey

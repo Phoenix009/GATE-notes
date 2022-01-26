@@ -2,18 +2,15 @@ Informal Design Guidelines for Relation Schemas:
 	-- Before discussing the formal theory of relational database design, we discuss four informal guidelines that may be used as measures to determine the quaity of relation schema design.
 
 	1. Imparting clear semantics to attributes in Relations:
-		-- The semantics of a relation refers to it meaning resulting from the interpretation of attribute values in a tuple.
 		-- If the conceptual design is done carefully and mapping procedure is followed systematically then the relational schema design should have a clear meaning.
 		-- The ease with which the meaning of a relations attributes can be explained is an informal measure of how well the relation is designed.
 
 	2. Redundant information in tuples and update anomalies:
 		-- One of the goal of the schema designs is to minimize the storage space used by the base relations.
-		-- Storgina natural joins f base relations leads to additional problems refered to as update anomalies. these include insertion, deletion and update anomalies.
-		-- Design the base relation schemas so that no anomalies are present in the relations.
+		-- Storing natural joins of base relations leads to additional problems refered to as update anomalies. These include insertion, deletion and update anomalies.
 
 	3. NULL values in tuples:
 		-- As far as possible, avoid placing attributes in a base relation whose values may frequently be NULL.
-		if NULLs are unavoidable, makes sure that they apply to exceptional cases and do not apply to majority of tuples in the relation.
 
 	4. Generation of Spurious tuples:
 		-- Design relation schemas so that they can be joined wth equality conditions on attributes (primary key, foreign key) that are appropriately related pairs in a way that can guarantee no spurious tuples.
@@ -26,10 +23,10 @@ Functional Dependencies:
 	if t1[X] == t2[X] ==> t1[Y] == t2[Y]
 	-- Thus X functionally determines Y in a relation schema R iff whenever two tuples of r(R) agree on their X-value, they must necessarily agree on their Y-value.
 
+	**
 	NOTE: 
 	-- if X is a candidate key, which implies that X has unique values in R, this implies that X will functionally determine each and every attribute of R.
 	This is because every value of X is distinct and thus there is no such case where the equality is violated.
-
 	-- A functional dependency is  property of the relation schema R, not of a particular legal relation state r of R.
 	-- Therefore an FD cannot be inferred automatically from a given relation extension r but must be defined explicitly by someone who knows the semantics of the attributes R.
 	-- Given a particular relation, we cannot determine which FDs hold and which do not unless we know the attributes and meaning of the relationships among the attributes.

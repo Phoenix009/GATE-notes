@@ -5,7 +5,7 @@ File Organization:
 
 Record blocking and Spanned and Unspanned records:
     -- The records of a file must be allocate to disk blocks as block is the unit of data transfer between disk and memory
-    -- When the block size is greater than the record size, wach block will contain numerous records
+    -- When the block size is greater than the record size, each block will contain numerous records
     
        blocking_factor (bfr) = floor(block_size / record_size)
     
@@ -62,10 +62,10 @@ Clustering Indexes:
 Secondary Indexes: 
     -- A secondary index provides a secondary means of accessing a data file for which some primary access already exists.
     -- The data file records could be ordered unordered or hashed.
-    -- The secondary index may be created on a field that is a candidate key and has a unique value in every recor or a non key field with duplicate values
-    -- The index is an rdered file with two fields. the first field is of the sme data type as the indexing field and the second field is either a block or a record pointer.
+    -- The secondary index may be created on a field that is a candidate key and has a unique value in every record or a non key field with duplicate values
+    -- The index is an ordered file with two fields. the first field is of the same data type as the indexing field and the second field is either a block or a record pointer.
     
-    -- First we consider a secondary index access strucutre on a key field that has a distinct value for every record. such a field is called a secondary key;
+    -- First we consider a secondary index access strucuture on a key field that has a distinct value for every record. such a field is called a secondary key
     -- In this case there is one index entry for each record in the data file, which contains the value of the field record and a pointer to the block or the record itself.
     -- Hence, Such an index is dense.
 
@@ -84,9 +84,9 @@ NOTE:
 
 Multilevel Indexing:
     -- A multilevel indexing considers the index file, which we will now refer to as the first or base level of a multilevel index, as an ordered file with a distinct value for each key.
-    -- By considering the fist level index file as a srted file, we can create a primary index for the first level; this index to the first level is called the second level of the multilevel index.
+    -- By considering the fist level index file as a sorted file, we can create a primary index for the first level; this index to the first level is called the second level of the multilevel index.
     -- Because the second level is a primary index, we can use block anchors so that the second level has one entry for each block of the first level.
-    -- The blocking factor for the second level and for all the subsequent block is the same as that for the first level inde because all index entries are of the same size.
+    -- The blocking factor for the second level and for all the subsequent block is the same as that for the first level index because all index entries are of the same size.
     -- This blocking factor is also referred to as the fan-out value in multilevel indexing
     -- We can repeat the preceeding process until all the entries of some index level 't' fit in a single block. This index level is called the top level index.
     -- Hence, a multilevel index with r1 first level entries will have approximately t levels where
@@ -125,7 +125,7 @@ B+Trees:
             <P1, K1, P2, K2, ... , Kq-1, Pq >
             Pi is a tree pointer
         2. Within each internal node, K1 < K2 < ... < Kq-1
-        3. The keys in the child block pointed by Pi tree pointer in the parent node has values in the range Ki-1 and Ki
+        3 . The keys in the child block pointed by Pi tree pointer in the parent node has values in the range Ki-1 and Ki
         4. Each internal node has atmost p tree pointers
         5. Each internal node except the root, has atleast ceil(p/2) pointers.
 
