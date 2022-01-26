@@ -503,6 +503,34 @@ Magnetic Disk:
         A cylinder is a set of tracks at multiple surfaces at the same radius
 
 Data Format:
+    unSigned Representation:
+        The bits in the number indicate the magnitude (or absolute value)
+        So for 'n' bits: the range of values is 0 to +(2^(n) - 1)
+        Negative numbers cannot be represented
+
+    Signed Representation:
+        a number's sign is represented with a sign bit (usually MSB)
+        The remaining bits in the number indicate the magnitude (or absolute value)
+        So for 'N' bits: the range of values is -(2^(N-1) - 1) to +(2^(N-1) - 1)
+
+    1's Complement:
+        The range of signed numbers using ones' complement is represented by 
+            −(2^(N−1) − 1) to (2^(N−1) − 1) and ±0
+
+        To get the decimal value of the number in 1's complement
+            Determine the sign by examining the MSB.
+            if negative then 1's complement else dont
+            Find the absolute value of the number
+
+    2's Complement:
+        To get the decimal value of the number in 2's complement
+            Determine the sign by examining the MSB.
+            if negative then 2's complement else dont
+            Find the absolute value of the number
+        The range of signed numbers using ones' complement is represented by 
+            −(2^(N) − 1) to (2^(N−1) − 1)
+
+
     Floating Point Representation(Conventional Representation):
         Why? Provides representation for a large reange of numbers using limited number of bits
         ---------------------------------

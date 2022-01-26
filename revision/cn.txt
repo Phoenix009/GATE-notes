@@ -1,6 +1,906 @@
-Terminology:
-    1. Datagram: Packets used by the IP are called datagrams
+Data Link Layer:
+    Delays in Computer Networks:
+        1. Transmission Delay (Tt):
+            The amount of time required by the host to put the MSG packet on the channel is called transmission delay
+            Tt = Data Length / Bandwidth
+    
+        2. Propagation Delay(Tp):
+            Time taken for one bit to travel from the src host to the dest host
+            Tp = Distance / velocity
+    
+            Generally, the link is optical fiber
+            The light travels at the 70% speed of light in the fiber = 2.1 * 10^8 m/s
+            we will use ths value where not mentioned
+       
+       3 & 4. Queuing Delay and Processing Delay:
+            Time spent by the packet waiting in the queue before going for execution is called the queuing delay
+            Time taken by the processor to process the data packe is called the processing delay
+            These delays are considered negligible unless specified in the question
+    
+    FLOW CONTROL:
+        Why? The sender must send the packets at the rate at which the receiver can receive. Done using FLOW CONTROL
+
+        Time taken to transmit one data packet = 
+            = MSG TX + MSG PROP + QUEUE + PROCESS + ACK TX + ACK PROP
+            = Tt + Tp + 0 + 0 + 0 + Tp
+            = Tt + 2Tp
+            = TX time + RTT (Round Trip Time)
+
+        I. STOP AND WAIT:
+            SENDER sends the packet and waits for its ACK before sending the next packet
+            
+            Total Time = Tt + 2*Tp  (per process)
+            
+            Effeciency/Link Utilization/Channel Utilization:
+                Eff   = Useful Time / Total Time
+                    = Tt / (Tt + 2Tp)
+                    = 1 / (1 + 2a) ... a = Tp / Tt
+
+                1. For Effeciency > 50%
+                    Useful Time >= Wait Time
+                            Tt  >= 2*Tp
+                              L >= 2*Tp*B
+
+                2. Eff proportional to the Length of the data packet.
+                3. Eff inversely proportional to the distance between the nodes hance suitable for LANs.
+
+            Throughput/Eff Bandwidth/BW utilization:
+                Throughput  = # Bits transferred per unit time
+                            = L / (Tt + 2*Tp)
+                            = Eff * BW
+                            = Effeciency * Bandwidth
+
+            PROBLEMS in STOP & WAIT:
+                1. Data Packet Lost:
+                    When the data packet sent by the sender is lost:
+                    Recevier thinks that the sender has not sent the data and waits
+                    Sender thinks that the receiver is busy and waits for ACK
+                    
+                    Solution:
+                    Sender waits for a definite amount of time within which if it does not receive the ACK
+                    It assumes that the packet was lost and retransmits the same packet
+                    The time after which the sender retransmits is called the TIME-OUT Timer
+                    STOP & WAIT + TIME_OUT TIMER == STOP & WAIT ARQ
+
+                2. ACK LOST: Duplicate Packet Problem:
+                    Sender waits for the ACK from the receiver and retransmits after time out timer runs out
+                    Receiver thinks this is the new packet and receives the duplicate packet
+                    
+                    Solution:
+                    Sender sends the data packet with the sequence nos.
+                    STOP & WAIT + TIME_OUT + SEQ_NOs
+
+                3. DELAYED ACK: Missing Packet Problem:
+                    Due to the delayed ACK it is possible that the ACK for the earlier packet is considered for a later packet
+                    
+                    Solution:
+                    ACK numbers will be sent denoting the next expected data packet in the sequence
+
+            
+        SLIDING WINDOW PROTOCOLS: Actually is a theoretical concept and implemented using the following two protocols
+
+            Pipelining:
+                Basically in S&W we need to transfer more #packets to improve the effeciency
+                    Tt          -->     1 packet 
+                    1s          -->     1/Tt packet
+                    Tt + 2Tp    -->     (Tt + 2Tp)/Tt packets
+                    (One Cycle Time)
+
+                    So # packets that can be transmitted for 100% Eff
+                        #Packets = 1 + 2a ...(For 100% Eff)
+                
+                This is known as SLiding Window protocol.
+                Now Ws (Window Size) = 1 + 2a number of packets will be transmitted at a time
+                #Seq Nos needed thus become 1 + 2a
+                #bits in Seq No = ceil(log2(1 + 2a))
+
+            I. GO BACK N:
+                1. SENDER Window Size is 'N'. Ex: in GB10; Ws = 1+2a = 10
+
+                2. RECEIVER Window Size is '1'
+                    When one of the packet or its ACK is LOST then the entire window starting from the LOST packet is retransmitted
+
+                3. GBN uses Cumulative ACK:
+                    A timer is defined and all the packets that are received before the timer runs out are all ACK
+
+                4. Relation between the Window Size and the Seq Nos.
+                    In Cumulative ACK, we want the receiver to wait for a seq number that is not present in the previously ACK packets. 
+                    This will ensure that if the ACK is lost there is no duplication of the data packets
+                    Thus for Window Size Ws, we will use Ws + 1 sequence numbers
+                        #sequence_numbers = Ws + 1
+                        #bits in sequence number = ceil(log2(Ws + 1))
+
+            II. SELECTIVE REPEAT SR:
+                1. SENDER Window Size > 1
+
+                2. Receiver Window Size = Sender Window Size = Ws
+                    SR is similar to S&W in terms of #retransmissions
+                    SR is similar to GBN in terms of Eff
+
+                3. Uses Independent ACK:
+                    If a packet is lost then GBN and SR behave in a similar manner
+                    SENDER retransmits the missing packet after the timeout timer
+
+                    If a packet is corrupt then GBN silently discards and waits for the SENDER to retransmit after its time out
+                    However SR sends NACK, and thus the SENDER does not have to wait for the time out timer and can retransmit early
+
+    ACCESS CONTROL:
+        For Point to Point links there is a dedicated link joining two hosts and thus access control is not needed
+        However when the links are shared access control is needed to ensure every hosts get an opportunity to transmit
+
+        Medium Access Control Methods
+            I. Random Access    | II. Controlled Access
+                1. Aloha        |     1. TDM
+                    a. Pure     |     2. Polling
+                    b. Alotted  |     3. Token Passing
+                2. CSMA         |
+                3. CSMA/CD      |
+
+        I. Random Access Methods:
+            1. Aloha:
+                SENDER can transmit anytime and NO CARRIER SENSING
+                ACK are sent to the SENDER and NO COLLISIO DETECTION
+                SENDER Can transmit again after a random amount of time called  BackOff time
+                
+                a. PURE ALOHA:
+                    Vulnerable Time = 2*Tt
+                    Eff = G*e^(-2G)     ... G = #Stations that want to transmit at that given time
+
+                    For max Effeciency: G = 1/2
+                        >> Only one station should transmit in 2*Tt time >> No Collisions >> MAX Eff
+                    
+                    Eff_max = 18.4%
+
+                b. SLOTTED ALOHA:
+                    Time is divided into slots and a station can start transmission only at the start of these slots
+                    
+                    Vulnerable Time = Tt
+                    Eff = G * e^(-G)
+
+                    For max Effeciency: G = 1
+                        >> Only one station should transmit in Tt time >> No Collisions >> MAX Eff
+
+                    Eff_max = 36.8%
+
+        II. CSMA/CD - Carrier Sensing Multiple Access/ Collision Detection:
+            Node senses the carrier and only starts transmission if it is free
+            There are NO ACK.
+
+            For detecting collisions:
+                If a SENER is still transmitting and he receives the Collided Signal it can detect the collision
+                Thus, The packet length should be long enough such that the collided signal reaches the SENDER
+                The collided signal will reach the SENDER in atmost 2*Tp time
+                Thus,
+                    Tt >= 2 * Tp
+                     L >= 2 * Tp * BW
+            
+            The hosts should try retransmitting atleast 'e' times before a successful transmission occurs
+            Eff = 1 / 1 + 6.44*a
+
+            BackOff Algorithm/Binary Exponential Algorithm:
+                Afer collision the host waits for a random amount of time between 0 and 2^(n-1), n is the number of collossions
+                WT = k * Tslot, k is a random number in the range 0 - 2^(n-1)
+
+        II. Controlled Access Methods:
+            1. TDM - Time Division Multiplexing:
+                Time slots are allocated to nodes and nodes can transmit only in their allocated slots.
+                The Length of the time slots is atleast the time taken to transmit the MSG and MSG reaching its destination
+                    Time Slot Size = Tt + Tp
+                
+                Thus, Time Taken for one MSG transmission = Tt + Tp
+                Eff = Usefu Time / Total Time
+                    = Tt / Tt + Tp
+                    = 1 / 1 + a
+
+            2. Polling:
+                Polling is similar to what we have studied in COA for IO Organization
+                Hosts set their status if they want to transmit the data
+                One Controller will scan all the hosts and if they want to transmit it will allow access to the link
+                Polling is a disadvantage
+                Eff = Useful Time / Total Time = Tt / (Tpoll + Tt + Tp)
+
+            3. Token Passing:
+                Time can be given in three units:
+                    1. seconds, 2. bit time, 3. meters
+
+                    meters -- /v --> seconds -- *BW --> bit
+                    meters <-- *v -- seconds <-- /BW -- bit
+
+                    K bit time => K bits can be transmitted until the first bit reaches its destination again
+
+                Ring Latency:
+                    It is the time taken by a bit to start at one point and again come back at the same point
+                    Ring Latency = (d/v) + (N*b / BW) ... in seconds
+                                 = (d*BW / v) + (N*b) ... in bit time
+                        d  - Length of the Ring
+                        v  - velocity of the link
+                        b  - bit delay ... time taken by a host to hold the bit before transmitting it back
+                        BW - Bandwidth
+
+                Effeciency:
+                    Eff = Useful time / Total Time
+                        = N*Tt / (Tp + N*THT)
+
+                THT - Token Holding Time:
+                    There are two ways in which tokens are passed in the network
+                    1. Delayed Token Reinsertion
+                        The token is released when the sent MSG is received back
+                        Thus at any given time the ring will have atmost one packet
+
+                        THT = Tt + Ring Latency
+                            = Tt + Tp + N*b
+                            = Tt + Tp   ... N*b == ~0
+                        Thus,
+                        Eff = N*Tt / (Tp + N(Tt + Tp))
+                            =          1
+                                --------------
+                                1 + a( 1 + N )
+                                    ----------
+                                        N
+
+                    2. Early Token Reinsertion:
+                        Token is released immediately after the transmission is complete
+                        Thus at any instant the RING can have atmost N packets
+
+                        THT = Tt
+                        Thus,
+                        Eff = N*Tt / (Tp + N*Tt)
+                            = 1 / (1 + a/N)
+
+    SWITCHING:
+        Process of forwarding packets from one port to another
+        
+        I. Circuit Switching:
+            Network consists of a set of switches and a node should reserve the resources it will need for communication
+            Suitable when the data is to be transmited quickly and should arrive in order
+            Done in Three Phases:
+                1. Setup Phase: Dedicated Circuit is reserved
+                2. Data Transfer Phase: After setup the data can be transferred
+                3. TearDown Phase: When disconnecting a signal is sent to each switch to release the resource
+
+        II. Packet Switching
+            Refers to the protocols that divide the MSG into parts before transmitting
+            Each packet transmitted individually and can take different paths to reach the destination
+            Reordering of packets is needed at the destination
+            
+            Time taken for the transmission of 'N' packets through 'k' Stages
+                Time = (K + N - 1) * Tp ...... Similar to pipelining in COA
+
+            a. Virtual Circuit Packet Switching:
+                Connection Oriented
+                Highly Reliable
+                SLOW
+                Global header on only the first packet
+
+            b. Datagram Packet Switching:
+                Connection Less
+                Less Reliable
+                FAST
+                Global Header on all the packets (All packets follow their own path)
+
+    ERROR DETECTION AND CORRECTION:
+        Types of Errors:
+            1. Single Bit Error
+            2. Burst Error
+        
+        Error Detection Techniques:
+            1. Parity Check:
+                Suppose EVEN parity is used then a bit is appended to the MSG such that the overall parity is EVEN
+                Performance:
+                    1. Can detect all Single bit errors
+                    2. Cen detect Burst errors if there are ODD #bits changed
+            
+            2. 2D Parity Check:
+                Performcan improved using 2D Parity Check
+                Organize MSG bits in a table
+                Calculate Parity bits for rows and columns
+                Ex:
+                    MSG = 1010 1101 1111 0100
+                    then,
+                        1 0 1 0 |0
+                        1 1 0 1 |1
+                        1 1 1 1 |0
+                        0 1 0 0 |1
+                        __________
+                        1 1 0 0 |0
+                    
+                    New MSG = 10100 11011 11110 01001 11000
+
+                Performance:
+                    1. More overhead but better Error detection
+                    2. Does not detect all burst errors
+
+            3. Checksum:
+                The MSG is divided into blocks
+                The blocks are added
+                The RES is complemented and Sent
+                The block size can be 8-bits, 16-bits or 32-bits
+                
+                Detection:
+                1. Divide the MSG into blocks
+                2. Add the Blocks
+                3. Complement the RES
+                4. ERROR FREE if all 0's
+            
+            4. CRC - Cyclic Redundancy Check:
+                CRC Generator - N-bits
+                
+                REQ for GEN:
+                    1. Length of atleast 2 bits
+                    2. MSB AND LSB has to be '1'
+                    
+                    IF these REQ are satisfied then:
+                        1. All Single bit errors can be detected
+                        2. If GEN % (0b11) then all ODD length errors can be detected else can MISS some
+                        3. IF L <  N then can be detected
+                           IF L == N then probab of detection is 1 - 0.5^(r-1)
+                           IF L >  N then probab of detection is 1 - 0.5^r
+                               L .. Burst Error Length
+                               r .. N-1
+
+                Divide the MSG with the GENERATOR
+                Append the REM of the division at the end of the MSG
+                and send the MSG'
+                MSG' = MSG + (MSG % GEN)
+                Thus MSG' % GEN == 0
+
+                Detection:
+                    Divide the MSG with the GENERATOR
+                    If REM == 0 then ERROR FREE
+
+                Performance:
+                    MSG_REC = MSG' + ERR
+                    We know, MSG' % GEN == 0
+                    Now if ERR % GEN == 0 then the ERROR cannot be detected
+                    Else error can be detected
+                    
+                    However, CRC has the highest Detection %
+        
+        Error Correction:
+            1. Hamming Codes:
+                How many Correction bits and where to place them:
+                    For a MSG of length M and r Correction bits we want 2^r >= m + r + 1
+                    WE will place the redundant bits on indices that are integral power of 2 (1 - base indexing)
+                    Ex: MSG = 4b the r = 3
+                        MSG' = M3 M2 M1 C2 M0 C1 C0
+
+                What should be the values for correction bits?
+                    For the correction bit at index i.
+                    Form the groups of length i starting from the current index
+                    and consider only alternate groups
+                    After gouping assign value to the correction bit such that the overall parity is EVEN
+
+Ethernet 802.3:
+    --------------------------------------
+    | DEST | SRC | TYPE | DATA |   CRC   |
+    |  6B  | 6B  |  2B  |      |   4B    |
+    --------------------------------------
+    <-----HEADER-------->       <-TRAILER->
+
+    DEST and SRC ADD is 6B and contains the Link Layer address of the SENDER and RECEIVER
+    Addressing:
+        Each station in Ethernet has its own NIC and provides a Link Layer Address
+        Transmission of Address is from LEFT to RIGHT and from LSB to MSB
+
+        SRC Addr is always UNICAST
+        DEST ADDr is UNICAST if LSB = 0 for the 1st Byte
+                    MULTICAST if LSB = 1 for the 1st Byte
+                    BROADCAST DEST ADDr all 1's
+
+    CRC is CRC-32 and is calculated over ADDR + DATA
+
+    Ethernet Frame length ranges from 64B to 1518B
+    So if we remove the space for the HEADER and TRAILER, DATA length ranges from 46B to 1500B
+    This length restriction is for the functioning of CSMA/CD
+
+Network Layer:
+    IP Address:
+        -----------------------
+        |  N/W ID  |  HOST ID |
+        -----------------------
+        <-K bits--><- N-k bits->
+
+        An IP Address is a N bit address
+        The first K bits represent the N/W ID
+        The remaining N-K bits represent the HOST ID in the N/W
+
+        N/W ID identifies the network and the HOST ID identifies the host within the N/W
+
+        Classful Addressing:
+            CLASS   #bits NID   #bits HID   #IP ADDr    1st Octet Range #N/W    #N/Ws       #HOSTS per N/W
+            A       8           24          2^31        0 - 127                 2^7         2^24 - 2
+            B       16          16          2^30        128 - 191               2^14        2^16 - 2
+            C       24          8           2^29        192 - 223               2^21        2^8 - 2
+            D       24          8           2^28        224 - 239               X           X
+            E       24          8           2^28        240 - 255               X           X     << RESERVED FOR SPECIAL PURPOSE
+
+        CASTING:
+            Ways to send the message is casting
+            CASTING:
+                1. UNICAST:
+                    From SINGLE host to a SINGLE host
+                2. BROADCAST
+                    a. LIMITED BROADCAST
+                        From SINGLE host to all other hosts of the OWN N/W
+                        The N/W ID and HOST ID part is set to all 1's (255.255.255.255)
+                    b. DIRECTED BROADCAST
+                        From SINGLE host to all other hosts of some OTHER N/W
+                3. MULTICAST:
+                    OUT OF SYLL
+                    Done using Class D Addresses
+
+        SUBNETTING:
+            The process of diving the N/W into Subnetworks
+
+            For Dividing the N/W Bits are borrowed from the HOST ID part
+            IF we want to divide the N/W into 2 subnets then 1 bit will be borrowed
+            IF we want to divide the N/W into 4 subnets then 2 bit will be borrowed
+            EX:
+                Consider a CLASS C Address
+                    NID = 24b; HID = 8b
+                    For dividing the N/W into 4 Subnets
+                    NID = 24b; SID = 2b; HID = 6b
+
+            SUBNET MASK:
+                32B MASK is used to generate the NID + SID from an IP ADDr
+                For the above example the Submet Mask will be
+                11111111.11111111.11111111.11000000 ==> 255.255.255.192
+            
+                To get the NID + SID from the IP
+                NID + SID = IP && SUBNET MASK
+            
+                #hosts = 2^k - 2   ... k = (#0's in MASK)
+                #Subnets = 2^k  ... k = #1's - #bits in Class for NID
+
+            ADVANTAGES:
+                Improves Security
+                Maintainene of Subnet is easy
+
+            DisADVANTAGES:
+                One more step in the Identification process
+
+            Subnets can be formed inside a subnet leading to Variable length Subnetting
+            In this case the subnet Mask will have more bits
+
+        CIDR - Classless Inter Domain Routing:
+            Improved IP Addressing System. makes IP Allocation more effecient
+            
+            CIDR Representation:
+                A.B.C.D/N
+                
+                A.B.C.D is regular dotted decimal representation
+                /N is N/W prefix and represents the #bits in NID
+                
+                Ex:
+                    20.10.50.0 / 20
+                    --> 20b represent the NID
+                    --> Remaining 12B are for the HID
+
+            Rules For a CIDR Block:
+                1. ALL IP Addresses should be contigous
+                2. BLock Size should be a integral power of 2
+                3. First IP Addr should be divisible by the size of the block
+                    So for a block size 2**k the first IP addr should have LS 'k' bits 0
+            
+            SUPERNETTING:
+                Supernetting is the process of combining smaller N/Ws into a single super network
+
+                Rules for Aggregation:
+                    1. N/Ws to be combined should be contigous
+                    2. Block Size of each N/W shold be of the same size
+                    3. First N/W Id should be divisible by the total size of the super net
+
+        Private Addressing:
+            IF we want to design a network for an institution such that
+                MSG can flow within the N/W but not outside the N/W
+
+                In such cases we use Private Addressing
+                Private IP Address RAnge:
+                    10.0.0.0    to 10.255.255.255
+                    172.16.0.0  to 172.31.255.255
+                    192.168.0.0 to 192.168.255.255
+
+            Hence when we want to use IPs within a private N/W we will use Private IP Addresses
+
+            NAT - Network Address Translation (Public Private Addressing):
+                If we want to communicate to the internet from a private N/W
+                then we set up a proxy server
+
+                All the REQ are sent to the PROXY which replaces the SRC private IP with a public IP
+
+    IPv4 HEADER FORMAT:TOTAL LENGTH
+        -------------------------------------------------
+        | VER |HLEN |SERVICE TYPE |     TOTAL LENGTH    |
+        | 4b  | 4b  |     8b      |         16b         |
+        -------------------------------------------------
+        |   IDENTIFICATION        | FLG | FRAGMENT OFF  |
+        |       16b               | 3b  |     13b       |
+        -------------------------------------------------
+        |    TTL    |   PROTOCOL  |     HEADER CHECKSUM |
+        |    8b     |     8b      |         16b         |
+        -------------------------------------------------
+        |                   SRC IP ADDR                 |
+        |                       32b                     |
+        -------------------------------------------------
+        |                  DEST IP ADDR                 |
+        |                       32b                     |
+        -------------------------------------------------
+        |               OPTIONS + PADDING               |
+        |                   0-40b                       |
+        -------------------------------------------------
+        
+        VER - Version Number: 
+            Specifies the version of the IP used (for us its IPv4)
+        
+        HLEN - Header Length: 
+            defines the total length of the header. The total length is first divided by four and then the value is assigned to HLEN
+        
+        TOTAL LENGTH:
+            Size of HEADER + DATA
+        
+        TTL - Time to Live:
+            To control the Max hops of a datagram. Each router decrements the TTL field if zero then discard else forward
+        
+        PROTOCOL:
+            The Internet Authority has assigned unique Ids to the protocols that use IP Addressing.
+            This ID is assigned to the Protocol field
+        
+        HEADER CHECKSUM:
+            The Header is added by the IP Protocol and its error checking is its responsibility
+
+        FLG:
+            Left most bit is reserved
+            Second bit is DO_NOT_FRAGMENT   = 0 then datagram can be fragmented if needed
+                                            = 1 Datagram should not be fragmented
+            Third Bit is MORE_FRAGMENT      = 0 then the current fragment is the last fragment
+                                            = 1 then there are more fragments after this fragment
+
+        FRAGMENT OFF.:
+            Specifies the fragmentation offset of current fragment with respect to the overall datagram
+
+        IDENTIFICATION:
+            Combnation of SRC IP Addr and IDENTIFICATION field should uniquely identify a datagram
+            All fragements of a datagram have same value of IDENTIFICATION field
+
+    NETWORK LAYER PROTOCOLS:
+        1. ARP - Address Resolution Protocol:
+            Glues the N/W Layer and the Data Link Layer by mapping the N/W Layer address to the link layer address
+
+        3. BOOTP - Bootstap Protocol:
+            Used to assign a IP Addre to a new N/W device from the Config Server
+            Runs on the Application Layer
+
+        4. DHCP - Dynamic Host Condiguration Protocol:
+            After the IP Block is assigned to a Institution
+            The N/W Manager can manually assign IPs to devices or automate using DHCP
+
+        5. ICMP - Internet Control Message Protocol:
+            IPv4 has no mechanisms for Management queries or Error Messaging to the SRC
+            For this ICMP was designed
+            ICMP Messages are encapsulated as IP Datagrams and the value of PROTOCOL is set to 1
+
+            Error Reporting:
+                1. DEST Unreachable
+                2. SRC Quench: N/W has congestion and datagram was dropped
+                3. REDIRECTION: 
+                    When SRC uses a wrong router to send the MSG
+                    The Router redirects the MSG to appropriate Router and also informs the SRC to change its default router
+                4. TIME EXCEED: TTL Becomes 0
+                5. PARAMETER PROBLEM: If HEADER is not properly configured or MISSING options
+
+TRANSPORT LAYER:
+    Services offered by the TRANSPORT Layer:
+        1. Process to Process communication
+        2. Byte Oriented
+        3. Full Duplx communication
+        4. Multiplexing and deMultiplexing
+        5. Segmentation
+
+    Port#:
+        Port# is a 16b integer and ranges from 0 to 65535
+            0 - 1023        ==> Well Known Port# used by Well Known Protocols (HTTP, FTP ...)
+            1023 - 49151    ==> Resered Port#
+            49152 - 65535   ==> Public
+
+        NOTE:
+            1. Port# alone cannot uniquely identfiy a communcation node
+            2. IP Address alone cannot uniquely identfiy a communcation node
+            3. Both IP Addr and Port# are required to uniquely identify a communcation node
+                IP Addr (32b) + Port# (16b) ==> Socket ID (48b)
+
+
+    TCP - Transmission Control Protocol:
+        Numbering System:
+            1. Byte#:
+                TCP numbers all the bytes that are transmitted in a connection
+                TCP chooses a random number for [0 - 2^32-1] for the Ist byte
+                and numbers the successive bytes incrementally
+
+            2. Sequence#:
+                Shows the Byte# of the first byte in the segment
+
+            3. ACK#:
+                Shows the Byte# of the next expected Byte
+                The ACK# is Cumulative
+
+        Segments:
+                                TCP HEADER
+            -------------------------------------------------
+            |       SRC PORT#       |       DEST PORT#      |
+            |           16b         |         16b           |
+            -------------------------------------------------
+            |                   SEQUENCE#                   |
+            |                       32b                     |
+            -------------------------------------------------
+            |                       ACK#                    |
+            |                       32b                     |
+            -------------------------------------------------
+            | HLEN |RESERVED|  FLG  |      WINDOW SIZE      |
+            |  4b  |   6b   |   6b  |         16b           |
+            -------------------------------------------------
+            |       CHECKSUM        |   URGENT POINTER      |
+            |           16b         |         16b           |
+            -------------------------------------------------
+            |               OPTIONS + PADDING               |
+            |                   0-40b                       |
+            -------------------------------------------------
+
+            SRC and DEST PORT#: 
+                16b fields and defines the Port# of the SENDER and RECEVER processes
+
+            SEQUENCE#:
+                Holds the SEQUENCE# of the Ist Byte in the Segment
+
+                Wrap Around Time:
+                    The Time required to exhaust all the SEQ#'s
+                    Total Available SEQ#'s = 2^32
+                    Wrap Around Time = 2^32 / BW (BW in Bytes per second)
+                    
+                    The Life Time of  packet should be smaller than the Wrap Around Time
+
+            HLEN - Header Length:
+                defines the total length of the header.
+                The total length is first divided by four and then the value is assigned to HLEN
+
+            FLG:
+                URG - Urgent Pointer Valid
+                ACK - ACKnowledgement Valid
+                PSH - Request for PUSH
+                RST - RESER Connection
+                SYN - Synchronize SEQ#
+                FIN - Terminate Connection
+
+            WINDOW SIZE:
+                Determines the #Bytes the Receiver can accept from the SENDER before being overwhelmed
+                NOTE:
+                    1. TCP uses combination of GBN + SR
+                    2. TCP receives out of order packet
+                    3. Uses Cumulative ACK
+
+            CHECKSUM:
+                Calculated on HEADER + DATA + Pseudo IP HEADER
+
+        TCP Connection:
+            I. Connection Establishment:
+                The Connection Establishment in TCP is called a Three-Way Handshake
+                1. SERVER program tells its TCP it is ready to accept connections (PASSIVE OPEN)
+                2. CLIENT program issues a request for ACTIVE OPEN
+                    Three Way Handshake commences
+                    A. CLIENT SENDS SYN SEGMENT:
+                        CLIENT chooses a Random SEQ# called ISN and sends it to the SERVER
+                        This SEG is for SYNCHRONISATION of SEQ#
+                        Does not carry any data but consumes 1 SEQ# as it needs to be ACKnowledged
+                    B. SERVER SENDS SYN+ACK:
+                        SYN Segment for Communcation in opposite direction
+                        ACK for the SYN Segment and displays the next SEQ#
+                        Consumes 1 SEQ# as it needs to be ACKnowledged
+                    C. CLIENT SENDS PURE ACK
+
+            II. Data Transfer:
+                After Connection is established, BiDirectional DAta Transfer can take place
+
+            III. Connection Termination:
+                Three Way Handshake
+                A. CLIENT SENDS FIN:
+                    Can Contain Last chunk of data or simply a CONTROL SEGMENT
+                B. SERVER SENDS FIN + ACK:
+                    ACK for the FIN Segment
+                    FIN for termination of communication in opposite direction
+                    Can contain last chunk of data
+                C. CLIENT SENDS PURE ACK
+
+            IV. Connection RESET:
+                TCP at one end may
+                    Deny a connection request
+                    Abort an existing connection
+                    Terminate an Idle connection
+                Using RST flg
+
+        FLOW CONTROL:
+            The Receiving TCP controls sending TCP which controls sending process
+            Flow Control by the sending TCP to process is acheived through simple rejection of data when its window is FULL
+            To acheive Flow Control, TCP forces the sender and receiver to adjust their window size
+
+        ERROR CONTROL:
+            Includes mechanisms for 
+                detecting and resending packets
+                resending LOST packets
+                detecting and discarding duplicate segments etc
+
+            1. CHECKSUM: Each SEG includes a CHECKSUM used to check for corrupted segment
+
+            2. ACKnowledgement
+                a. CUMULATIVE ACK (ACK): Receiver advertises the next byte it expects to receive
+                b. SELECTIVE ACK (SACK): Implemented as an option at the end of TCP Header
+
+        CONGESTION CONTROL:
+            TCP uses the services of IP
+            Congestion Control should be done by IP but has no mechanism for Congestion Control
+            TCP needs to be responsible
+            Congestion Window:
+                To control the #segments to transmit TCP uses another variable called congestion window whose size is controlled by congestion
+                Actual Window Size = min(receiver_window_size, congestion_window_size)
+
+        CONGESTION DETECTION:
+            TCP uses two events as a sign for congestion
+                1. Time Out timer (Severe Congestion)
+                2. Receiving three duplicate ACKs (Weak Congestion)
+
+        CONGESTION POLICIES:
+            Slow Start - Exponential Increase:
+                In this phase after every ACK the cogestion window size increments exponentially
+                congestion_window_size = 1      ... Initial 
+                congestion_window_size <<= 1    ... After receiving ACK
+
+            Congestion Avoidance - Additive Increment:
+                This phase starts ater the threshold value is reached
+                The size of the congestion_window_size is incremented after every ACK
+
+            Congestion Detection - Fast Recovery:
+                The only way a sender can guess that congestion has occurred is the need to retransmit a segment.
+                Retransmission is needed to recover a missing packet that is assumed to have been dropped by a router due to congestion. 
+                
+                Retransmission can occur in one of two cases: 
+                    Case 1: Retransmission due to timeout:
+                        In this case the Congestion Possiblity is HIGH
+                        1. Threshold is set to current_window_size // 2
+                        2. current_window_size = 1
+                        3. Start with Slow Start Phase
+
+                    Case 2: Retransmission due to 3 Duplicate ACKs
+                        In this case the Congestion Possibility is HIGH
+                        1. Threshold is set to current_window_size // 2
+                        2. current_window_size = threshold
+                        3. Start with Congestion Avoidance Phase
+
+        TCP TIMERS:
+            1. Persistence Timer:
+                There is one situation in which the loss of ACK may lead to a Deadlock
+                    1. RECEIVER sends ACK with receiver_window_size = 0
+                    2. SENDER shuts down its window
+                    3. RECEIVER can now receive data.
+                    4. RECEIVER sends pure ACK with receiver_window_size > 0 but is a Pure ACK as no data to transmit <<< IMPORTANT: It has to be a pure ACK
+                    5. THIS ACK IS LOST
+                    6. Both SENDER and RECEIVER are waiting.
+                
+                To avoid this deadlock TCP uses Persistence Timer
+                When ACK is received with receiver_window_size = 0 then SENDER starts the Persistence Timer
+                and after each timeout a probe signal is sent to the RECEIVER
+
+            2. Keep Alive Timer:
+                Used to prevent long idle connections
+                Time out is usually 2 hours, it sends probe signal
+                If no response from the CLIENT after 10 probes, each 75s apart, then the connction is terminated
+
+            3. Time Wait Timer:
+                Time Wait Timer is used during connection termination
+                MSL - Max. Segment Life is the time any segment stays on the N/W before it is discarded
+                Time Wait Timer = 2 * MSL
+
+            4. ACKnowledgement Timer:
+
+            5. Time Out Timer:
+                RTT - Round Trip Time:
+                    a. Smoother RTT:
+                        After First Measurement: RTTs = RTTm
+                        After each Measurement:  RTTs = (1-alpha)*RTTs + alpha*RTTm
+                            RTTm = RTT Measured;
+                            RTTs = Smoothed RTT;
+                            alpha = 1/8 usually
+
+                    b. RTT Deviation:
+                        After First Measurement: RTTd = RTTm / 2
+                        After each Measurement:  RTTs = (1-beta)*RTTd + beta*abs(RTTs - RTTm)
+                            RTTm = RTT Measured;
+                            RTTs = Smoothed RTT;
+                            RTTd = RTT Deviation;
+                            alpha = 1/8 usually
+
+                Most implementation use the following formula to calculate the Time Out Timer
+                RTO = RTTs + 4*RTTd
+
+    UDP - User Datagram Protocol:
+        Connection Less transport Protocol
+        Adds nothing to the IP stack other than providing process-to-process communication
+
+        User Datagram:
+            -------------------------------------------------
+            |       SRC PORT#       |       DEST PORT#      |
+            |           16b         |         16b           |
+            -------------------------------------------------
+            |       TOTAL LENGTH    |        CHECKSUM       |
+            |           16b         |         16b           |
+            -------------------------------------------------
+
+        Services:
+            1. Process-to-Process Communication using SocketID
+            2. Connection Less Service
+            3. No FLOW Control / ERROR Control
+                The services that use UDP must provide mechanisms for ERROR and FLOW Control if needed
+
+APPLICATION LAYER PROTOCOLS:
+    1. HHTP - Hyper Text Transfer Protocol
+        Protocol defines how client-server programs can be written to retreive webpages from the web
+        Uses the services of TCP which is a connetion oriented reliable protocol
+        SERVER uses Port# 80
+        CLIENT uses temporary Port#
+
+        Connections are of two types:
+            1. NonPersistent (HTTP v1.0): TCP Connection made for each REQ/RES
+            2. Persistent (HTTP v1.1): The Connection is open for more REQ. Saves time and resources.
+
+        HTTP REQ METHODS:
+            1. GET      REQ Document
+            2. HEAD     REQ info about Document
+            3. PUT      Send doc from CLIENT to SERVER
+            4. POST     SEND data from CLIENT to SERVER
+            5. TRACE    Echos incoming REQ
+            6. DELETE   Removes the Web Page
+            7. CONNECT  RESERVED
+            8. OPTIONS  Enquires about available options
+
+    2. FTP - File Transfer Protocol:
+        FTP is a standard protocol provided by TCP/IP for copying file form one server to another
+        Stateful Protocol uses Services of TCP
+        Uses Seperate Data and Control connections that make it more effecient
+        Control Connection Port#    = 21
+        Data Connection Port#       = 20
+
+
+    3. SMTP - Simple Message Transfer Protocol:
+        Used by CLIENT to send Email to the SERVER
+        Uses PORT# 25
+        Requires MSG to be encoded in 7-bit ASCII
+
+        Uses commands and responses to transfer messages between client and server
+
+        KEYWORD     ARGS                    DESCRIPTION
+        HELO        SENDER Host Name        Identifies Itself
+        MAIL FROM   sender of the MSG       Identifies Sender
+        RCPT TO     receiver of the MSG     Identifies recepient
+        DATA        Body of the Mail        Actual Message
+
+    4. POP3 - Post Office Protocol v3:
+        Simple and Limited in Functionality
+        Uses Port# 110
+        User sends the username and password to access the mailbox. Then user can list or retreive the mails
+
+    5. IMAP4:
+        More features then POP3
+        Allows to
+            Check email header prior to downloads
+            Search email content
+            Partially download email
+            Create dekete rename mailboxes
+
+    6. DNS - Domain Name Server
 
 
 
+NOTE:
+    Capacity of the link is the data that the link can carry
+    Depends upon the Bandwidth and the Propagation Delay
+    Capacity    = Bandwidth * Propagation Delay
+                = BW * Tp       ... (For Half Duplex)
+                = 2 * BW * Tp   ... (For Full Duplex)
 

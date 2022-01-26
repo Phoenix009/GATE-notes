@@ -1,0 +1,243 @@
+Number Systems:
+    Data Representation:
+        unSigned Magnitude:
+        Signed Magnitude
+        1's Complement
+        2's Complementct
+
+
+    Conversions for numbers without decimal points:
+        I.      DECIMAL to any BASE: Continous Division by the BASE; for fractional part multiply with BASE until 0
+        II.     Any BASE to DECIMAL: Continous Multplication by the BASE**(position); for fractional parts the index is -1, -2 ....
+        III.    NonDecimal BASEA to NonDecimal BASEB: BASEA --> DECIMAL --> BASEB
+        IV.     BINARY <--> OCTAL: Groups of three
+        V.      BINARY <--> HEX: Groups of four
+    
+    BCD Code: Each digit is converted to Binary Equivalent of length '4'.
+        Ex: 
+            1230 -> 0001 0010 0011 0000
+            1000 0011 -> 83
+
+    XS-3 Code: Add 3 to each digit and then convert to BCD
+        Ex: 
+            1230 -> 4563 -> 0100 0101 0110 0011
+            1000 0011 -> 83 --> 50
+
+    GRAY Code: The codes of adjacent numbers differ by only one bit
+        BINARY --> GRAY: Copy the MSB then the remaining bits can be obtained by pairwise XOR
+
+    Data Representation:
+        BINARY Addition
+        BINARY Subtraction
+            Direct Subtraction
+            1's Complement:
+                Steps:
+                    1's Complement the second number
+                    Add to the first number
+                    If Cy: Add to the RES
+                    Else: 1's Complement the RES ==> RES is -ve
+    
+            2's Complement:
+                Steps:
+                    2's Complement the second number
+                    Add to the first number
+                    If Cy: Discard the Cy ==> RES is +ve
+                    Else: 2's Complement the RES
+
+Logic Gates:
+    BUFFER:     Y = A
+    NOT:        Y = A'
+    AND:        Y = A.B
+    OR:         Y = A+B
+    NAND:       Y = (A.B)'
+    NOR:        Y = (A+B)'
+    XOR:        Y = AB' + A'B
+    XNOR:       Y = AB + A'B'
+
+    1. For multiple inputs:
+        AND is TRUE iff all inputs are TRUE
+        OR is TRUE if atleast one of the inputs is TRUE
+        XOR is TRUE if the total number of inputs that are TRUE are ODD
+        XNOR is TRUE if the total number of inputs that are FALSE are EVEN
+    
+    2. NAND and NOR are Universal Gates.
+                #NAND   #NOR
+        NOT     1       1
+        AND     2       3
+        OR      3       2
+        NAND    1       4
+        NOR     4       1
+        XOR     4       5
+        XNOR    5       4
+
+    3.  Bubbled AND     ==> NOR
+        Bubbled OR      ==> NAND
+        Bubbled NAND    ==> OR
+        Bubbled NOR     ==> AND
+
+    MinTerms(mx):           |   MaxTerms(Mx):
+        A   B   MinTerm     |       A   B   MaxTerms
+        0   0   A'B'    m0  |       0   0   A + B   M0
+        0   1   A'B     m1  |       0   1   A + B'  M1
+        1   0   AB'     m2  |       1   0   A'+ B   M2
+        1   1   AB      m3  |       1   1   A'+ B'  M3
+    
+    
+    Canonical SOP and POS:
+        From the truth table we can express the output variable in two forms
+            1. SOP - Sum of Products
+            2. POS - Product of Sums
+
+        While expressing the output variable in terms of 
+            SOP consider only those combinations for which the output is TRUE
+            POS consider only those combinations for which the output is FALSE
+
+        Consider a function of three variables
+        f(A, B, C) = ABC + ABC' + AB'C + AB'C'
+        then
+            A   B   C   Y
+            0   0   0   0   M0
+            0   0   1   0   M1
+            0   1   0   0   M2
+            0   1   1   0   M3
+            1   0   0   1   m4
+            1   0   1   1   m5
+            1   1   0   1   m6
+            1   1   1   1   m7
+            f(A, B, C)  = m(4, 5, 6, 7)     << Canonical SOP
+                        = M(0, 1, 2, 3)     << Canonical POS
+
+    Standard SOP and POS:
+        When the canonical form are simplified they become standard form
+            Ex: f(A, B, C) = ABC + ABC' + AB'C + AB'C' can be simplified to f(A, B, C) = A[
+
+Logic Minimization:
+    K-Maps:
+        1. Implicant: It is either the minterm or a Maxterm
+        2. Prime Implicant: The goups we form by combining maximum possible adjacent cells is called a prime Implicant
+        3. Essential Prime Imlicant: It is a prime implicant that contains atleast oe implicant that is not covered by any other prime implicant
+        4. Redundant Prime Implicant: A prime implicant whose terms are covered by other EPIs is a Redundant Prime Implicant
+
+    If asked to find the minimum number of NAND gates to implement a function then use SOP
+    If asked to find the minimum number of NOR gates to implement a function then use POS
+
+Combinational Circuit:
+    The output of these circuits depend upon the combination of the present inputs only
+    
+    Understanding Combinational Circuit:
+        1. Boolean Algebra
+        2. Truth Table
+        3. Logic diagram
+
+    Steps to design a cominational circuit:
+        1. Identify the inputs and outputs
+        2. Based on the problem statement derive the truth table
+        3. Find a minimal logic using Kmaps
+        4. Implement the logic
+    
+    Combinational Circuits
+        Arithmetic and Logic| Data Transmission   | Code Converters
+        Adders              | MUX                 | Binary
+        Subtractors         | DEMUX               | BCD
+        Comparators         | Encoders            | 7 Segment
+        PLD                 | Decoders            |
+    
+
+    NOTE:
+        For implementing Half-Adder or Half-Subtractor using  either NAND or NOR gates require 5 gates
+        For implementing Full-Adder or Full-Subtractor using  either NAND or NOR gates require 9 gates
+    
+    Hazards:
+        A hazard causes a temporary fluctuation in the output
+        these fluctuations is due to the difference paths from the i/p to o/p having different delays
+        
+        Hazard:
+            Static      Dynamic     Functional
+            Static-1
+            Static-0
+
+        Static-1:
+            If o/p is at logic 1 and after i/p changes the o/p momentarily becomes 0 before getting to 1 again
+            Detection:
+                1. Write the truth table of the digital ckt
+                2. Drive the Kmap
+                3. If there exists adjacent 1's that belong to different grouping then there is a presence of Static-1 hazard
+
+        Static-0:
+            If o/p is at logic 0 and after i/p changes the o/p momentarily becomes 1 before getting to 0 again
+            Detection:
+                1. Write the truth table of the digital ckt
+                2. Drive the Kmap
+                3. If there exists adjacent 0's that belong to different grouping then there is a presence of Static-0 hazard
+
+Sequential Circuits:
+    In sequential circuits the output depends on not only the currnet  input but also on the previous output
+
+    Flip Flops:
+        SR Flip-Flop
+        Functional Table:   Excitation Table:
+        S   R   Q           Q   Qn  S   R
+        0   0   Q           0   0   0   X
+        0   1   RES         0   1   1   0
+        1   0   SET         1   0   0   1
+        1   1   X           1   1   X   0
+
+        JK Flip-Flop
+        Functional Table:   Excitation Table:
+        J   K   Q           Q   Qn  J   K
+        0   0   Q           0   0   0   X
+        0   1   RES         0   1   1   X
+        1   0   SET         1   0   X   1
+        1   1   Q'          1   1   X   0
+
+        T Flip-Flop
+        Functional Table:   Excitation Table:
+        T   Q               Q   Qn  T
+        0   Q               0   0   0
+        1   Q'              0   1   1
+                            1   0   1
+                            1   1   0
+
+        D Flip-Flop 
+        Functional Table:   Excitation Table
+        D   Q               Q   Qn  D
+        0   0               0   0   0
+        1   1               0   1   1
+                            1   0   0
+                            1   1   1
+    
+    FF Conversions:
+        Steps for Conversion:
+            1. Write the Characteristic Table of the DEST FF
+            2. Write the excitation Table of the SRC FF
+            3. Find the Excitation Value for the Characteristic Table
+            4. Find the input in terms of the target inputs
+
+        Ex: D FF to T FF
+                ---------   << Excitation Table for SRC FF
+            ---------       << Characteristic Table for DEST FF
+            T   Q   Qn  D
+            0   0   0   0
+            0   1   1   1
+            1   0   1   1
+            1   1   0   0
+            
+            D = T ^ Q
+
+
+    Counters:
+        Sequential circuits capable of counting CLK pulses
+        Counting can be ascending, descending or non-linear
+        Can be done Synchronously or Asynchronously
+
+
+
+
+
+
+
+
+
+
+NOTES:
+    How to do k's complement
