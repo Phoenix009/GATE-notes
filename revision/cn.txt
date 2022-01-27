@@ -893,9 +893,47 @@ APPLICATION LAYER PROTOCOLS:
             Partially download email
             Create dekete rename mailboxes
 
-    6. DNS - Domain Name Server
+    6. DNS - Domain Name Server:
+        Steps:
+            1. User Enters the host name
+            2. Host name sent to DNS client
+            3. DNS client queries the DNS server
+            4. DNS server responds with the IP Address
+            5. IP Address sent to the N/W layer
+
+        Domain Namespace:
+            Namespace maps each IP Address to a unique name
+            In Domain Namespace the names are defined in a tree structure
+            
+            Label:
+                Each node in the tree has a distinct label.
+                Root label is an empty string.
+
+            Domain Name:
+                Domain names are read from the node up to the root
+                with labels seperated using dots
+
+            ''  <-- root
+            |-- 'edu'
+            |-- 'com'
+                |-- 'google'
+                    |-- 'mail'
+                    |-- 'docs'  (docs.google.com)
+                    ...
 
 
+        Heirarchies of Name Server:
+            The solution is to distribute information among various servers
+            AS we have heirarchies of names similarly we can have heirarchies of servers
+
+            ROOT SERVER
+                |-- EDU SERVER   (TOP LEVEL DOMAIN SERVERS)
+                |-- COM SERVER
+                    |-- GOOGLE SERVER    (LOCAL SERVER)
+
+        Resolution:
+            Mapping a name to an address is called name-address resolution
+            A resoltion can either be Recursive or Iterative
 
 NOTE:
     Capacity of the link is the data that the link can carry
