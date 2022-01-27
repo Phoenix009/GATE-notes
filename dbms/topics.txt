@@ -1,9 +1,0 @@
-ER-model.txt
-relational-model.txt
-ER-to-Relational.txt
-functional-dependency.txt
-normalization.txt
-transaction_concurrency_control.txt
-file_organization.txt
-relational_algebra.txt
-sql.txt
