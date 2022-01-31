@@ -1,8 +1,8 @@
 Graph Theory:
-    Graph (G): 
-        A graph G is a tuple consisting a vertex set V, and and edge set E, 
+    Graph (G):
+        A graph G is a tuple consisting a vertex set V, and and edge set E,
         and the relation that associates with each edge two vertices called its endpoint.
-        Ex: 
+        Ex:
             G(V, E);
             V = {1, 2, 3}   Set of all the vertices
             E = {(1, 2), (2, 3), (3, 1)}    Set of all the edges
@@ -10,7 +10,7 @@ Graph Theory:
         Set E contains ORDERED pairs if the graph is DIRECTED
                         UNORDERED pairs if the graph is UNDIRECTED
 
-    Loop: 
+    Loop:
         An edge who endpoints are equal is called a loop
 
     Multi Edges:
@@ -25,7 +25,7 @@ Graph Theory:
             a. For a simple graph the adjacency matric has 0 for all leading diagonal entries
             b. For a undirected graph the adjacency matrix is symmetric
             c. The sum of a nodes row is equal to the out-degrees of that node (Also indegrees if the graph is undirected)
-    
+
     Hand Shaking Lemma:
         In any graph G(V, E), the sum of the degrees of vertices is equal to twice the number of edges
             sum(deg(node) for node in V) == 2*|E|
@@ -40,17 +40,17 @@ Graph Theory:
         There are n(n-1)//2 edges in the complete graph
         A simple graph will have edges that are a subset of the edges present in the complete graph
         the total subsets that can be formed are 2**|E(Kn)| where Kn is a complete graph with n vertices
-    
+
     Degree Sequence:
         The arrangement of degrees in non-decreasing or non-increasing order
-    
+
     Given a degree sequence can we have a SIMPLE graph giving that degree sequence:
         The procedure works only for SIMPLE graph
         so the graph has not multiple edges or loops
         Havel Hakimi Procedure:
             From the graph if we remove a node wth degree d then,
             the degree of the remaining 'd' distinct nodes with be decremented
-            We will do this iteratively until all the nodes are eliminated 
+            We will do this iteratively until all the nodes are eliminated
 
         Ex:
             1. 6 6 6 6 3 3 2 2
@@ -65,7 +65,7 @@ Graph Theory:
                x x x 1 1 0 0 0
                x x x x 0 0 0 0
                 Possible
-    
+
     **
     Relation between MinDeg and MaxDeg of nodes in graph:
         MinDeg <= 2|E| / |V| <= MaxDeg
@@ -74,16 +74,16 @@ Graph Theory:
     SubGraph:
         A subgraph of G is a graph H such that
             V(H) is a subset of V(G) and
-            E(H) is a subset of E(G) and 
+            E(H) is a subset of E(G) and
             the assignment of endpoints for edges in H is same as in G
 
         Simply said a graph that can be obtained by deleting some vertices or some edges
 
     Induced Subgraph:
         A subgraph that is obtained by deleting only some vertices
-    
+
     NOTE: Whenever a node is deleted then all its associated edges are also deleted
-    
+
     Path:
         A Path is a simple graph whose vertices can be ordered so that the nodes are adjacent iff they are consecutive in the list
         Basically a path
@@ -92,11 +92,11 @@ Graph Theory:
     Cycle:
         A Cycle is a path with the same start and end
         A cycle has same number of vertices and edges included
-    
+
     Complete Graph:
         A graph G in which each an every edges are present is called a complete Graph thus in complete Graph any two pair of vertices are adjacent
         A graph with 'n' vertices has atmost nC2 = n(n-1)//2 edges
-        
+
         For a complete Graph Kn:
             the degree of each vertex is n-1
             the total number of edges is n(n-1)//2
@@ -104,7 +104,7 @@ Graph Theory:
     Clique:
         A clique is defined as a subgraph of the graph that is also complete
         Every edge forms a clique of size 2 (K2)
-    
+
     Independent Set:
         A set of vertices in a graph that are pairwise non-adjacent
         So basically the set of vertices that are not adjacent to one another
@@ -114,7 +114,7 @@ Graph Theory:
     Bipartite Graph:
         A graph which can be divided into to independent sets U and V
         such that each edge maps a node from U to a node to V
-        Since sets U and V are independent no pair of vertices within each set are non-adjacent
+        Since sets U and V are independent, pair of vertices within each set are non-adjacent
 
     NOTE: A Graph is bipartite iff it has no odd cycle
             The proof is based on the fact that a bipartite can be colored with two colors.
@@ -128,10 +128,10 @@ Graph Theory:
     Maximum number of edges in bipartite graph with 'n' vertices:
         Halve the vertices into two sets u, v
         the maximum edges is u*v
-    
+
     Regular Graph:
         A Graph G is k-Regular graph if all the vertices has degree 'k'
-    
+
         A complete graph Kn is also n-1 Regular
         A cycle graph is also 2-Regular
         number of edges of a k-Regular graph with n vertices is n*k//2 (using Handshaking Lemma)
@@ -150,13 +150,13 @@ Graph Theory:
         The number of edges in K-Dimensional Graph is k*(2**(k-1)) and can be obtained by using HandShaking Lemma
 
     Distance:
-        If a graph has a path from u to v, then 
+        If a graph has a path from u to v, then
         the distance from u to v i.e. d(u, v) is the minimum cost path from u to v
         If there is no path from u to v then d(u, v) is INF
 
     Diameter:
         The Diameter of a graph is defined as the longest path between any two pair of vertices
-        diameter(G) = max(d(u, v) for u, v in edges(G)) 
+        diameter(G) = max(d(u, v) for u, v in edges(G))
         For graph having disconnected components Diameter = INF
         Also means that
             d(u, v) for any pair u, v in G  <= diameter(G)
@@ -166,8 +166,8 @@ Graph Theory:
         eccentricity(u) = max(d(u, v) for v in vertices(G))
 
     Radius of a Graph:
-        The minimum of athe eccentricities of all the vertices is the radius of the graph
-        radius(G) = min(eccentricity(u) for u vertices(G)) 
+        The minimum of the eccentricities of all the vertices is the radius of the graph
+        radius(G) = min(eccentricity(u) for u vertices(G))
 
     Walk:
         It is a list of v0, e1, v1, e2, v2, ...en, vn
@@ -186,7 +186,7 @@ Graph Theory:
 
     Connected and Disconnected Graph:
         A Graph is connected if for all pairs u, v there is a direct/indirect path from u to v
-        
+
         All Complete Graphs are connected Graphs but all connected graphs are not complete graphs:
             This is because in the Complete Graph there is a direct edge from the src to dest for all vertice pairs
             but in the connected graph there may not be all direct edges from the src to dest for all vertice pairs
@@ -205,14 +205,14 @@ Graph Theory:
     Directed Graph/DiGraph:
         DiGraph G is a tuple consisting of a vertex set V(G) and an edge set E(G)
         such that each edge is an ORDERED pair (u, v) where u is the src/tail and v is the dest/head of that edge
-        
+
         Simple DiGraph:
-            A DiGraph is a simple DiGraph if there are 
+            A DiGraph is a simple DiGraph if there are
                 1. no multiedges: Multiple edges with the same src and dest
                 2. no self loops: Edges with the src == dest
-    
+
     Underlying Graph:
-        The underlying graph of a Digraph is 
+        The underlying graph of a Digraph is
         the graph that is obtained by treating the directed edges as undirected
 
     Connectedness:
@@ -233,11 +233,11 @@ Graph Theory:
     Degrees:
         1. inDegrees: For a vertex the inDegrees is the number of edges that are incident on it
         2. outDegree: For a vertex the outDegrees is the number of edges that are outgoing from it
-        
+
         Each edge contributes a value of one to the total indegree and to the total outdegree
         Thus
             sum(inDegrees) == |E| == sum(outDegrees)
-    
+
     Matching:
         A matching in a graph G is a set of non-loop edges with no shared endpoints
         For a given Graph there can be multiple matchinFor a given Graph there can be multiple matchingg
@@ -248,7 +248,7 @@ Graph Theory:
 
         Perfect Matching:
             A mathing that saturates all the vertices of the grapg is called the perfect matching
-        
+
         Maximal Matching:
             A Matching in which no mre edges can be added without violating the property of the match is called a maximal Matching
 
@@ -261,33 +261,32 @@ Graph Theory:
             -- not included in the match
             == included in the match
             The above two matchings are both maximal but only the right one is maximum
-    
+
     Vertex Cover:
         A vertex cover of a graph is a subset of vertices such that all the edges get covered by these vertices
-        
+
         Since for covering a edge that is in a matching we need to select any one of the endpoints
         There will be atleast one endpoint of the matching edge in the vertex cover
         Thus the |Cover| >= |Matching|
 
-        
+
         Minimal Cover:
             A Cover from which we cannot remove any vertex is called a minimal cover
-        
+
         Minimum Cover:
-            A Cover in which there are minimum number of vertices 
+            A Cover in which there are minimum number of vertices
             Finding the Minimum Cover for a graph is a NPC Problem
-        
+
         **
         NOTE:
             1. Obtaining a Vertex Cover and Matching of the same size proves
                 that each is optimal
                 i.e. the vertex cover will be minimal and the matching will be maximal
-            
+
             2. |Maximal Matching| <= |Minimal Cover| <= 2*|Maximal Matching|
-            
-            3. If G is a bipartite Graph then the maximum size of a mathcing in G
-                is equal to the minimum size of vertex cover
-            
+
+            3. If G is a bipartite Graph then the maximum size of a mathcing in G is equal to the minimum size of vertex cover
+
             4. For K(m, n) the size of the minimum vertex cover is min(m, n)
 
     Independent Sets:
@@ -295,7 +294,7 @@ Graph Theory:
         The INDEPENDENCE NUMBER of graph is the maximum size of an independent size of the vertices
 
         The independence number for a K(m, n) graph is max(m, n)
-    
+
     Edge Cover:
         An edge cover of G is a set of edges such that every vertex is a end point of atleast one edge
         If there is a isolated vertex then there is no possible edge cover as no edge can cover that isolated vertex
@@ -319,7 +318,7 @@ Graph Theory:
     Cuts:
         A seperating Set or vertex cover of a graph is a set of vertices S
         such that V-S has more than one component
-        
+
         Basically a set of vertices which when removed lead to a component in the graph
 
         For a graph there is no vertex cut possible
@@ -335,7 +334,7 @@ Graph Theory:
         2. Connectivity(G) <= |V|-2, G is not Complete
             Since G is not complete, there is atleast one pair of verteices which are not adjacent
             Thus we can atmost remove all the other vertices leaving these two vertices alone forming a disconnected component
-        
+
         3. In a Graph, it is possible to remove all the neighbors of a vertex and isolate it forming a disconnected component
             Thus choose any one vertex with the least number of neighbors and remove the neighbors forming a disconnected component
             Thus, Connectivity(G) <= minDegree(V)
@@ -357,29 +356,29 @@ Graph Theory:
 
     Chromatic Number:
         The least number of colors required for the proper coloring of the graph
-        
+
         The chromatic number of a biPartite Graph is 2
         The cromatic number of an even length cycle is 2
                                 an odd length cycle is 3
 
         If the chromatic number of a subgraph of G is less than Chromatic number of G i.e. K then G is called K-Critical
-        
+
         For a graph G having a clique of size n then Chromatic number of G >= n
         For a graph G having max degree as D the Chromatic number will never exceed D+1
             i.e. K <= D+1
 
         Greedy Coloring:
-            A greedy coloring to a vertex ordering is obtained by coloring 
+            A greedy coloring to a vertex ordering is obtained by coloring
             vertices in order and assigning to vi the smallest inderced color not already
             used by its neighbors
 
     Planarity of Graphs:
         Cross Over: When the edges of the graph overlap/cross one another
         A planar representation of a graph is drawing the graph on the plane without any crossovers
-        
+
         A Graph having planar representation is called Planar Graph
         The planar representation of planar graph divides entire plane into faces
-        
+
         Eulers Formula:
             IF G is simple planar graph with v vertices, e edges and f faces and k connected componennts
             n - e + f = k + 1
@@ -390,17 +389,17 @@ Graph Theory:
 
     Four Color Theorem:
         Every planar graph is 4-colorable i.e. it can be colored with at most 4 colors
-    
+
     Hamiltonian cycle:
         Is a cycle that passes through every vertex exactly once
         A graph having a hamiltonian cycle is called a hamiltonian graph
 
         If for a graph if deg(v) >= n/2 for all vertices then the graph is hamiltonian
-        This is a sufficient but not necessary condition 
+        This is a sufficient but not necessary condition
         There can be graphs that do not satisfy this property but are hamiltonian
-    
+
     Edge Cuts:
-        Given S, T , subsets of vertices, we write [S, T] for the set of edges 
+        Given S, T , subsets of vertices, we write [S, T] for the set of edges
         having one endpoint in S and the other in T
 
         An edge cut is an edege set of the form [S, S'], where S is a proper subset of V(G)
@@ -408,11 +407,11 @@ Graph Theory:
 
         An edge cut is also called as a disconnecting set. If the edges are removed that are in the edge cut
         would produce a disconnected graph
-        
+
         For an edge cut it is necessar to form two partitions S and S'
         So every edge cu is a disconnecting set
         But every disonnecting set is not a edge set
-        
+
         Every MINIMAL disconnecting set of edges is a edge cut
         Minimal implies that no element of the set can be removed while satisfying the properties
 
@@ -422,7 +421,7 @@ Graph Theory:
 Questions:
 
 1. Let G be a undirected complete graph K6.
-    If vertices of G are labelled, 
+    If vertices of G are labelled,
     then the number of distinct cycles of length 4 in G are?
         Cycle of length 4 is as follows
         1 -- 2 -- 3 -- 4 -- 1
@@ -431,11 +430,11 @@ Questions:
         we set the first vertex as the start and end        in 1 way
         and permute the remaining vertices in the middle    in 3! ways
 
-        But 
+        But
         1 -- 2 -- 3 -- 4 -- 1
         1 -- 4 -- 3 -- 2 -- 1 are same cycles but counted twice
 
-        So finally 
+        So finally
             (6C4 * 3!) // 2 is the answer
 
 2. Graph G has N vertices and K connected componetnts.
@@ -452,10 +451,10 @@ Questions:
 
 4. For a graph G there are 2**n vertices corresponding to a subset of a set of size n
     Two vertices G are adjacent iff the sets intersection has two elements.
-    
+
     The number of vertices having zero degrees: ?
         the null set and all the set that have only one element
-        
+
         So there are (n+1) sets that when intersected with any other set has intersection with elements less than two
         So there are n+1 nodes with degree 0
 
@@ -474,15 +473,15 @@ Questions:
         Thus there are n! perfect matchings for K(n, n)
 
 6. For a complete Graph K(n) find the number of perfect matching possible
-    
+
     If |V| is ODD then there cant be any perfect matching
         Since there will always be one vertex left and all will be saturated
-    
+
     Else if n =|V| is even then
         WE have n! permutations and we will form the match of adjacent vertices
         so there are k=n//2 groups in a permutation
         Individual groups can be again be arrange in k! ways and also within a group there are 2 configs
-        
+
         Hence the number of perfect matchings are:
             n! / (k! * 2**k) where k = n//2
 

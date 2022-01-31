@@ -172,8 +172,8 @@ Set theory:
                 a GLB b = b GLB a
 
             2. Associative LAw:
-                (a LUB b) LUB c = a LUB (b LUB b)
-                (a GLB b) GLB c = a GLB (b GLB b)
+                (a LUB b) LUB c = a LUB (b LUB c)
+                (a GLB b) GLB c = a GLB (b GLB )
 
             3. Idempotent Law:
                 a LUB a = a
@@ -298,15 +298,6 @@ Set theory:
 
     Abelian Group:
         A group (G, *) is said to be abelian if the operation * is commuatative i.e. a * b = b * a
-        Ex:
-            -- For (M, *):
-                M is a set of all n*n matrices and * is matrix multiplication operation
-                1. It is an algebraic structure as it is closed on operation *
-                2. The operation * is associative so it is a semiGroup
-                3. Also Identity Matrix I is in M such that I*a = a*I = a for all a in M. Thus I is a identity element
-                4. For any element 'a' there exists 'a_inv' is in M such that a * a_inv = I thus inverse exists for each element
-                5. However, matrix multiplication is not commutative
-                Thus (M, *) is a Group but not an Abelian Group
 
     Finite Group:
         A group with finite no of elements is called a finite group

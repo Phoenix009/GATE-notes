@@ -1,7 +1,9 @@
 Operating System:
     Content:
         1. Introduction
-        2. Process Management 3. Process Scheduling 4. Threads and MultiThreading
+        2. Process Management
+        3. Process Scheduling
+        4. Threads and MultiThreading
         5. Process Synchronization
         6. Deadlock
         7. Memory Management
@@ -13,7 +15,7 @@ Operating System:
     -- Shell: Provides an interface to use the functionalites of the kernel
     -- System Calls: To use any functionality of the OS system calls are made by the processes
     -- Dual Mode: The operating system implements dual mode of operation. User mode and Kernel Mode. SYSTEM CALLS ARE EXECUTED IN KERNEL MODE ONLY
-    
+
     Types of OS:
         -- UniProgramming: Allows only one process to reside in main memory
         -- MultiProgramming: ALlows multiple programs to reside in the main memory
@@ -32,7 +34,7 @@ Operating System:
     Process:
         -- Program under execution
         -- Unit of execution
-        
+
         Representation:
             -- Stack: For local variables, function params, etc.
             -- Heap: For dynamic memory allocation
@@ -46,7 +48,7 @@ Operating System:
     Context Switch:
         When a process is preempted the current context of the process is stored in its PCB and the new processes context is loaded from its PCB
         This storing and loading of contexts of processes is called as context switching
-    
+
     Process States:
         -- NEW:         All installed programs are in the new state
         -- READY:       All processes which are waiting to run on a CPU are in this state
@@ -60,7 +62,7 @@ Operating System:
         Mimimize Wait Time
         Mimimize Turn Around Time
         Maximize CPU Utilization
-    
+
     Scheduling Queues:
         1. Job Queue:       All processes in NEW state
         2. Ready Queue:     All the processes in READY state
@@ -114,14 +116,14 @@ Operating System:
             -- #scheduled: ceil(BT/Q) << For a particular process
             -- If Q very small and comparable to context switch time then less responsive due to repeated context switches
             -- If Q very large and comparable to the BT of processes then behaves like FCFS
-    
+
     MultiLevel Queue Scheduling:
         -- Processes are segregated into types like
             1. Sys. Process
             2. Foreground Process
             3. Background Process
         -- There are individual queues for each type and employ its own scheduling algorithm
-        
+
         Scheduling Among Queues:
             Fixed Priority Scheduling: First all the processes from higher priority queues are executed
             Time Slicing: Processes from queues are executed for a fixed time.
@@ -156,7 +158,7 @@ Operating System:
             1. Mutual Exclusion: Only one process must be in the CS at any given instant
             2. Progress: One interested process should not be blocked by any other non-interested process
             3. Bounded Waiting: One process should wait for a definite amount of time before entering in CS.
-        
+
         Software Solutions:
             1. LOCK variable / Binary lock:
                 Process Code:
@@ -180,7 +182,7 @@ Operating System:
                 -- FLG is used to denote if a process wants to enter the CS
                 -- TURN is used to denote whose turn is it next to enter CS
                 FLG = {false, false}
-                TURN = None 
+                TURN = None
                 Process 0 code:                        |     Process 1 code:
                     FLG[0] = 1      // I want to go    |         FLG[1] = 1      // I want to go
                     TURN = 1        // But you go      |         TURN = 0        // But you go
@@ -211,7 +213,7 @@ Operating System:
             1. Semaphore:
                 An integer variable that can be accessed only using some allowed atomic operations
                 The value indicates the count of the processes that can enter the CS
-                There are only two allowed operations 
+                There are only two allowed operations
                     down() / p() -> decrements the value of the semaphore. Called before entering the CS
                     up() / v() -> increments the value of the semaphore. Called after exiting the CS
                 The initial value of the semaphore denotes tha maximum no of processes that can be in the Cs at any instant
@@ -249,17 +251,17 @@ Operating System:
             -- Each resource is assigned a numerical value
             -- The process can acquire these resources in a particular order
             -- The process can acquire only those resources that have a value greater than the value of its currently acquired resources
-    
+
     Deadlock Avoidance:
         In deadlock avoidance the request of a process is granted only if the system continues to be in the safe state
         Safe State is where the OS can complete the maximum requirement of all the process
-        
+
         Resource Request Algorithm:
             1. Check if the request made is valid
             2. Check if the requested number of instances are available
             3. If available then virtually allocate the resources and run safety algorithm
             4. If stays in the safe state then allocate resources else hold
-        
+
         Bankers Safety Algorithm:
             while unfinished_process:
                 for process in queue:
@@ -277,7 +279,7 @@ Operating System:
             3   |  1   3   5   4    | 2   3   5   6  | 1   0   0   2
             4   |  0   6   3   4    | 0   6   5   2  | 0   0   2   2
             5   |  0   0   1   4    | 0   6   5   6  | 0   6   4   2
-            
+
             PID     AVAIL
                     A   B   C   D
                     1   5   2   0
@@ -318,11 +320,11 @@ Operating System:
         1. Memory Allocation
         2. Memory deAllocation
         3. Memory Protection
-    
+
     Goals:
         1. Maximize utilization
         2. Run lager programs with limited space
-    
+
     Techniques:
         1. Contiguous             | 2. NonContiguous
             -- Fixed Partition    |     -- Paging
@@ -350,13 +352,13 @@ Operating System:
             -- No internal fragmentation
             -- external fragmentation. COMPACTION is used to avoid external fragmentation
             -- Compaction: collect entire allocated processes on one side of memory so the entire other side of memory is free
-    
+
     2. Non Contiguous Memory Allocation:
         A. Paging:
             -- Main Memory is divided into fixed sized partitions called the frames.
             -- The process is divided into fixed sized partitions called the pages.
             -- FRAME SIZE == PAGE SIZE and ONE FRAME can be allocated to ONE PAGE.
-            
+
             -- Page Table is maintained to map the page number to the frame number.
                 -- #enteries in Page Table = ceil(Process Size / Page Size)
                 -- page table entry size = frame number bits + information bits (optional)
@@ -426,7 +428,7 @@ Operating System:
             -- Logical address: |Segment No.|Byte No.|
             -- Each entry in the segment table store the base and the limit for each segment.
             -- #bits in Byte no. = log2(Maximum segment size)
-            
+
             -- Segmented Paging:
                 -- Segmentation and Paging can be used together to get the best of both techniques
                 -- Process is first divided into logical segments and then paging is done on each segments
@@ -563,9 +565,9 @@ NOTES:
     LiveLock:
         A Process which has acquired locks on some resources and
         is stuck in a deadlock to acquire new resources
-    
+
     Process switches or Context switches can occur in only kernel mode . So for process switches first we have to move from user to kernel mode . Then we have to save the PCB of the process from which we are taking off CPU and then we have to load PCB of the required process . At switching from kernel to user mode is done. But switching from user to kernel mode is a very fast operation(OS has to just change single bit at hardware level) Thus T1< T2
-    
+
     Interrupt handling steps:
         1. Processor finishes the execution og the current instruction
         2. Processor signals acknowledgement for interrupt

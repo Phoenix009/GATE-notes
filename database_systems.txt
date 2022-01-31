@@ -12,12 +12,12 @@ Entities and Attributes:
         An each entity set define a collection of entites that have the same attribute. Each entity set in the database is described by its name and attributes.
         An entity set is represented in ER diagram as a rectangular box enclosing the entity set name
         An entity type describes the schema for a set of entities that share the same structure.
-        
+
     Attributes:
         Each entity has attributes - the particular properties that describe it. For example EMPLOYEE entity may be described by the employees name, age, adress, salary, and job.
         Attributes are represented by attribute name enclosed in ovals and are attached to the entity type by straight lines.
         Several type of attributes exist in the ER model:
-        1. Simple and Composite attributes: 
+        1. Simple and Composite attributes:
             Composite attributes can be divided into smaller subparts which represent more attributes with independent meanings. Attributes that are not divisible are called simple or atomic attributes
             Composite attributes are attached to their component attributes by straight lines.
 
@@ -36,7 +36,7 @@ Entities and Attributes:
         In ER diagrammatic notation, each key attributes has its name underlined inside the oval.
 
     Value Sets Domains of attributes:
-        Each simple attribute of an entity type is associated with a value set which specifies the set of values that may be assigned to that attributes for each individual entity. 
+        Each simple attribute of an entity type is associated with a value set which specifies the set of values that may be assigned to that attributes for each individual entity.
         VAlue sets are not displayed in the ER diagrams and are similar to the basic data types available in most programming languages.
         Additional data types to represent common database types such as date time and other concepts are also employed.
         Mathematically an attribute A of entity set E whose calue set is v can be defindes as a function from E to power set of V.
@@ -52,217 +52,217 @@ Entities and Attributes:
         Relationships can generally be of any degree, but the ones most common are binary relationships.
 
     Role names and Recursive Relationships:
-        Each entity type that participates in a relationship type plays a particular role in relationship. 
+        Each entity type that participates in a relationship type plays a particular role in relationship.
         The role name signifies the role that a participating entity from the entity type plays in each relationship instance and it helps to explain what the relationship means.
         Role names are not technically necessary in relationship types where all the participating entities are distinct.
-        However in some cases the same entity types participates more than once in a relationship type in different roles. 
+        However in some cases the same entity types participates more than once in a relationship type in different roles.
         In such cases the role names becomes essential for distinguishing the meaning of the role that each participating entity plays.
         Such relationships types are called recursive relationship or self-referencing relationships.
 
 
 Relational Model:
-	-- The relational model represents the database as a collection of relations. Informally each relation resembles a table of values or to some extent a flat file of records. 
-	-- When a relation is thought of as a table of values, each row represents a fact that typically corresponds to a real-world entity or a relationship.
-	-- In the formal relational model terminology, a row is called a tuple, a column header is called an attribute and the table is called the relation.
+    -- The relational model represents the database as a collection of relations. Informally each relation resembles a table of values or to some extent a flat file of records.
+    -- When a relation is thought of as a table of values, each row represents a fact that typically corresponds to a real-world entity or a relationship.
+    -- In the formal relational model terminology, a row is called a tuple, a column header is called an attribute and the table is called the relation.
 
 Domains Attributes, Tuples and Relations:
-	Domain:
-		-- A domain D is a set of atomic values. By atomic we mean that each value in the domain is indivisible as far as the formal relational model is concerned.
+    Domain:
+        -- A domain D is a set of atomic values. By atomic we mean that each value in the domain is indivisible as far as the formal relational model is concerned.
 
-	Relation Schema:	
-		-- A relation schema R denoted by R(A1, A2, ... An) is made up of a relation name R and a list of attributes A1, A2.., 
-		-- A relation schema is used to describe a relation. 
-		-- The degree of the relation is the number of attributes of its relation schema.
+    Relation Schema:
+        -- A relation schema R denoted by R(A1, A2, ... An) is made up of a relation name R and a list of attributes A1, A2..,
+        -- A relation schema is used to describe a relation.
+        -- The degree of the relation is the number of attributes of its relation schema.
 
-	Relation:
-		-- A relation of the relation schema R(A1, A2, .. An), also denoted by r(R) is a set of n-tuples, 
-		-- Each tuple is an ORDERED list of n values <v1, v2, .., vn> where each value vi is an element from dom(Ai) or is a special NULL value.  
-		-- r(R) is a subset of (dom(A1) x dom(A2) x ... x dom(An))
+    Relation:
+        -- A relation of the relation schema R(A1, A2, .. An), also denoted by r(R) is a set of n-tuples,
+        -- Each tuple is an ORDERED list of n values <v1, v2, .., vn> where each value vi is an element from dom(Ai) or is a special NULL value.
+        -- r(R) is a subset of (dom(A1) x dom(A2) x ... x dom(An))
 
-	Characteristics of a Relation:
-		ORDERING of TUPLEs in a relation: The Relation is INSENSITIVE to the ordering of tuples.
+    Characteristics of a Relation:
+        ORDERING of TUPLEs in a relation: The Relation is INSENSITIVE to the ordering of tuples.
 
-		ORDERING of VALUES within a TUPLE: a tuple is an ordered list of n values, so the ordering of the values in a tuple and hence of the attributes in a relation schema is important.
+        ORDERING of VALUES within a TUPLE: a tuple is an ordered list of n values, so the ordering of the values in a tuple and hence of the attributes in a relation schema is important.
 
-		Values and NULLs in the tuples:
-			Each value in a tuple is an atomic value; An important concept is that of NULL values, which are used to represent the values of attributes that may be unknown or may not apply to a tuple.
+        Values and NULLs in the tuples:
+            Each value in a tuple is an atomic value; An important concept is that of NULL values, which are used to represent the values of attributes that may be unknown or may not apply to a tuple.
 
-	Relational Model Notation:
-		-- A relation schema R of degree n is dented by R(A1, A2, ..., An)
-		-- The UPPERCASE letters are used to denote RELATION NAMES.
-		-- the lowercase letters are used to denote relation states (set of tuples).
-		-- An attribute A can be qualified with the relation name R to which it belongs by using the dot notation. 'R.A'
-		-- A n-tuple in the realation r(R) is denoted by t=<v1, v2, ... , vn>, where vi is the value that corresponds to the attribute Ai in the relation. the following notation refers to the component values in the tuple:
-			1. t[Ai] and t.Ai refer the value of vi in t for attribute Ai
+    Relational Model Notation:
+        -- A relation schema R of degree n is dented by R(A1, A2, ..., An)
+        -- The UPPERCASE letters are used to denote RELATION NAMES.
+        -- the lowercase letters are used to denote relation states (set of tuples).
+        -- An attribute A can be qualified with the relation name R to which it belongs by using the dot notation. 'R.A'
+        -- A n-tuple in the realation r(R) is denoted by t=<v1, v2, ... , vn>, where vi is the value that corresponds to the attribute Ai in the relation. the following notation refers to the component values in the tuple:
+            1. t[Ai] and t.Ai refer the value of vi in t for attribute Ai
 
 Relational Model Constraints and Relational Database Schemas:
-	Constraints on databases can generally be divided into three main categories.
-	
-	1. Constraints that are inherent in the data model. We call these inherent model based constraints or implicit constraints. The characteristics of relations that we discussed earlier are inherent constraints of the relational model and belong to this category.
+    Constraints on databases can generally be divided into three main categories.
 
-	2. Constraints that can be directly expressed in the schemas of the data model, typically by specifying them in DDL. We call these schema based constraints or explicit constraints. The constraints that will be dicussed in this section are of the second category, that can be expressed in the schema of the relation model via the DDL.
-	
-	3. Constraints that cannot be directly expressed in the schemas of the data model, and hence must be expressed and enforces by the application programs or in some other way. We call these application based or semantic constraints or business rules. These constraints are difficult to express and enforce within the data model, so they are usually checked within the application programs that perform database updates
+    1. Constraints that are inherent in the data model. We call these inherent model based constraints or implicit constraints. The characteristics of relations that we discussed earlier are inherent constraints of the relational model and belong to this category.
 
-	1. Domain Constraints:
-		-- Within each tuple the value of each attribute A must be an atomic value from the domain dom(A).
+    2. Constraints that can be directly expressed in the schemas of the data model, typically by specifying them in DDL. We call these schema based constraints or explicit constraints. The constraints that will be dicussed in this section are of the second category, that can be expressed in the schema of the relation model via the DDL.
 
-	2. Key constraints:
-		-- Usually there are subset of attributes of a relation schema R with the property that no two tuples in any relation state r of R should have the same combination of values for these attributes.
-		-- Any such set of attributes is called a super key of the raltion schema R. A super key specifies a uniqueness constraint.
-		-- A KEY k for a relation schema r is defined by the following two properties:
-			1. Two distinct tuples in any state of the relation cannot have the same values for all the attributes in the key.
-			2. It is a minial superkey that is, a superkey from which we cannot remove any attribute and still have the uniqueness property hold.
+    3. Constraints that cannot be directly expressed in the schemas of the data model, and hence must be expressed and enforces by the application programs or in some other way. We call these application based or semantic constraints or business rules. These constraints are difficult to express and enforce within the data model, so they are usually checked within the application programs that perform database updates
 
-	3. Entity Integrity Constraints:
-		-- Primary key value cannot be NULL. This is because the primary key value is used to identify individual tuples in a relation.
+    1. Domain Constraints:
+        -- Within each tuple the value of each attribute A must be an atomic value from the domain dom(A).
 
-	4. Referential Integrity Constraint:
-		-- The referential integrity constraint is specified between two relations and is used to maintain the consistency among tuples in the two relations.
-		--  To define referential integrity more formally we define the concept of a foreign key
-		-- A set of attributes in the relation schema R1 is a foreign key of R1 that referneces relation R2 if it satisfies the following rules:
-			1. The attribute in FK have the same domain as the primary key attributes of R2
-			2. A value of FK in the tuple t1 of the relation R1 either occurs with the PK value of tuple t2 in the relation R2 or is NULL. In the former case we say that the tuple t1 references the tuple t2.
-		-- In this definiont, R1 is called the referencing relation and R2 is called the referenced relation. If these two conditions hold then referential integrity constraints from R1 to R2 is said to hold.
-	
-	NOTE:
-		-- The schema-based constraints include domain constraints, key constraints, constraints on NULLs, entity integrity constraint and referential integrity constraints.
-		-- All integrity constraints should be specified on the relational database schema if we want the DBMS to enforce these constraints on the database.
-		-- The DDL includes provision to specify the various constraints so that DBMs can automatically enforce them.
+    2. Key constraints:
+        -- Usually there are subset of attributes of a relation schema R with the property that no two tuples in any relation state r of R should have the same combination of values for these attributes.
+        -- Any such set of attributes is called a super key of the raltion schema R. A super key specifies a uniqueness constraint.
+        -- A KEY k for a relation schema r is defined by the following two properties:
+            1. Two distinct tuples in any state of the relation cannot have the same values for all the attributes in the key.
+            2. It is a minial superkey that is, a superkey from which we cannot remove any attribute and still have the uniqueness property hold.
+
+    3. Entity Integrity Constraints:
+        -- Primary key value cannot be NULL. This is because the primary key value is used to identify individual tuples in a relation.
+
+    4. Referential Integrity Constraint:
+        -- The referential integrity constraint is specified between two relations and is used to maintain the consistency among tuples in the two relations.
+        --  To define referential integrity more formally we define the concept of a foreign key
+        -- A set of attributes in the relation schema R1 is a foreign key of R1 that referneces relation R2 if it satisfies the following rules:
+            1. The attribute in FK have the same domain as the primary key attributes of R2
+            2. A value of FK in the tuple t1 of the relation R1 either occurs with the PK value of tuple t2 in the relation R2 or is NULL. In the former case we say that the tuple t1 references the tuple t2.
+        -- In this definiont, R1 is called the referencing relation and R2 is called the referenced relation. If these two conditions hold then referential integrity constraints from R1 to R2 is said to hold.
+
+    NOTE:
+        -- The schema-based constraints include domain constraints, key constraints, constraints on NULLs, entity integrity constraint and referential integrity constraints.
+        -- All integrity constraints should be specified on the relational database schema if we want the DBMS to enforce these constraints on the database.
+        -- The DDL includes provision to specify the various constraints so that DBMs can automatically enforce them.
 
 Update Operations, Transactions and Dealing with Constraint Violations:
-	-- There are three basic operations that can change the state of the relations in the database: Insert, Delete and Update.
-	-- In this section we discuss the types of constraints that may be violated by each of these operations and the types of actions that may be taken if an operation causes a violation.
+    -- There are three basic operations that can change the state of the relations in the database: Insert, Delete and Update.
+    -- In this section we discuss the types of constraints that may be violated by each of these operations and the types of actions that may be taken if an operation causes a violation.
 
-	The Insert operation:
-		-- DOMAIN Constraints can be violated if an attribute value does not belong to its domain.
-		-- KEY constraints can be violated if the key value in the new tuple already exists.
-		-- ENTITY INTEGRITY constraints can be violated if the key value of the new tuple is assigned NULL.
-		-- REFERENTIAL INTEGRITY constraint can be violated if the tuple refers to a tuple from another relation that dows not exists.
-		-- If an insetion violates one or more constraints, the DEFAULT option is to REJECT the insertion.
+    The Insert operation:
+        -- DOMAIN Constraints can be violated if an attribute value does not belong to its domain.
+        -- KEY constraints can be violated if the key value in the new tuple already exists.
+        -- ENTITY INTEGRITY constraints can be violated if the key value of the new tuple is assigned NULL.
+        -- REFERENTIAL INTEGRITY constraint can be violated if the tuple refers to a tuple from another relation that dows not exists.
+        -- If an insetion violates one or more constraints, the DEFAULT option is to REJECT the insertion.
 
- 	The Delete Operation:
- 		-- The Delete operation can violate only REFENTIAL INTEGRITY constraint. This occurs if the tuple being deleted is referenced by tuples from another relation in the database.
- 		-- Several options are available if a deletion operation causes a violation.
- 		-- The first option is to RESTRICT/reject the deletion.
- 		-- The second option is called CASCADE where we attempt to delete the tuples that reference the tuple being deleted.
- 		-- The third option is to SET DEFAULT value to the referencing attribute; each such value is either set to NULL or changed to refer a default valid tuple.
+     The Delete Operation:
+         -- The Delete operation can violate only REFENTIAL INTEGRITY constraint. This occurs if the tuple being deleted is referenced by tuples from another relation in the database.
+         -- Several options are available if a deletion operation causes a violation.
+         -- The first option is to RESTRICT/reject the deletion.
+         -- The second option is called CASCADE where we attempt to delete the tuples that reference the tuple being deleted.
+         -- The third option is to SET DEFAULT value to the referencing attribute; each such value is either set to NULL or changed to refer a default valid tuple.
 
- 	The Update Operation:
- 		-- Modifying a primary key values is similar to deleting one tuple and inserting another tuple. Hence the issues discussed earlier come into play.
+     The Update Operation:
+         -- Modifying a primary key values is similar to deleting one tuple and inserting another tuple. Hence the issues discussed earlier come into play.
 
 
 Relational Database using ER to Relational mapping
 
 Step 1: Mapping Regular Entity Types:
-	-- For each regular entity type E in ER schema, create a relation R that includes all the simple attributes of E.
-	-- Include only the simple component attributes of a composite attribute,
-	-- Choose one of the key attributes of E as the primary key for R. If the chosen key attribute is a part of the composite attribute then the set of simple attributes will together form the primary key.
-	-- The relations that are created from the maping of entity types are sometimes called entity relations.
+    -- For each regular entity type E in ER schema, create a relation R that includes all the simple attributes of E.
+    -- Include only the simple component attributes of a composite attribute,
+    -- Choose one of the key attributes of E as the primary key for R. If the chosen key attribute is a part of the composite attribute then the set of simple attributes will together form the primary key.
+    -- The relations that are created from the maping of entity types are sometimes called entity relations.
 
 Step 2: Mapping of Weak Entity Types:
-	-- For each weak entity type W in the ER schema with the owner entity type E, create a relation R.
-	-- Include as foreign key attributes of R, the primay key attributes of the owner entity types.
-	-- The primary key of R is the combination of the primary keys of the owners and the partial key of the weak entity type W, if any.
-	-- If there is a weak entity E2 whose owner entity is also a weak entity E1, then E1 must be mapped before E2 is mapped to determine its primary key.
+    -- For each weak entity type W in the ER schema with the owner entity type E, create a relation R.
+    -- Include as foreign key attributes of R, the primay key attributes of the owner entity types.
+    -- The primary key of R is the combination of the primary keys of the owners and the partial key of the weak entity type W, if any.
+    -- If there is a weak entity E2 whose owner entity is also a weak entity E1, then E1 must be mapped before E2 is mapped to determine its primary key.
 
 Step 3: Mapping a 1:1 Binary Relations:
-	-- For each binary 1:1 relationship in the ER schema, identify the relations S and T that corresponds to the entity types participating in R.
-	-- There are three possible approaches but the first approach is the most useful and should be followed unless special conditions exist.
-	1. Foreign Key approach:
-		-- Choose one of the relations, say S, and include as a foreign key in the S the primary key of T. 
-		-- It is better to choose an entity type that has total participation.
-		-- Include all the simple attributes of the relationship type as the attributes in S.
+    -- For each binary 1:1 relationship in the ER schema, identify the relations S and T that corresponds to the entity types participating in R.
+    -- There are three possible approaches but the first approach is the most useful and should be followed unless special conditions exist.
+    1. Foreign Key approach:
+        -- Choose one of the relations, say S, and include as a foreign key in the S the primary key of T.
+        -- It is better to choose an entity type that has total participation.
+        -- Include all the simple attributes of the relationship type as the attributes in S.
 
-	2. Merged Relation Approach:
-		-- POSSIBLE when both the participating entities have TOTAL PARTICIPATION as this would indicate that the two relations will have the same number of tuples at any time and can be merged into a single relation.
+    2. Merged Relation Approach:
+        -- POSSIBLE when both the participating entities have TOTAL PARTICIPATION as this would indicate that the two relations will have the same number of tuples at any time and can be merged into a single relation.
 
-	3. Cross-reference or relationship relation approach:
-		-- The third option is to set up a third relation R for the purpose of cross referencing the tuples of relations S and T. Such a relation is called a relationship relation.
-		-- The drawback of this approach is requiring extra join operations when combining related tuples from tables.
+    3. Cross-reference or relationship relation approach:
+        -- The third option is to set up a third relation R for the purpose of cross referencing the tuples of relations S and T. Such a relation is called a relationship relation.
+        -- The drawback of this approach is requiring extra join operations when combining related tuples from tables.
 
 Step 4:	Mapping of 1:N Binary Relations:
-	There are two possible approaches. 1. The foreign key approach and 2. The cross reference or relationship relation approach. The first approach is generally preferred as it reduces the number of tables.
+    There are two possible approaches. 1. The foreign key approach and 2. The cross reference or relationship relation approach. The first approach is generally preferred as it reduces the number of tables.
 
-	1. The Foreign Key approach: 
-	-- For each 1:N relationship type R identify the relation S that represents the N-side of the relationship type.
-	-- Include as foreign key in S the primary key of the relation T that represents the other entity type participating in R.
-	-- Include any simple attributes of the 1:N relationship type as attributes of S.
+    1. The Foreign Key approach:
+    -- For each 1:N relationship type R identify the relation S that represents the N-side of the relationship type.
+    -- Include as foreign key in S the primary key of the relation T that represents the other entity type participating in R.
+    -- Include any simple attributes of the 1:N relationship type as attributes of S.
 
-	2. The relationship relation type
+    2. The relationship relation type
 
 Step 5: Mapping of N:M Binary Relations:
-	In the traditional relational model with not multivalues attributes the only option is the relationship relation.
+    In the traditional relational model with not multivalues attributes the only option is the relationship relation.
 
-	-- for each binary M:N relationhipt ype R, create a new relation S to represent R.
-	-- include as foreign keys the primary keys of the participating relations and their combination will form the primary key of S.
+    -- for each binary M:N relationhipt ype R, create a new relation S to represent R.
+    -- include as foreign keys the primary keys of the participating relations and their combination will form the primary key of S.
 
 Step 6: Mapping of a multivalued attribute:
-	-- For each multivalued attribute A, crete a new relation R. 
-	-- This relation will include an attribute corresponding to A and the primary key attribute of the parent relation and their combination will act as the primary key of this relation.
-	-- If the multivalued attribute is composite then we store the simple attributes.
+    -- For each multivalued attribute A, crete a new relation R.
+    -- This relation will include an attribute corresponding to A and the primary key attribute of the parent relation and their combination will act as the primary key of this relation.
+    -- If the multivalued attribute is composite then we store the simple attributes.
 Informal Design Guidelines for Relation Schemas:
-	-- Before discussing the formal theory of relational database design, we discuss four informal guidelines that may be used as measures to determine the quaity of relation schema design.
+    -- Before discussing the formal theory of relational database design, we discuss four informal guidelines that may be used as measures to determine the quaity of relation schema design.
 
-	1. Imparting clear semantics to attributes in Relations:
-		-- If the conceptual design is done carefully and mapping procedure is followed systematically then the relational schema design should have a clear meaning.
-		-- The ease with which the meaning of a relations attributes can be explained is an informal measure of how well the relation is designed.
+    1. Imparting clear semantics to attributes in Relations:
+        -- If the conceptual design is done carefully and mapping procedure is followed systematically then the relational schema design should have a clear meaning.
+        -- The ease with which the meaning of a relations attributes can be explained is an informal measure of how well the relation is designed.
 
-	2. Redundant information in tuples and update anomalies:
-		-- One of the goal of the schema designs is to minimize the storage space used by the base relations.
-		-- Storing natural joins of base relations leads to additional problems refered to as update anomalies. These include insertion, deletion and update anomalies.
+    2. Redundant information in tuples and update anomalies:
+        -- One of the goal of the schema designs is to minimize the storage space used by the base relations.
+        -- Storing natural joins of base relations leads to additional problems refered to as update anomalies. These include insertion, deletion and update anomalies.
 
-	3. NULL values in tuples:
-		-- As far as possible, avoid placing attributes in a base relation whose values may frequently be NULL.
+    3. NULL values in tuples:
+        -- As far as possible, avoid placing attributes in a base relation whose values may frequently be NULL.
 
-	4. Generation of Spurious tuples:
-		-- Design relation schemas so that they can be joined wth equality conditions on attributes (primary key, foreign key) that are appropriately related pairs in a way that can guarantee no spurious tuples.
-		-- spurious tuple are the tuples that are generated by join operation that are not part of the either joining reltions. These tuples represent spurious information that is not valid.
+    4. Generation of Spurious tuples:
+        -- Design relation schemas so that they can be joined wth equality conditions on attributes (primary key, foreign key) that are appropriately related pairs in a way that can guarantee no spurious tuples.
+        -- spurious tuple are the tuples that are generated by join operation that are not part of the either joining reltions. These tuples represent spurious information that is not valid.
 
 
 Functional Dependencies:
-	Definition: 
-	-- denoted by X-->Y, between two sets of attributes that are subsets of R specifies that constraint on the possible tuples that can form the relational state r of R.
-	-- That constraint is that for any two tuples t1 and t2
-	if t1[X] == t2[X] ==> t1[Y] == t2[Y]
-	-- Thus X functionally determines Y in a relation schema R iff whenever two tuples of r(R) agree on their X-value, they must necessarily agree on their Y-value.
+    Definition:
+    -- denoted by X-->Y, between two sets of attributes that are subsets of R specifies that constraint on the possible tuples that can form the relational state r of R.
+    -- That constraint is that for any two tuples t1 and t2
+    if t1[X] == t2[X] ==> t1[Y] == t2[Y]
+    -- Thus X functionally determines Y in a relation schema R iff whenever two tuples of r(R) agree on their X-value, they must necessarily agree on their Y-value.
 
-	**
-	NOTE: 
-	-- if X is a candidate key, which implies that X has unique values in R, this implies that X will functionally determine each and every attribute of R.
-	This is because every value of X is distinct and thus there is no such case where the equality is violated.
-	-- A functional dependency is  property of the relation schema R, not of a particular legal relation state r of R.
-	-- Therefore an FD cannot be inferred automatically from a given relation extension r but must be defined explicitly by someone who knows the semantics of the attributes R.
-	-- Given a particular relation, we cannot determine which FDs hold and which do not unless we know the attributes and meaning of the relationships among the attributes.
-	-- All we can say that a certain FD may exists if it hold in that particular extension.
+    **
+    NOTE:
+    -- if X is a candidate key, which implies that X has unique values in R, this implies that X will functionally determine each and every attribute of R.
+    This is because every value of X is distinct and thus there is no such case where the equality is violated.
+    -- A functional dependency is  property of the relation schema R, not of a particular legal relation state r of R.
+    -- Therefore an FD cannot be inferred automatically from a given relation extension r but must be defined explicitly by someone who knows the semantics of the attributes R.
+    -- Given a particular relation, we cannot determine which FDs hold and which do not unless we know the attributes and meaning of the relationships among the attributes.
+    -- All we can say that a certain FD may exists if it hold in that particular extension.
 
 Types of Functional Dependencies:
-	1. Trivial FDs:
-		-- if A --> B and B is a subset of A then the Fd is said to be trivial.
-		-- EX: (A, B, C) --> (B, c)
-	
-	2. NonTrivial Fds:
-		-- if A --> B and A intersection B is NULL then the FD is said to be nontrivial
-		-- EX: (A, B) --> C
-	
-	3. Semi Trivial FDs:
-		-- If A --> B and A intersection B is not NULL and also B is not a subset of A then the FD is said to be semi trivial
-		-- EX: (A, B) --> (B, C) 
+    1. Trivial FDs:
+        -- if A --> B and B is a subset of A then the Fd is said to be trivial.
+        -- EX: (A, B, C) --> (B, c)
+
+    2. NonTrivial Fds:
+        -- if A --> B and A intersection B is NULL then the FD is said to be nontrivial
+        -- EX: (A, B) --> C
+
+    3. Semi Trivial FDs:
+        -- If A --> B and A intersection B is not NULL and also B is not a subset of A then the FD is said to be semi trivial
+        -- EX: (A, B) --> (B, C)
 
 Use Of Functional Dependencies:
-	1. Identify Additional FDs
-	2. Identify Keys
-	3. Idntify Equivalence of FD sets
-	4. Minimal / Canonical / Irreducible Cover
+    1. Identify Additional FDs
+    2. Identify Keys
+    3. Idntify Equivalence of FD sets
+    4. Minimal / Canonical / Irreducible Cover
 
 Armstrong Axioms:
-	1. Reflexivity: If B is a subset of A then A --> B (Trivial FD)
-	2. Transitivity: If A --> B and B --> C then A --> C
-	3. Augmentation: if A --> B then (A, C) --> (B, C)
-	4. Decomposition: If A --> (B, C) the  A --> B and A --> C
-	5. Union: If A --> B and A --> C then A --> (B, C)
-	6. Composition: If A --> B and C --> D then (A, C) --> (B, D)
-  
+    1. Reflexivity: If B is a subset of A then A --> B (Trivial FD)
+    2. Transitivity: If A --> B and B --> C then A --> C
+    3. Augmentation: if A --> B then (A, C) --> (B, C)
+    4. Decomposition: If A --> (B, C) the  A --> B and A --> C
+    5. Union: If A --> B and A --> C then A --> (B, C)
+    6. Composition: If A --> B and C --> D then (A, C) --> (B, D)
+
 Closure set of Attributes:
 
 Normal forms based on Primary keys:
@@ -274,9 +274,9 @@ Normalization of Relations:
     -- Can be considered a process of analyzing the given relation schemas based on thir FDs and primary keys to achieve the desirable properties of minimizing the redundancy and minimizing the updation anomalies.
 
     -- Normal forms in isolation from other factors, do not guarantee a good database design. The process of normalization through decomposition must also confirm the existence of additional properties that the relational schemas, taken together should possess.
-    
+
     1. The nonadditive join or lossless join property, which guarantees that the spurious tuple generation problem does not occur with respect to the relation schemas created after decomposition.
-    
+
     2. the dependency preservation property which ensures that each functional dependency is represented in some individual relation resulting after decomposition.
 
     -- The nonadditive join property is extremely critical and must be achieved at any cost whereas the dependency preservation property although desirable is some times sacrified.
@@ -295,8 +295,8 @@ First Normal Form: No multivalued attributes
 
     2. Expand the primary key to include the attribute that does not obey 1-NF. now there will be a distinct tuple for multiple values of that attribute for that tuple.
     This solution has a disadvantage of introducing redundancy in the relation and hence is rarely adopted.
-    
-    -- The first solution is generally considered best because it does not suffer from redundancy and its is completely general; it places no maximum limit on the number of values. 	 
+
+    -- The first solution is generally considered best because it does not suffer from redundancy and its is completely general; it places no maximum limit on the number of values.
 
 Second Normal Form:
     Partial Dependency:
@@ -311,7 +311,7 @@ Second Normal Form:
     -- If a relation schema is not in 2NF, it can be second normalized into a number of 2NF relations in which non prime attributes are associated only with the part of the primary key that they are fully functionally dependent on.
 
 Third Normal Form:
-    The relation is in 3NF if for EVERY NON_TRIVIAL FD the 
+    The relation is in 3NF if for EVERY NON_TRIVIAL FD the
         LHS is a super key OR
         RHS is a set of prime attributes
 
@@ -324,16 +324,19 @@ Third Normal Form:
 
 BCNF:
     The relation is in BCNF if for every NON-TRIVIAL FD the
-    LHS is a superkeyTransaction:
-    A transaction is an exectuing program that forms a logical unit of database processing. 
-    A transaction includes one or more database access operations-these can include 
+    LHS is a superkey
+
+
+Transaction:
+    A transaction is an exectuing program that forms a logical unit of database processing.
+    A transaction includes one or more database access operations-these can include
     insertion, deletion modification or retreival operations.
     If the transactions dont update the database but only retrieve the data are called read-only
     transactions.
     the basic database access operations that a transactions can include are :
     i. read_item(X): Reads a database item named X.
     ii. write_item(X): Writes the value program to the database item.
-    
+
     The read-set of the transaction is the set of all database items that the transaction reads.
     The write-set of the transaction is the set of all database items that the transaction writes.
 
@@ -352,209 +355,209 @@ Transaction Concurency Protocols
         4. Durabilty:
             The changes made by the transaction must be saved permanently after the transaction has committed.
             Recovery manager is responsible
-    
-    
+
+
     Transaction and System Concepts:
-    
+
         Transaction States and Additional Operators:
             - BEGIN_TRANSACTION: this marks the start of the transcation
-            - READ/WRITE: These specify the read and write operations on the database 
+            - READ/WRITE: These specify the read and write operations on the database
                 items that are executed as a part of the transaction
-            - END_TRANSACTION: This specifies that all the READ and WRITE operations 
-                are completed and at this point a check is done to see if the changes 
-                made by the transaction can be saved permanently to the database or 
+            - END_TRANSACTION: This specifies that all the READ and WRITE operations
+                are completed and at this point a check is done to see if the changes
+                made by the transaction can be saved permanently to the database or
                 the transaction should be aborted.
-            - COMMIT_TRANSACTION: This marks the successful end of the transaction 
-                so that any changes made to the database will be 
+            - COMMIT_TRANSACTION: This marks the successful end of the transaction
+                so that any changes made to the database will be
                 permanently saved to the database and will not be undone.
-            - ABORT_TRANSACTION: This signals that the transaction has ended unsuccessfully 
+            - ABORT_TRANSACTION: This signals that the transaction has ended unsuccessfully
                 and that the changes made by the transcation needs to be undone.
-    
+
         Transaction State Diagram:
-            - The transaction enters the active state as soon as it starts its execution. 
-            Here it issues the read and write operations on the database. 
-            - When the transaction ends the transactions enters the partially completed state. 
-            At this point some recovery protocols need to ensure that the system failure 
-            wont lead to the inability to permanently save the changes of the transaction. 
-            - if the checks are successful the transaction moves to the commited state 
-            and the changes are permanently stored in the database. 
-            - if any of the checks fails then the transaction is aborted and all the changes 
-            made by the transaction needs to be rolledback. 
-            - The terminated state corresponds to the transaction leaving the system. 
+            - The transaction enters the active state as soon as it starts its execution.
+            Here it issues the read and write operations on the database.
+            - When the transaction ends the transactions enters the partially completed state.
+            At this point some recovery protocols need to ensure that the system failure
+            wont lead to the inability to permanently save the changes of the transaction.
+            - if the checks are successful the transaction moves to the commited state
+            and the changes are permanently stored in the database.
+            - if any of the checks fails then the transaction is aborted and all the changes
+            made by the transaction needs to be rolledback.
+            - The terminated state corresponds to the transaction leaving the system.
             The info of the transaction stored in the system table is removed.
-    
+
     Why Concurency Control is needed?
-        
+
         The Lost Update Problem (Write-Write Conflict):
-            This problems occurs when the two transactions that access the same 
-            database items are interleaved in such a manner that the final value 
-            of the item is incorrect. 
-            Simply happens when both the transaction reads the same value of the item; 
-            then the transactions will update their own new value.and then when they 
-            update the the final value wont be the cumulative value. 
+            This problems occurs when the two transactions that access the same
+            database items are interleaved in such a manner that the final value
+            of the item is incorrect.
+            Simply happens when both the transaction reads the same value of the item;
+            then the transactions will update their own new value.and then when they
+            update the the final value wont be the cumulative value.
             but the value of the last committing transaction.
-        
+
         The Temporary Update Problem/Dirty Read (Write-Read Conflict):
-            This happens when the first transaction updates the database then it 
-            fails and aborts. But before it aborts some other transaction reads the 
-            value updated by the transcation. Hence, the data that the second 
+            This happens when the first transaction updates the database then it
+            fails and aborts. But before it aborts some other transaction reads the
+            value updated by the transcation. Hence, the data that the second
             transaction is called the dirty data, So, the Dirty Read Problem.
-        
+
         Incorrect Summary Problem:
-            IF one transaction is calculating the aggregate function while other 
-            transaction is updating some values then, the earlier transaction may 
+            IF one transaction is calculating the aggregate function while other
+            transaction is updating some values then, the earlier transaction may
             read some values before they were updated and some after they were updated.
-    
+
         Unrepeatable read problem:
-            Another problem that may occur is called unrepeatable read, 
+            Another problem that may occur is called unrepeatable read,
             where a transaction T reads the same item twice and the item is
             changed by another transaction T′ between the two reads.
-    
+
         Phantom tuples:
             refer navathe
-    
+
     Schedules (Histories) of Transactions:
-        A schedule(history) of n transactions is an ordering of the operations of 
-        the transactions subject to the constraint that the operations of the 
-        transactions tht participate in S must be in the same order as they appear 
+        A schedule(history) of n transactions is an ordering of the operations of
+        the transactions subject to the constraint that the operations of the
+        transactions tht participate in S must be in the same order as they appear
         in the transaction. However the operations of some other transaction may be interleaved.
-    
+
     Types of Schedules:
-        1. Serial Schedule: 
-        A schedule is said to be serial if the transactions are 
-        executed one after another consecutively without interleaving. 
-        The problem with the serial schedules is that they limit concurrency. 
+        1. Serial Schedule:
+        A schedule is said to be serial if the transactions are
+        executed one after another consecutively without interleaving.
+        The problem with the serial schedules is that they limit concurrency.
         Hence, the serial schedules are considered not practical.
-    
+
         2. Complete Schedule:
         A schedule S of n transactions is said to be a complete schedule if
-        the operations in S are exactly those operations in the 
-        transactions including the commit or abort operation as the last 
+        the operations in S are exactly those operations in the
+        transactions including the commit or abort operation as the last
         operation for each transaction in the schedule.
-    
+
         3. Recoverable Shedule:
             We would like to ensure that a transaction onve committed should never be rolled back. this ensures the durablity of transactions. The schedules that theoretically meet this criteria are called recoverable schedules.
             The condition for recoverable schedules is that
             no transaction T in S commits until all transactions T' that have written some data item that T has read have committed.
-    
+
         4. Strict Schedule:
             A more restrictive type of schedule called a strict schedule is a schedule in which transactions can neither read or write an item X until a transaction that previously wrote the item X has committed.
-    
-    
+
+
     Characterizing the schedules based on Serializibility:
-    
-        Serializable Schedules: 
-            A schedule S of n transcation is serializable if it is equivalent to 
-            some serial schedule of the same n transactions. Saying that the non 
+
+        Serializable Schedules:
+            A schedule S of n transcation is serializable if it is equivalent to
+            some serial schedule of the same n transactions. Saying that the non
             serial schedule is equivalent to some serial schedule which is considered correct.
-        
+
         Result Equivalence:
-            Two schedules are said to be result equivalent if they produce the 
-            same final state of the database. However, two schedules may produce 
-            the same result by accident. Hence, result equivalence alone cannot be 
+            Two schedules are said to be result equivalent if they produce the
+            same final state of the database. However, two schedules may produce
+            the same result by accident. Hence, result equivalence alone cannot be
             used to define equivalence of the schedules
-    
+
         Conflict Equivalence:
             Conflicting Operations:
-                Two operations of the schedule are said to be conflicting if they 
+                Two operations of the schedule are said to be conflicting if they
                 satisfy these three conditions:
                     1. The operations belong to different transactions.
                     2. They access the same data item
                     3. One of them is write operation
-            
-            Two schedules are said to be conflict equivalent if the order of the 
+
+            Two schedules are said to be conflict equivalent if the order of the
             conflicting operations is same in both the schedules.
-            Hence, a schedule is said to be conflict serializable if it is 
+            Hence, a schedule is said to be conflict serializable if it is
             conflict equivalent to some serial schedule S'.
-            
-            Testing for Conflict serializibility: 
-                The following Algorithm can be used to test the conflict 
+
+            Testing for Conflict serializibility:
+                The following Algorithm can be used to test the conflict
                 serializaibility of the schedule
-                The algorithm uses the read and write operations to form a 
-                directed graph of n verices and edges. The graph has a vertex 
-                for each transaction in the schedule. 
-                and there is an edge from transaction Ti to another transaction Tj if: 
+                The algorithm uses the read and write operations to form a
+                directed graph of n verices and edges. The graph has a vertex
+                for each transaction in the schedule.
+                and there is an edge from transaction Ti to another transaction Tj if:
                     1. Tj executes a read_item after Ti executes a write_item on X
                     2. Tj executes a write_item after Ti executes a read_item on X
                     3. Tj executes a write_item after Ti executes a write_item on X
-                
+
                 The schedule S is serializable iff there is no cycle in the graph.
                 and the serial order is give by the topologial ordering of the nodes
                 i.e the transactions.
-    
+
             NOTE: Once the transaction commits then we wont conisder its operations for further
                 discussion of conflicting operations
-    
-        
+
+
         View Equivalence:
-            The schedules are said to be view equivalent of they satisfy the 
+            The schedules are said to be view equivalent of they satisfy the
             following three conditions:
                 1. Same set of transactions participate in both the schedules.
-                2. If in the first schedule Ti performs read(X) after Tj 
+                2. If in the first schedule Ti performs read(X) after Tj
                     performs write(X) then same should happen in the second schedule.
-                3. If Ti operation does the final write(X) in the first schedule 
+                3. If Ti operation does the final write(X) in the first schedule
                     then the same should happen in the second schedule.
-            
-            The idea behind the view equivalence is that each read_operation reads 
-            the result of the same write operation. hence is said to see the same view. 
-            Condition 3 ensures that the at the end of schedules both the database have the same state. 
+
+            The idea behind the view equivalence is that each read_operation reads
+            the result of the same write operation. hence is said to see the same view.
+            Condition 3 ensures that the at the end of schedules both the database have the same state.
             A schedule is said to be view serializable if it is view equivalent to some serial schedule.
-    
-    
-    
-    Lock: 
-        A lock is a variable associated with each data items that specifies the 
+
+
+
+    Lock:
+        A lock is a variable associated with each data items that specifies the
         status of the item with respect to the possible operations that can be applied to it.
-    
+
     Types of Locks:
-    
+
         1. Binary Locks:
-            A binary lock has two value LOCKED and UNLOCKED (1 and 0 for simplicity). 
-            Each data item is associated with a lock variable. 
-            If the value of the lock is 1 then the item cannot be accessed for any operation. 
-            If the value of the lock is 0 then the item can be accessed when requested. 
+            A binary lock has two value LOCKED and UNLOCKED (1 and 0 for simplicity).
+            Each data item is associated with a lock variable.
+            If the value of the lock is 1 then the item cannot be accessed for any operation.
+            If the value of the lock is 0 then the item can be accessed when requested.
             We refer to the locked state of the database item X as LOCK(X).
             We have two operations associated with binary locks:
-                1. lock_item(X): Whenever the transaction requires the data item X. 
-                    It issues a lock_item(X). If the item is already locked then 
-                    the transaction is forced to wait. 
-                    Else the LOCK(X) is set to 1 and the transaction can access 
+                1. lock_item(X): Whenever the transaction requires the data item X.
+                    It issues a lock_item(X). If the item is already locked then
+                    the transaction is forced to wait.
+                    Else the LOCK(X) is set to 1 and the transaction can access
                     the data item for its operations.
-            
+
                      lock_item(X)
                          if(LOCK(X) == 0)
                              LOCK(X) = 1;
                          else:
                              wait while(LOCK(X) != 0) goto B
-            
-                2. unlock_item(X): Once all the read and write operations of the 
-                transactions are done the transaction unlcks the data item by 
+
+                2. unlock_item(X): Once all the read and write operations of the
+                transactions are done the transaction unlcks the data item by
                 issuing unlock_item() on X. This sets the LOCK(X) to 0.
-                
+
                     unlock_item(X)
                         LOCK(X) = 0;
                         wake one of the waiting transactions
-                
-                Note that the operations lock and unlock items must be implemented 
+
+                Note that the operations lock and unlock items must be implemented
                 as indivisible units. i.e no interleaving is allowed.
-            
+
             If binary locking scheme is to be used then the transactions need to follow these rules:
                 1. The transaction will issue the lock_item before executing read and write operations.
                 2. The transaction will issue the unlock_item after completing all the read and write operations.
                 3. The transaction cant lock the item for which it already has a lock
                 4. The transaction cant unlock an item unless they have locked the item.
-            
+
         2. Shared/Exclusive Locks (Read/Write locks):
-            The preceeding binary lock scheme is too restrictive for database items 
-            because at most only one transaction can access a data item. 
-            But we should allow multiple transactions to access the database item 
+            The preceeding binary lock scheme is too restrictive for database items
+            because at most only one transaction can access a data item.
+            But we should allow multiple transactions to access the database item
             if they are accesssing the data item for reading purpose only.
-            For this purpose a different type of locking is used. 
-            The new scheme has three states for the lock. 
-                1. read-locked: 
-                    The read-lock is also called the shared-lock as multiple transactions 
+            For this purpose a different type of locking is used.
+            The new scheme has three states for the lock.
+                1. read-locked:
+                    The read-lock is also called the shared-lock as multiple transactions
                     can access the data item for reading purpose.
-                
+
                      read_lock(X):
                          if LOCK(X) = unlocked:
                              then LOCK(X) = read_locked
@@ -564,20 +567,20 @@ Transaction Concurency Protocols
                          else:
                              wait while(LOCK(X) == unlocked)
                              goto start
-                
-                2. write-locked: 
-                    Also called as exclusive lock as only one transaction should 
+
+                2. write-locked:
+                    Also called as exclusive lock as only one transaction should
                     have access to the item for writing purpose.
-                
+
                      write_lock(X):
                          if LOCK(X) = unlock:
                              LOCK(X) = write_locked
                          else:
                              wait while (LOCK(X) = unlocked)
                              goto start
-                
+
                 3. unlocked: The data item is unlocked and can be accessed as requested.
-                
+
                     unlock(X):
                         if LOCK(X) == write_locked:
                             LOCK(X) = unlocked
@@ -585,9 +588,9 @@ Transaction Concurency Protocols
                             #reads  -= 1
                             if #reads == 0:
                                 LOCK(X) = unlocked
-                            
-                
-            
+
+
+
             When using shared/exclusive locks we enforce the following rulse:
                 1. A transaction T must issue read_lock or write_lock before any read operation.
                 2. A transaction must issue a write lock before any write operation.
@@ -595,72 +598,72 @@ Transaction Concurency Protocols
                 4. A transaction will not issue a read lock if it already has read / write lock.
                 5. A transaction will not issue a write lock if it already has a read/write lock.
                 6. A transaction will not issue unlock item unless it has a read/write lock.
-            
-            
+
+
             Conversion of Locks:
-                Pata hai 
-        
-        Using binary locks or shared/exclusive locks alone wont guarantee serializibility. 
-        To guarantee serializibilty we must follow an additional protocol corncerning 
+                Pata hai
+
+        Using binary locks or shared/exclusive locks alone wont guarantee serializibility.
+        To guarantee serializibilty we must follow an additional protocol corncerning
         the position of the locking and unocking.
-        
+
     Two Phase Locking Protocol:
-        A transaction is said to follow a two phase protocol if all the locking 
-        operations preceed the first unlock operation. 
-        Such a transaction can be divided into two phase. 
-        The first phase  called the expanding phase where the transaction acquires 
-        all the locks. 
-        And the shrinking phase where the transaction after completing all the operations 
-        releases its locks. If the conversion of locks is allowed then the upgrading 
-        of locks must appear in the expanding phase an the downgrading must 
+        A transaction is said to follow a two phase protocol if all the locking
+        operations preceed the first unlock operation.
+        Such a transaction can be divided into two phase.
+        The first phase  called the expanding phase where the transaction acquires
+        all the locks.
+        And the shrinking phase where the transaction after completing all the operations
+        releases its locks. If the conversion of locks is allowed then the upgrading
+        of locks must appear in the expanding phase an the downgrading must
         be done in the shrinking phase of the transaction.
-        
-        Basic 2PL: 
-            The technique just described is the basic 2PL scheme. So the transaction 
+
+        Basic 2PL:
+            The technique just described is the basic 2PL scheme. So the transaction
             is divided into two phases, the expanding and shrinking phase.
-    
+
             NOTE:
                 The last lock operation of the transaction is called the lock point and determines the serial order of the transactions
-    
+
                 Although 2PL GUARANTEES SERIALIZIBILITY
-                But there is still possibilities of DEADLOCKS and CASCADING ROLLBACKS 
-        
+                But there is still possibilities of DEADLOCKS and CASCADING ROLLBACKS
+
         Conservative 2PL:
             DisSatisfying Hold and Wait to prevent deadlocks
-    
-            The protocol is a dead-lock free protocol. However it is difficult in practice 
+
+            The protocol is a dead-lock free protocol. However it is difficult in practice
             because of need to predefine the read and write set.
-        
-            Just like the Basic 2PLn the conservative 2PL also requires the transaction 
-            to lock all the data items that it uses. While doing this if there is any 
-            data item for which the transaction cant obtain the lock then, 
-            it will not lock any items at all instead it waits untill all the data 
+
+            Just like the Basic 2PLn the conservative 2PL also requires the transaction
+            to lock all the data items that it uses. While doing this if there is any
+            data item for which the transaction cant obtain the lock then,
+            it will not lock any items at all instead it waits untill all the data
             items are unlocked.
-    
-            
+
+
         Strict 2PL:
-            The most popular variation of the 2PL is the strict 2PL, which guarantees 
-            strict schedule. In this variation, a transaction T DOES NOT REALEASE ITS EXCLUSIVE LOCKS UNTIL IT COMMITS OR ABORTS. 
-            Hence no other transaction can read the changes made by the transaction 
+            The most popular variation of the 2PL is the strict 2PL, which guarantees
+            strict schedule. In this variation, a transaction T DOES NOT REALEASE ITS EXCLUSIVE LOCKS UNTIL IT COMMITS OR ABORTS.
+            Hence no other transaction can read the changes made by the transaction
             unless it commits, leading to a strict schedule for recoverability.
-        
+
         Rigorous 2PL:
-            Does not release any of its locks (both shared and exclusive) until 
+            Does not release any of its locks (both shared and exclusive) until
             after it commits or is aborted.
-    
+
     Graph based Protocols:
         Orders the dataitems in a DAG thus dissatisfying CircularWait and preventing Deadlocks
-        However some modifications are needed for CASCADELESS and RECOVERABILITY 
-    
+        However some modifications are needed for CASCADELESS and RECOVERABILITY
+
         Rules for locking an item by a transaction:
             1. First lock by the transaction can be done on any unlocked data item
             2. Subsequently, a data item can be locked by the transaction iff it holds the lock on its parent
             3. A data item can be unlocked at any time, thus improving the concurrency
             4. A dataitem once locked and unlocked cannot be locked again by the same transaction
-    
+
         If there is a set of item we want to lock then we start by locking the LCA of the set of dataitems in the Tree and then progress down out desired list of items
-    
-    
+
+
     TimeStamp Based Protocols:
         -- A different approach to concurreny control involves using transaction timestamps
             to order transactions execution for an equivalent serial schedule.
@@ -669,70 +672,70 @@ Transaction Concurency Protocols
             to the system, so a timestamp can be thought of as the transactions start time.
         -- Concurrency control techniques based on timestamp ordering do not use locks
             and hence deadlocks cannot occur.
-    
+
     TimeStamp Ordering Protocol:
         -- The idea for this scheme is to enforce the equivalent order on the transaction
             based on their timestamps.
-        -- A schedule is then serializable and the only equivalent schedule permitted 
+        -- A schedule is then serializable and the only equivalent schedule permitted
             has the transactions in order of their timestamp values. This is called
             timestamp ordering.
         -- The algorith allows interleaving of transaction operations but it must ensure that
             for each conflicting operations the order in which the items are accessed must
             follow the timestamp order.
         -- Each database item is associated with two timestamps:
-            1. read_ts(x) the read timestamp of the item x is the timestamp of the youngest 
+            1. read_ts(x) the read timestamp of the item x is the timestamp of the youngest
                 transaction that has performed the read operation on the dataitem.
-            2. write_ts(x) the write timestamp of the item x is the timestamp of the youngest 
+            2. write_ts(x) the write timestamp of the item x is the timestamp of the youngest
                 transaction that has performed the write operation on the dataitem.
-        -- Whenever a transaction T issues a write(x) a check is done to see 
-            if any younger transaction has performed a read or write operation on the data item 
+        -- Whenever a transaction T issues a write(x) a check is done to see
+            if any younger transaction has performed a read or write operation on the data item
                 i.e if write_ts(x) > ts(T) or read_ts(x) > ts(T)
-            if the condition is true then the transaction is rejected 
+            if the condition is true then the transaction is rejected
             else write operation is performed and the write_ts(x) is updated to the ts(T)
-        -- Whenever a transaction T issues a read(x) a check is done to see 
+        -- Whenever a transaction T issues a read(x) a check is done to see
             if any younger transaction has done the write operation on the data item
                 i.e. if write_ts(x) > ts(T)
             if the condition is true then the transaction is rejected
             else read operation is performed and the read_ts(x) = max(read_ts(x), ts(T))
         -- The schedules by basic TO are guaranteed conflict serializable and deadlock free.
             However cyclic restart may occur if a transaction is continually aborted.
-    
+
     Strict TO:
         -- A variation of TO that gurantees conflict serializibility and ensures strict (cascadeless)
             schedules.
         -- If a younger transaction has to perform a read or write operation on a data item X then
             it has its operations delayed until the last transaction that has written the data item
             is either committed or aborted.
-    
+
     Thomas Write Rule:
         -- If the transaction issues write(X) then
             1. If read_ts(X) > ts(T) then the transaction is aborted
-            2. If write_ts(X) > ts(T) then the write operations is not performed 
+            2. If write_ts(X) > ts(T) then the write operations is not performed
                 and the transaction execution is continued
             3. else the write operation is performed and the write_ts(X) is updated to ts(X)
-    
+
     Deadlocks and Starvation:
-        -- Deadlock occurs when each transaction in a set of transaction is waiting on 
-        some data item that is already locked by some other transaction. 
+        -- Deadlock occurs when each transaction in a set of transaction is waiting on
+        some data item that is already locked by some other transaction.
         -- So each transaction is in the waiting queue of some data item.
-        -- There are protoclos defined that make a decision about what to do with a 
-        transaction that is possibly involved in a deadlock. 
-        -- These protocols use timestamp which is a unique identifier assigned to each transaction. 
+        -- There are protoclos defined that make a decision about what to do with a
+        transaction that is possibly involved in a deadlock.
+        -- These protocols use timestamp which is a unique identifier assigned to each transaction.
         Suppose a transaction Ti wants a data item which is already locked by some other transaction Tj then:
-        1. Wait-die: 
-            If TS(Ti) < TS(Tj) (Ti older than Tj) 
+        1. Wait-die:
+            If TS(Ti) < TS(Tj) (Ti older than Tj)
                 then Ti is allowed to wait
            else: abort Ti and restart it by assigning the same time stamp
-    
+
            In simple words. If the lock is held by a younger transaction and the old wants it then it will wait
-       
+
         2. Wound-wait:
            If TS(Ti) < TS(Tj) (Ti older than Tj)
                then abort Tj and restart it with the same time stamp
            else:
                Allow Ti to wait
-           
-           In simple words. If the lock is held by a younger transaction and the 
+
+           In simple words. If the lock is held by a younger transaction and the
            old wants it then it will abort the younger transaction and take the lock. (SAVAGE)
 
 
@@ -744,38 +747,38 @@ File Organization:
     Record blocking and Spanned and Unspanned records:
         -- The records of a file must be allocate to disk blocks as block is the unit of data transfer between disk and memory
         -- When the block size is greater than the record size, each block will contain numerous records
-        
+
            blocking_factor (bfr) = floor(block_size / record_size)
-        
+
         -- The blocking factor is the number of fixed size records that can be stored in a single block
         -- In general the record size may not divide the block size, so we have some unused space
-        
+
            free_space = B - (bfr*record_size)
-        
+
         -- To use this unused space we can store the aprt of a record on one block and the rest on another
         -- A pointer at the end of the first block points to the block containing the remainder of the record.
         -- This organization is called the Spanned Organization as the records can span more than one block.
         -- If the records are not allowed to span more than one block then the organization is called unspanned organization
-    
+
         -- Spanned organization is suitable when the average record size is greater than the block size to reduce the lost space in blocks
         -- Unspanned organization is used when the blocks are fized size and block size is greater.
-    
+
     Files of Unordered Records (Heap/Pile Files):
         -- Simplest and most basic type of roganization.
         -- Records are placed in the file in the order in which they are inserted, so new recods are inserted at the end of the file.
         -- Insering is very efficient. The last block of the files is copied to the buffer, new record is added, and the block is rewritten to the disk
         -- Searching for a record involves linear search through file block by block.
-    
+
     Files of Ordered Records (Sorted Files):
         -- We can physically order the records of a file on disk based on the values of one of their fields called ordering field.
         -- This leads to an ordered or sequential file.
         -- If the ordering field is also a key field (a field guaranteed to have unique values) then the field is called the ordering key for the file.
-    
+
     Dense and Sparse Index:
         -- Indexes can be characterized as dense and sparse.
         -- A Dense index has an index entry for every search key in the data file.
         -- A sparse index on the other hand has index entries for only some of the search values
-    
+
     Primary Indexes:
         -- A primary index is an ordered file whose records are of fized length with two fields.
         -- The first field is of the same data type as the ordering key field, and the second field is a pointer to a disk block.
@@ -784,10 +787,10 @@ File Organization:
         -- Thus, the primary index is a sparse index as it includes an entry for each anchor of a block rather than for every search value.
         -- The total number of entries in the index is equal to the number of blocks in the ordered data file.
         -- If the primary index file contains only bi blocks, then to locate a record with a search key requires a binary search of that index and access to the block: a total of log2(bi) + 1
-    
+
         -- A major problem with a primary index is the insertion and deletion of records.
         -- With primary index the issue is compounded because to insert a record, we must not only move the records to make space but also change some of the index entries, since moving records will change the anchor records for some blocks.
-    
+
     Clustering Indexes:
         -- If the file records are physically ordered on an non key field which does not have a distinct values for each records that field is called the clustering field and the data file is called a clustered file.
         -- We can create index called a clustering index to speed up the retrieval of all the records that have the same value for the clustering field.
@@ -796,30 +799,30 @@ File Organization:
         -- the first field is of the same type as the clustering field of the data file and the second field is the disk block pointer.
         -- There is one entry in the clustering index for each distinct value of the clustering field, and it containst the pointer to the first block in the data file that has a record with that value for the clustering field.
         -- A clustering index is another example of a sparse index.
-    
-    Secondary Indexes: 
+
+    Secondary Indexes:
         -- A secondary index provides a secondary means of accessing a data file for which some primary access already exists.
         -- The data file records could be ordered unordered or hashed.
         -- The secondary index may be created on a field that is a candidate key and has a unique value in every record or a non key field with duplicate values
         -- The index is an ordered file with two fields. the first field is of the same data type as the indexing field and the second field is either a block or a record pointer.
-        
+
         -- First we consider a secondary index access strucuture on a key field that has a distinct value for every record. such a field is called a secondary key
         -- In this case there is one index entry for each record in the data file, which contains the value of the field record and a pointer to the block or the record itself.
         -- Hence, Such an index is dense.
-    
+
         -- We can also create secondary index on a nonkey or nonordering field of a file. In this case numerous records in the data file can have the same value for the indexing field.
         -- There are several options to implement such an index.
             1. We can include duplicate index entries with the same key value on for each record. This would be a dense index.
             2. We can create variable length records for the index entries with a repeating field for the pointer, one poniter for each block that contains a record whose indexing field value is equal to the key.
             3. Option 3 which is most commonly used, the index entries are fixed length and have a single entry for each key of the indexing field, but create an extra level of indirection to handle the multiple pointers
                 In this the pointer field in the index entry points to a diskblock that contains a set of record pointers to the records with the indexing field equal to the key value.
-    
+
     NOTE:
         -- The secondary index provides a logical ordering on the records by the indexing field.
         -- If we access records in the order of the entries in the secondary index, we get them in order of the indexing field.
         -- The primary and the clustering index assume that the records in the file are physically ordered on the indexing field.
-    
-    
+
+
     Multilevel Indexing:
         -- A multilevel indexing considers the index file, which we will now refer to as the first or base level of a multilevel index, as an ordered file with a distinct value for each key.
         -- By considering the fist level index file as a sorted file, we can create a primary index for the first level; this index to the first level is called the second level of the multilevel index.
@@ -831,33 +834,33 @@ File Organization:
             t = ceil(math.log2(r1))
         -- When searching a key in the multilevel indexing one block is accesses at each level. Hence, t diskblocks are accessed for an index search where 't' is the number of index levels.
         -- The multilevel scheme described here can be used on any type of index whether it is primary, clustering or secondary as long as the first level has distinct values for key and fixed length entries.
-    
+
     BTrees:
         -- A btree when used as an access structure on a key field to searc for records in a data file, can be defined as follows:
             1. Each internal node in the Btree is of the form:
                 <P1, <K1, Pr1>, P2, <K2, Pr2>, P3, <K3, Pr3> ..., <K(q-1), Pr(q-1)>, Pq>
-    
+
                 where q <= p,
                 Pi - A tree node pointer
                 Pri - Record pointer whose seach field value is Ki
-    
+
             2. Within each node the record pointers are arranged in a sorted order of the key values.
                 K1 < K2 < K3 < ... < K(q-1)
-    
+
             3. The values of the record pointers in the child block that is pointed by the pointer in that parent node has values in the range between the record pointer adjacent to the block pointer in the parent node.
             4. Each node has atmost 'p' tree pointers
             5. Each node except the root node has atleast ceil(p/2) tree pointers
             6. A node with q tree pointers will have q-1 record pointers
             7. All leaf nodes are at the same level. LEaf nodes have the same strucutre as internal nodes except that all of their tree pointers are NULL.
-    
-    
+
+
     B+Trees:
         -- In B+ Trees, data pointers are stored only at the leaf nodes of the tree; hence the structure of leaf nodes differs from the internal nodes.
-        -- The leaf nodes have an entry for evey value of the search field along with either a record or a data pointer. 
+        -- The leaf nodes have an entry for evey value of the search field along with either a record or a data pointer.
         -- The leaf nodes of the B+trees are usually linked to provide ordered access on the search fields of the records. These leaf nodes are similar to the first level of an index.
         -- Internal nodes of B+tree correspond to the other level of multilevel index.
         -- Some of the search field values from th leaf node are repeated in the internodes of B+tree to guide the search.
-        
+
         The structure of the internal nodes of a b+tree of order p is as follows:
             1. Each internal node is of the form
                 <P1, K1, P2, K2, ... , Kq-1, Pq >
@@ -866,7 +869,7 @@ File Organization:
             3 . The keys in the child block pointed by Pi tree pointer in the parent node has values in the range Ki-1 and Ki
             4. Each internal node has atmost p tree pointers
             5. Each internal node except the root, has atleast ceil(p/2) pointers.
-    
+
         The structure of a leaf node in the B+tree of order p is as follows:
             1. Each leaf node is of the form
                 <<K1, Pr1>, <K2, Pr2>, ... , <Kq-1, Prq-1>, Pnxt>
@@ -874,38 +877,38 @@ File Organization:
                 Pnxt is the pointer to the next leaf node of the B+Tree
             2. Each leaf nodes has atleast ceil(p/2) and atmost p-1 entries.
             3. All leaf nodes are at the same level
-    
-        -- Because entries in the inernal node sof a B+tree include seach values and tree pointer without an record ointer, more entries can be packed in the internal node of a B+ tree then a Btree. 
+
+        -- Because entries in the inernal node sof a B+tree include seach values and tree pointer without an record ointer, more entries can be packed in the internal node of a B+ tree then a Btree.
         -- Thus for the same block_size the B+Tree will have more order than a BTree.
         -- Because the structures of the internal and leaf node is different for a B+tree , the order p can be different
         -- We will use p to denote the order of the internal node and pleaf to denote the order of the leaf node in B+Tree
-    
+
         for a given block_size we can find the expression for the order of the internal and leaf node as
-    
+
             p*(P) + (p-1)*K <= B
             pleaf*(K+Pr) + P <= B
-    
+
             p - Internal node order
             pleaf - Leaf node order
             P - Tree node pointer size
             Pr - Record pointer size
             K - Key field Size
-            B - block_size 
-    
+            B - block_size
+
     Insertion:
         -- When a leaf node is full and a new entry is inserted here, the node overflows and must be split.
         -- The first j = ceil((p+1)/2) entries in the original node are kept and the remaining entries are moved to a new leaf node.
         -- The jth search value is replicated in the parent in the correct order.
         -- Now if the internal node is full, the new value will cause it to oveflow, so it must be split.
-        -- The entries in the internal node up to j = floor((p+1)/2) are kept and the new node will hold the remaining entries. The jth search values is moved to the parent. 
+        -- The entries in the internal node up to j = floor((p+1)/2) are kept and the new node will hold the remaining entries. The jth search values is moved to the parent.
         -- This process is propogated up as needed.
-    
+
     Deletion:
         -- When an entru is deleted, it is always removed from the lead level.
         -- If it happens to occur in an internal node, it is also removed and replaced by value to the left in the leaf node as it is now the rightmost value.
         -- Deletion may cause underflow by reducing the number of entries in the leaf node to below the minimum required.
         -- In this case we try to look for a sibling with more than minimum number of records and redistribute the records. If not then the nodes are merged and he number of lead nodes is reduced.
-    
+
     Relational ALgebra and Relational Calculus:
         -- A data model must include a set of operations to manipulate the database, in adition to the data models concept for defining the databases structure and constraints.
         -- The basic set of operations for the formal relational model is the relational algebra.
@@ -919,7 +922,7 @@ Relational Algebra:
         -- The select operation is used to choose a subset of tuples from a reltion that satisfies a selection condition,.
         -- The general form of SELECT Operation:
                 sigma(condition, R)
-                -- sigma is used to denote the SELECT operation and 
+                -- sigma is used to denote the SELECT operation and
                 -- the selection condition is a boolean expression specified on the attributs of relation R
         -- The relation resulting from the SELECT operations has the same attributes as R. Thus the degree(sigma(R)) == degree(R)
         -- The number of tuples in the resulting relation is always less than or equal to the number of tuples in R. Thus |sigma(R)| <= |R|
@@ -927,11 +930,11 @@ Relational Algebra:
         -- Selection is commutative:
             sigma(c1, sigma(c2, R)) == sigma(c2, sigma(c1, R))
         -- SELECT operations can be cascaded using AND.
-    
+
     2. PROJECT:
         -- The PROJECT operation, selects certain columns from the table and discards the other columns.
         -- If we are interested in only certain attributes of a relation, we use the PROJECT operation to project the relation over these attributes only.
-        -- The general form of the PROJECT operation is 
+        -- The general form of the PROJECT operation is
                 pi(attr_list, R)
                 -- pi is the symbol used to represent the PROJECT operation
                 -- attr_list is the sublist of attributes from attributes of relation R.
@@ -940,21 +943,21 @@ Relational Algebra:
         -- The PROJETC operation removes any duplicate tuples, so the result of the {ROJECT operation is a set of distinct tuples, and hence a valid relation.
         -- |pi(attr, R)| <= |R|
         -- pi(list1, pi(list2, R)) == pi(list1, R), iff list1 is a sublist of list2
-    
+
     3. RENAME:
-        -- In general for most queries we need to apply several relational algebra operation one after the other. 
+        -- In general for most queries we need to apply several relational algebra operation one after the other.
         -- Either we write the operations as a sinlge relational algebra expression by nesting the operations, or we can apply one operation at a time and create intermediate result relations.
         -- In the latter case, we must give the names to the relations that hold the intermediate results.
         -- The general form of RENAME operation when applied to a relation R of degree n is denoted by any of the following forms
                 rho(relation_name, attr_name, R) /
                 rho(relation_name, R) /
                 rho(attr_name, R)
-                
-                -- rho symbol is used to denote the RENAME operator, 
-                -- relation_name is the new relation name 
+
+                -- rho symbol is used to denote the RENAME operator,
+                -- relation_name is the new relation name
                 -- attr_name is the list of new attribute names.
-    
-    
+
+
     Set Operations:
     1. UNION, INTERSECTION, and MINUS:
         -- Several set theoretic operations are used to merge the elements of two sets in various ways including UNION, INTERSECTION, and SET DIFFERENCE.
@@ -966,27 +969,27 @@ Relational Algebra:
         -- SET DIFFERENCE: The result of this operation denpted by R-S, contains all the tuples in R that are not in S.
         -- Notice that UNION and INTERSECTION are commutative, and associative. >> CAn be executed in any order.
         -- SET DIFFERENCE operation is not commutative.
-    
+
     2. CARTESIAN PRODUCT (CROSS PRODUCT):
         -- Is also a binary operation, but the relations on which it is applied do not have to be union compatible.
         -- In its binary form, this set operation produces a new relation by combining every tuple in one relation with every tuple in other relation.
         -- In general R(A1,.., An) X S(B1,.., Bm) is a relation with degree = m+n, and the resulting relation has one tuple for each combination of tuples. Thus the total number of tuples = |R| * |S|
         -- The CROSS PRODUCT operation by itself is meaningless. It is mostly useful when followed by a selection that matches value of attributes coming from the component relations.
         -- Because this sequence of CROSS PRODUCT followed by SELECT operation is commonly used, a special operation called JOIN was created to specify this sequence of operations.
-    
+
     Complete Set of Relational Algebra Operations:
-        -- It has been shown that the set of relaltional algebra operations 
+        -- It has been shown that the set of relaltional algebra operations
             {SELECT, PROJECT, UNION, RENAME, SET DIFFERENCE, CROSS PRODUCT}
             is a complete set.
         -- Any other relational algrbra operation can be expressed as a sequence of operations from this set.
-    
+
     JOIN Operation:
         -- The JOIN operation is used to combine the related tuples from two relations. This operation is very important for any relational database with more than a single relation because it allows us to process relationships among relations.
         -- The JOIN operation can be specified as a CARTESIAN PRODUCT operation followed by a SELECT operation.
         -- The general form of JOIN operations consists of two relations
             R(A1, .., An) and S(B1, .., Bn) and a join condition.
         -- The resultant relation has n+m attributes and has one tuple for each combination of tuples whenever the combination satisfies the join condition.
-        
+
         EQUIJOIN and NATURAL JOIN:
             -- The most common use of the JOIN involves a join conditions with equality.
             -- Such a JOIN, where the only comparison operator used is equality is called an EQUIJOIN.
@@ -1008,19 +1011,19 @@ SQL - Structured Query Language:
             CREATE SCHEMA <schema-name> AUTHORIZATION <auth-identifier>;
         -- Not all users are authorized to create schema and schema elements.
         -- This privilege must e explicitly granted to the relevant users by the DBA.
-        
+
         -- SQL uses the conept of a catalog which is a named collection of schemas
         -- catalog contains a special schema called INFORMATION_SCHEMA, which provide the infor on all the schemas in the catalog and all the element descriptors in these schemas.
-    
+
     CREATE TABLE:
         -- The CREATE TABLE command is used to specify a new relation by giving it a name and specifying its attributrs and initial constraints.
                 CREATE TABLE <table-name> (
                     <attr-1> <data-type> <constraints>, ...
-                    <attr-k> <data-type> <constraints>, 
+                    <attr-k> <data-type> <constraints>,
                 );
         -- The relations declared through CREATE TABLE statements are called base tables and are distinguished from virtual relations, creted through the CREATE VIEW which may or may not correspond to an actual physical file.
         -- The attributes in a base tables are considered to be ordered in the sequence in which they are specified in the CREATE TABLE statement.
-    
+
         -- Attribute Data types and Domains in SQL:
             1. Numeric:
                 -- Interger numbers of various sizes: INTEGER/INT, SMALLINT
@@ -1048,23 +1051,23 @@ SQL - Structured Query Language:
                 -- An earlier dats is considered smaller than the later date and similar is for time.
                 -- Literal values are represented by a single quoted strings preceded by the keyword DATE or TIME
                 -- A TIME WITH TIME ZONE data type includes an additional six positions for specifying the displacement from thr standard universal time zonem which is in the range of +13:00 to -12:59
-    
+
     Specifying Consraints in SQL:
         1. Attribute Constraints and Attribute Defaults:
             NOT NULL:
                 -- Because SQL allows NULLs as attribute calues, constraint NOT NULL may be specified if NULL is not permitted for a particular attribute.
                 -- This constraint is implicitly defined for the attributes that are part of the primary key of each relation.
-    
+
             DEFAULT:
                 -- It is possible to define a default value for an attribute by appending the clause DEFAULT <default-value> to an attribute definition.
-                -- The default value is defined in any tuple if an explicit value is not provided for that attribute. 
+                -- The default value is defined in any tuple if an explicit value is not provided for that attribute.
                 -- If no default calues is specified, the default default value is NULL for attributes that do not have the NOT NULL constraint.
                 -- dept_number INT DEFAULT 1
-    
+
             CHECK:
                 -- CHECK is a domain constraint and can restrict the domain values that can be assigned for an attribute.
                 -- dept_number INT NOT NULL CHECK(dept_number > 0 AND dept_number < 21)
-    
+
         2. Specifying Key and Referential Integrity Constraints:
             PRIMARY KEY:
                 -- The primary key clause specified one or more attributes that make up the primary key of a relation.
@@ -1082,11 +1085,11 @@ SQL - Structured Query Language:
                 -- However, the schema designer can specify an alternative action to be taken by attaching a referential trigerred action clause to any foreign keey constraint.
                 -- the options include SET NULL, CASCADE and SET DEFAULT.
                     -- FOREIGN KEY(Dnumber) REFERENCES DEPARTMENT(Dnumber) ON DELETE SET DEFAULT ON UPDATE CASCADE;
-    
+
     Basic Retrieval Queries in SQL:
         -- SQL has one basic statement for retrieving information from a database: the SELECT statement.
         -- the SELECT statement is not the same as the SELECT operation of Relational Algebra.
-        
+
         1. SELECT-FROM-WHERE Structure:
             -- The basic form of the SELECT statement, sometimes called a mapping or a select-from-where block, is formed of the three clauses SELECT, FROM and WHERE and has the following form:
                 SELECT <attribute-list>
@@ -1095,12 +1098,12 @@ SQL - Structured Query Language:
                     <attribute-list> is a list of attribute names whose values are to be retreived by the query
                     <table-list> is a list of relation names required to process the query
                     <condition> is a conditional expression that identifies the tuples to be retrieved by the query
-            
+
             -- For every project located in Stafford list the project number, the controlling department number and the department managers last name, address and birthdate.
                     SELECT project_no, project_dept_no, last_name, address, date_of_birth
                     FROM PROJECT, DEPARTMENT, EMPLOYEE
                     WHERE project_dept_no=dept_no AND dept_mgr_ssn=ssn AND location='Stafford'
-        
+
         2. Ambiguous Attribute Names, Aliasing, Renaming and Tuple Variables:
             -- In SQL, the same name can be assigned to attributes of different relations. If this is the case a multitable query refers to two or more attributes with the same name.
             -- In this case, we must qualify the attribut name with the relation name to prevent ambiguity
@@ -1115,13 +1118,13 @@ SQL - Structured Query Language:
                     SELECT E.Fname, E.Lname, S.Fname, S.Lname
                     FROM EMPLOYEE AS E, EMPLOYEE AS S
                     WHERE E.Super_ssn = S.Ssn;
-    
+
         3. Unspecified WHERE clause and the use of Asterisk:
             -- A missing WHERE clause indicates no condition on tuple selection; hence all tuples of the relation specified in the FROM clause qualify and are selected for the query result.
             -- If more than one relation are specified in the FROM clause and there is no WHERE clause, then the CROSS PRODUCT of these relations is selected.
             -- To retrieve all the attribute values of the selected tuples, we do not have to list the attribute names explicitly in SQL; we just specify an asterisk, which stands for all the attributes.
             -- The * can also be prefixed by the relation name or alias EMPLOYEE.*
-    
+
         4. Tables as SETs in SQL:
             -- SQL usually treats table not as a set but rather as a multiset; duplicates can cappear in a table and in the result of a query.
             -- If we do want to eliminate duplicate tuples from the result of an SQL query, we use the keyword DISTINCT in the SELECT clause, meaning that only distinct tuples should remain in the result.
@@ -1131,7 +1134,7 @@ SQL - Structured Query Language:
             -- The relations resulting from th set operations are sets of tuples; that is, duplicate tuples are eliminated from the result.
             -- These set operations apply only to type compatible relations, so we must make sure that the to relations are type compatible.
             -- SQL also has corresponding multiset operations, which are followed by the keyword ALL (UNION ALL, EXCEPT ALL, INTERSECT ALL). Their results are multisets.
-    
+
         5. Substring Pattern Matching and Arithmetic Operations:
             -- The first feature allows comparison conditions on only parts of a character string, using the LIKE comparison operator.
             -- This can be used for string pattern matching.
@@ -1150,40 +1153,40 @@ SQL - Structured Query Language:
             -- For date time, timestamp and interval data types, operators include incrementing and decrementing by a interval value.
             -- Another operator that can be used for convenience is the BETWEEN operator
             -- <attr> BETWEEN <val1> AND <val2> is equivalent to the condition (<attr> >= <val1>) AND (<attr> <= <val2>)
-    
+
         6. Ordering of Query Results:
             -- SQL allows the user to order the tuples in the result of a query by the values of one or more of the attributes that appear in the query result, by using the ORDER BY clause
-            -- The default order is in ascending order of the values. 
+            -- The default order is in ascending order of the values.
             -- We can specify the the keyword DESC if we want to see the result in an descending order of values.
             -- The keyword ASC can be used to specify ascending explicitly.
-    
-    
+
+
     INSERT, DELETE and UPDATE:
         INSERT:
             -- In its simplest form, INSERT is used to add a single tuple to a relation.
             -- We must specify the relation name and a list of values for the tuple.
             -- the values should be listed in the same order in which the corresponding attributs were specified in the CREATE TABLE command.
-    
+
             -- A second form of the INSERT command allows the user to specify explicit attribute names that correspond to the values provided in the INSERT command.
             -- This is used if a relation has many attributes but only a few of those are assigned values in the new tuple.
             -- The values that can be left are the ones that either have a DEFAULT value or can be set NULL.
-    
+
             -- A variation of the INSERT command inserts multiple tuples into a relation in conjunction with creating a relation and loading it with the result of a query.
             -- EX: Refer Navathe: 230 in the pages field
-        
+
         DELETE:
             -- The DELETE command removes tuples from a relation. It includes a WHERE clause, similar to that used in SQL query, to select the tuples to be deleted.
             -- Tuples are explicitly deleted from only one table at a time. However, the deletion may propagate to tuples in other relation id referential integrity actions are specified.
             -- A missing WHERE clause specifies that all the tuples in the relation are to be deleted; however the table remains in the databse as a empty table.
             -- We must use the DROP TABLE command to remove the table definition.
-    
+
         UPDATE:
             -- The UPDATE command is used to modify the attribute values of one or more selected tuples.
             -- As in DELETE command, a WHERE clause in the UPDATE command selects the tuples to be modified from a single relation.
             -- However, updating a primarykey may propagate to the foreign key of tuples in other relation if such referential integrity actions are specified.
             -- an additional SET clause in the UPDATE command specifies the attributes to be modified and their new values.
-    
-    
+
+
     Three Valued Logic:
         -- NULL is used to represent a missing value, but that it usually has one of three different interpretations:
             1. value unknown
@@ -1195,16 +1198,16 @@ SQL - Structured Query Language:
         -- Hence SQL uses a three valued logic with values TRUE, FALSE and UNKNOWN
         -- In select, project and join, the general rule is that only those combinations of tuples that evaluate the logical expression in the WHERE clause of the query to TRUE are selected.
         -- Tuple combinations tht evaluate to FALSE or UNKNOWN are not selected.
-        
+
         -- SQL allows queries tht check whether an attribute value is NULL.
         -- Rather than using = or <> to compare an attribute value to NULL, SQL uses the comparison operator IS and IS NOT.
         -- This is because each NULL value is considered different in different records, so equality would be inappropriate.
-    
+
         - EX: Retrieve the names of all employees who do not have a supervisor
-            SELECT fName, lName 
+            SELECT fName, lName
             FROM Employee
             WHERE super_ssn IS NULL;
-    
+
     Nested Queries:
         -- Some queries require that existing values in the database be fetched and then used in a comparison condition. Such queries can be conviniently formullalted using nested queries.
         -- The nested queries can appear in the WHERE clause or the FROM clause or SELECT clause or other SQL clauses as needed.
@@ -1214,17 +1217,17 @@ SQL - Structured Query Language:
         -- In general, we can have reveral levels of nested queries. We can once again be faced with possible ambiguity among the attribute names
         -- The rule is that a reference to an unqualified attribute refers to the relation declared in the innermost nested query.
         -- It is generally advisable to create tuple variable fo all the tables referenced in an SQL query to avoid potential errorrs and ambiguities.
-    
+
     Correlated Queries:
         -- Whenever a condition in WHERE clause of an inner query references some attributes of a relation declared in the outer query, the two queries are said to be correlated.
         -- We can understand a correlated query better by considerint that the nested query is evaluated once for every tuple in the outer query.
-    
+
     EXISTS and UNIQUE:
         -- The EXISTS functions in SQL is used to check whether the result of a nested query is empty or not.
         -- The result of EXISTS is TRUE if the nested query result contains atleast one tuple, else FALSE.
         -- There is another SQL function UNIQUE, which returns TRUE if there are not duplicate tuples in the result of a nested query.
         -- This can be sued to test whether the result of a nested query is a set or a multiset.
-    
+
     Explicit Sets:
         -- It is also possible to use an explicit set of values in the WHERE clause instead of a nested query.
         -- Such a set is enclosed in parentheses in SQL.

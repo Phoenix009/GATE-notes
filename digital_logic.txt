@@ -12,14 +12,14 @@ Number Systems:
         III.    NonDecimal BASEA to NonDecimal BASEB: BASEA --> DECIMAL --> BASEB
         IV.     BINARY <--> OCTAL: Groups of three
         V.      BINARY <--> HEX: Groups of four
-    
+
     BCD Code: Each digit is converted to Binary Equivalent of length '4'.
-        Ex: 
+        Ex:
             1230 -> 0001 0010 0011 0000
             1000 0011 -> 83
 
     XS-3 Code: Add 3 to each digit and then convert to BCD
-        Ex: 
+        Ex:
             1230 -> 4563 -> 0100 0101 0110 0011
             1000 0011 -> 83 --> 50
 
@@ -36,7 +36,7 @@ Number Systems:
                     Add to the first number
                     If Cy: Add to the RES
                     Else: 1's Complement the RES ==> RES is -ve
-    
+
             2's Complement:
                 Steps:
                     2's Complement the second number
@@ -59,7 +59,7 @@ Logic Gates:
         OR is TRUE if atleast one of the inputs is TRUE
         XOR is TRUE if the total number of inputs that are TRUE are ODD
         XNOR is TRUE if the total number of inputs that are FALSE are EVEN
-    
+
     2. NAND and NOR are Universal Gates.
                 #NAND   #NOR
         NOT     1       1
@@ -81,14 +81,14 @@ Logic Gates:
         0   1   A'B     m1  |       0   1   A + B'  M1
         1   0   AB'     m2  |       1   0   A'+ B   M2
         1   1   AB      m3  |       1   1   A'+ B'  M3
-    
-    
+
+
     Canonical SOP and POS:
         From the truth table we can express the output variable in two forms
             1. SOP - Sum of Products
             2. POS - Product of Sums
 
-        While expressing the output variable in terms of 
+        While expressing the output variable in terms of
             SOP consider only those combinations for which the output is TRUE
             POS consider only those combinations for which the output is FALSE
 
@@ -123,7 +123,7 @@ Logic Minimization:
 
 Combinational Circuit:
     The output of these circuits depend upon the combination of the present inputs only
-    
+
     Understanding Combinational Circuit:
         1. Boolean Algebra
         2. Truth Table
@@ -134,23 +134,23 @@ Combinational Circuit:
         2. Based on the problem statement derive the truth table
         3. Find a minimal logic using Kmaps
         4. Implement the logic
-    
+
     Combinational Circuits
         Arithmetic and Logic| Data Transmission   | Code Converters
         Adders              | MUX                 | Binary
         Subtractors         | DEMUX               | BCD
         Comparators         | Encoders            | 7 Segment
         PLD                 | Decoders            |
-    
+
 
     NOTE:
         For implementing Half-Adder or Half-Subtractor using  either NAND or NOR gates require 5 gates
         For implementing Full-Adder or Full-Subtractor using  either NAND or NOR gates require 9 gates
-    
+
     Hazards:
         A hazard causes a temporary fluctuation in the output
         these fluctuations is due to the difference paths from the i/p to o/p having different delays
-        
+
         Hazard:
             Static      Dynamic     Functional
             Static-1
@@ -198,14 +198,14 @@ Sequential Circuits:
                             1   0   1
                             1   1   0
 
-        D Flip-Flop 
+        D Flip-Flop
         Functional Table:   Excitation Table
         D   Q               Q   Qn  D
         0   0               0   0   0
         1   1               0   1   1
                             1   0   0
                             1   1   1
-    
+
     FF Conversions:
         Steps for Conversion:
             1. Write the Characteristic Table of the DEST FF
@@ -221,7 +221,7 @@ Sequential Circuits:
             0   1   1   1
             1   0   1   1
             1   1   0   0
-            
+
             D = T ^ Q
 
 

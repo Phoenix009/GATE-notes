@@ -1,3 +1,14 @@
+Computer Organization and Architecture:
+    Content:
+        1. Introduction
+        2. Instructions
+        5. CPU and Control Unit
+        6. I/O Organization
+        7. Memory Organization
+        8. Data Format
+        9. Pipeline
+
+
 Register Overview:
     AC - Accumalator: Used to stroe the result of ALU and sometimes to store the i/p for the instruction
     PC - Program Counter: Holds the address of the memory location where the next instruction is stored
@@ -11,29 +22,29 @@ Types of Architecture:
     1. AC Based
     2. REG Based
     3. REG-MEM Based
-    4. Complex 
+    4. Complex
     5. Stack Based
 
 Instructions:
     An instruction may contain two parts of information
         1. What instruction to perform (Opcode)
         2. On what operands to perform the operation
-    
+
     ISA - Instruction Set Architecture: Collection of all instructions a CPU can execute
 
     Instuction Types based on the Operand Info:
         1. 4-Adress Instuction:
             | Opcode | Op_Addr1 | Op_Addr2 | Dest_Addr3 | Next_inst_addr4 |
             Dont have a PC and thus the link address for the next instruction
-        
+
         2. 3-Adress Instuction:
             | Opcode | Op_Addr1 | Op_Addr2 | Dest_Addr3 |
 
         3. 2-Adress Instuction:
             | Opcode | Op_Addr1 | Op_Addr2 |
-            Where to save the result is either implicit or 
+            Where to save the result is either implicit or
                 one of the source is assigned the result which is explicitly specified
-        
+
         4. 1-Address Instruction:
             | Opcode | Op_Addr1 |
             AC is the implicit second operand and the result is stored in the AC
@@ -44,7 +55,7 @@ Instructions:
 
         NOTE: If a processor supports X-Address Instruction
             Then it also supports instuction having addresses less than X
-    
+
 Addressing Modes:
     Effective Address: Address of a operand in a computation type instruction or the target address for a branch type instruction
 
@@ -60,25 +71,25 @@ Addressing Modes:
                 6. WB - Write Back
 
     Modes:
-        1. Implied Mode: 
+        1. Implied Mode:
             The operands are implicit Ex. INCA
             EFF ADD = Address of the implied REG
-        2. Immediate Mode: 
+        2. Immediate Mode:
             The operand values are specified in the instruction
             EFF ADD = ADD of the operand in instruction
-        3. Direct Mode: 
+        3. Direct Mode:
             The effective address of the operands are specified in the instruction
             EFF ADD = ADD that is specified in the instruction
-        4. inDirect Mode: 
+        4. inDirect Mode:
             The address of a memory location is specified where the effective address is stored
             EFF ADD = ADD that is stored in the specified instruction
-        5. REG Direct Mode: 
+        5. REG Direct Mode:
             The operands are stored in a REG which is specified in the instruction
             EFF ADD = ADD of the specified REG
-        6. REG inDirect Mode: 
+        6. REG inDirect Mode:
             The effective address of the operands are stored in a REG which is specified in the instruction
             EFF ADD = ADD that is stored in the specified REG in the instruction
-        7. Auto INC/DEC Mode: 
+        7. Auto INC/DEC Mode:
             Extension of REG inDirect,  the content of the REG is auto INC/DEC
             EFF ADD = ADD that is stored in the specified REG in the instruction
             NOTE: If INC then POST INC; If DEC then PRE DEC
@@ -86,7 +97,7 @@ Addressing Modes:
         9. Index, BASE Mode:
         10. Index, BASE, DISPLACEMENT Mode:
         11. Scaled Mode:
-        12. PC-Relative Mode aka Position Independent Mode: 
+        12. PC-Relative Mode aka Position Independent Mode:
             If the branch is not taken then the next instruction is executed so the PC is not modified
             Else the PC is updated. The offset that is added is based on the current value of PC
 
@@ -101,10 +112,10 @@ Addressing Modes:
 
 CPU:
     CPU cycle: The time in which the CPU performs the smallest operation i.e. micro-operation
-    
+
     CPI - Cycles per Instruction: #CPU cycles needed for a instruction
-    
-    Execution Time: 
+
+    Execution Time:
         The time required for execution of a instruction is (#CPI * CPU Cycle)
         For a program having 'k' instructions the time required for execution is (k * #CPI_avg * CPU Cycle)
 
@@ -120,10 +131,10 @@ CPU:
                         |
                         V
                      Results
-    
+
     Control Unit:
         Generates ans sends the control signals to the components
-        
+
         Control Word:
             Collection of all control signals for all the components forms a control signal
             -----------------------------------------------------------------
@@ -167,7 +178,7 @@ CPU:
                                ---------------------------------
                 MUX is needed to select whether to accept the next CW in the sequence or to accept the new incoming instruction
                 NextAddr is used to specify the address of the next CW
-        
+
         Type of  MicroProgrammed Control Unit:
             A. Horizontal MicroProgrammed CU
                 In horizontal MicroProgram CU each control signal have one bit in the CW
@@ -176,12 +187,15 @@ CPU:
             B. Vertical MicroProgrammed CU
                 The controls signals are grouped in a manner such that at any given time only one of the signal in this group is active
                 So suppose there 8 signals in a group then only three bits need to be stored
+
+                Remember that if there is possiblility that for a group ATMOST one bit may be acive then one configuration is needed to denote the all 0 case. Acordingly an extra bit may be added if no configuration is left
+
                 The decimal value determines which signal is active
-        
+
         NOTE:
             In terms of speed:
             Hardwired < Horizontal uProgrammed < Vertical uProgrammed
-    
+
     RISC V/S CISC:
         RISC: Reduced Instruction Set Computer
             -- Less Instructions
@@ -205,15 +219,15 @@ I/O Organization:
             2. Signal Conversion
             3. Data Format Conversion
             4. Management and Control
-    
+
 
     BUS Configuaration:
         The CPU accesses the Devices using the Data, Address and the control BUSes
         The same BUSes are used for accessing the MEM.
         There are three types of configurations:
-            
+
             A. Seperate BUSes: Seperate Data, Address and Control BUS are used for MEM and I/O
-            
+
             B. Common Data and Address BUS:
                 The Data or Address are send to both the I/O and MEM but the Control Signal specify who uses the data/addr
                 The I/O devices and the MEM have seperate address space thus this config. is aka. "I/O mapped I/O"
@@ -222,9 +236,9 @@ I/O Organization:
                 The IO devices are assigned some address from memory
                 So whenever operation is performed referencing these addresses then they are performed on appropriate IO device
                 Since the IO devices are addressed using the Address Space of MEM this config. is also known as "MEM mapped I/O"
-    
+
     Modes of Transfer:
-        
+
         Asynchronous and Synchronous Data Transfer:
             Synchronous Data Transfer:
                 Both the communcating devices are synchronized using a common CLK
@@ -245,12 +259,12 @@ I/O Organization:
                 -- To remove this ambiguity a START and STOP bits are used | START | DATA | STOP |
                 -- Suppose START bit is 0 and STOP bit is 1 then distinguishing is done
                 -- There can be any #bits in START and STOP but '1' and '0' are sufficient
-        
+
         Mode of Transfer:
             A. Programmed I/O (Polling):
                 CPU periodically checks whether devices wants to transfer data
                 If a device wants to transfer data then it sets its status and waits for the CPU
-                
+
                 Time = Time to check status  ==>  (Transfer the Status register (~transfer time for 1B)  + Check the status(~negligible) )
                        + Data transfer time
 
@@ -288,8 +302,8 @@ I/O Organization:
                     4. CPU gives the control of Sys. BUS to DMAC by sending HLDA
                     5. DMAC sends DMA ACK to I/O to start data transfer
                     6. I/O starts Data transfer to the MEM
-                
-                NOTE: 
+
+                NOTE:
                     During DMA transfer the control of the Sys. BUS is with DMAC
                     and thus the CPU can only perform operations in the meantime which do not require BUS
 
@@ -305,7 +319,7 @@ I/O Organization:
                         during this time the CPU keeps the control of the BUS
                         Once the word is ready the CPU gives the control to DMAC for transfer
                         % Time CPU Blocked = (transfer_time * 100 )/ prepare_time
-                    
+
                     C. Interleaving DMA:
                         When the CPU does not need BUS and is busy in internal work only then the control is given to the DMAC
                         Thus CPU is never blocked
@@ -332,9 +346,9 @@ Memory Organization:
                     Cells in the DRAM are organized in a matrix form
                     So suppose the DRAM is of size 1GB => 2^30B then the cells of 1B can be arranged in a matrix having 2^20 Rows and 2^10 Columns
                     Refreshing of DRAM is done row wise and in one refresh the entire row is refreshed
-                    
+
                     So Refresh Time = #rows * refresh_time
-                    
+
                     Also If there are multiple DRAMs used then they are refreshed parallely
                     So RefreshTime for 'n' chips = Refresh time for 1 chip = #rows * refresh_time
 
@@ -350,7 +364,7 @@ Memory Organization:
                 1. Address Lines:   Depends on the Address BUS
                 2. Data Lines:      Depends on the Data BUS
                 3. Chip Select:     If selected then is used for READ else not selected => 1 line
-        
+
         Multi Chip Support:
             Basically discusses how multiple RAMS can be arranged and used to support higher capacities using lower capacity RAM chips
             Background:
@@ -380,8 +394,8 @@ Memory Organization:
                 -------------------------  -------------------------
                 |         128x1B        |  |         128x1B        |
                 -------------------------  -------------------------
-        
-        NOTE: 
+
+        NOTE:
             Vertical Arrangement to increase the #cells
             Horizontal Arrangement to increase the cell size
             #Horizontal Levels = ceil(cellsize_needed/cellsize_present)
@@ -396,7 +410,7 @@ Memory Organization:
             a. Cold/Compulsory Miss:
                 First time access of a block will always lead to a miss
                 Increase block size to reduce cold miss
-            
+
             b. Capacity Miss:
                 If cache is full and hence miss ocurs
                 Inrease cache size to reduce the capacity miss
@@ -458,11 +472,11 @@ Memory Organization:
                     One MUX can only select one bit so one MUX is used to select one tag bit
                     Therefore,
                         #MUX needed == #Tag bits
-                    The MUX needed is of size 
+                    The MUX needed is of size
                         #cache_entries:1
 
                     Once the Tag is selected using the MUX the selected tag bits are compared with the current tag bits using a comparator
-                    The comparator needed is of 
+                    The comparator needed is of
                         size = #tag_bits
 
             3. Set Associative Mapping:
@@ -486,7 +500,7 @@ Magnetic Disk:
 
     Disk Access Time:
         Basically the time required to access one sector on the disk
-        
+
         Seek Time: Time Required to position the r/w hand at the appropriate track
         Rotational Latency: Time Required to bring the appropriate sector below the head
         Transfer time: Time required to read the data from the sector
@@ -514,7 +528,7 @@ Data Format:
         So for 'N' bits: the range of values is -(2^(N-1) - 1) to +(2^(N-1) - 1)
 
     1's Complement:
-        The range of signed numbers using ones' complement is represented by 
+        The range of signed numbers using ones' complement is represented by
             −(2^(N−1) − 1) to (2^(N−1) − 1) and ±0
 
         To get the decimal value of the number in 1's complement
@@ -527,8 +541,8 @@ Data Format:
             Determine the sign by examining the MSB.
             if negative then 2's complement else dont
             Find the absolute value of the number
-        The range of signed numbers using ones' complement is represented by 
-            −(2^(N) − 1) to (2^(N−1) − 1)
+        The range of signed numbers using two's complement is represented by
+            −(2^(N-1)) to (2^(N−1) − 1)
 
 
     Floating Point Representation(Conventional Representation):
@@ -538,7 +552,7 @@ Data Format:
         ---------------------------------
         Mantissa is signed normalized fraction number
         Exponent is stored in biased form (only unsigned value)
-        
+
         Biased Exponent:
             Basically, we want to represent the range of the exponent which can be both positive and negative using only positive numbers
             So for exponent we will add a bias to map the negative range to the positive range
@@ -550,15 +564,15 @@ Data Format:
         Normalized Mantissa:
             Explicit Normalization: After decimal point immediately '1' should appear
             Implicit Normalization: Before decimal point there should be a '1'
-            
+
             Assume, num = 1101.10
             Explicit Normalization: 0.110110 * 2^4
             Implicit Normalization: 1.10110  * 2^3
 
             After Normalization the part of th number after the decimal becomes our mantissa
-            
+
             NOTE: If not mentioned in the question use Explicit Normalization by default
-        
+
         Value Formula:
             e = E - BIAS
             m = 0.M     Explicit Normalization
@@ -567,12 +581,12 @@ Data Format:
 
         OVERFLOW <----------|-----0-------|--------> OVERFLOW
                              UNDERFLOW
-        
+
         If more bits in mantissa then more precisiton
         If more bits in exponent then more range stored
         Cannot Store 0
         Cannot reresent INF
-    
+
 
     ** REMEMBER **
     IEEE 754 Representation:
@@ -662,7 +676,7 @@ Pipelining:
                                      | stall |
                                        cycles
         **
-        NOTE: 
+        NOTE:
             As per standard the target address for the JMP instruction is calculated in the EX cycle
             So after the target address is done IF can be done in the next cycle
             If the target address of a brach is calculated at the ith stage then the #stall cycles = i-1
@@ -681,7 +695,7 @@ Pipelining:
                 Ex:                 1   2   3   4   5   6   7   8
                     r1 = r2 + r3    IF  ID  OF  EX  WB
                     r4 = r1 * r1        IF  ID  --  --  OF  EX  WB
-                
+
                 Types:
                     There are three types of data dependency:
                     1. RAW - Read After Write (True dependency, Solutions discussed)
@@ -690,7 +704,7 @@ Pipelining:
 
                 Solutions:
                     A general pipeline cannot detect data dependency and this may lead to faulty operation
-                    
+
                     a. Delayed Load (S/W Solution):
                         -- Compiler generates instruction such that no data dependency ocurs
                         -- We insert dummy instructions to provide stalls between the dependent instructions
@@ -699,7 +713,7 @@ Pipelining:
                             NO                  IF
                             NO                      IF
                             r4 = r1 * r1                IF  ID  OF  EX  WB
-                    
+
                     b. Hardware Interlock (H/W Solution):
                         Attempts to LOCK the segment to provide delays
                         Kya solution hai yeh ??? kab pata chalega kab lock karna hai ??
@@ -712,7 +726,7 @@ Pipelining:
                         However for the following cases stall cycles cant be saved
                             LOAD:   r1 <- M[add]    |   STORE:  r1 <- r4 + r5
                                     r4 <- r1 + r5   |           M[add] <- r1
-            
+
             3. Control Hazards / Branch Difficulty:
                 Hazards because of the branch instructions
                 Solutions:
@@ -721,7 +735,7 @@ Pipelining:
                         # dummy cycles to insert = # stalls needed
                                                  = i - 1
                                                  where i is the stage where the target address is obtained
-                    
+
                     b. Prefetch target instruction:
                         In the ID phase we get the address of the instruction that we would execute if the branch is taken
                         A seperate pipeline is started at this instruction and he current pipeline is also allowed to continue

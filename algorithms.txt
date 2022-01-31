@@ -325,7 +325,7 @@ III. Greedy Technique:
                 c. index: is a pointer to the index node of the list
             4. Within each list the objects may appear in any order
             5. The first element in the list is the representative of that set
-            
+
             Operation Complexity:
                 1. create_set: O(1)
                 2. find_set: O(1)
@@ -341,7 +341,7 @@ III. Greedy Technique:
                 1. create_set: O(1)
                 2. find_set: O(d)
                 3. union: O(1)
-            
+
             Heuristice to improve the running time:
                 1. Union by rank/size:
                     Make the root of the tree with ffewer nodes point to the root of the tree with more nodes
@@ -351,7 +351,7 @@ III. Greedy Technique:
                     depth of the tree with n nodes is atmost log(n)
                     ==> the depth of the tree with n nodes is O(logn)
                     ==> find_set(x) ==> O(depth) ==> O(logn)
-                
+
                 2. Path compression:
                     Suppose we perform find_set(x), make every node that we visit point to the root
                     So all the nodes that were on the path now come at level 1, rendering the find_set() to O(1)
@@ -377,7 +377,7 @@ III. Greedy Technique:
             def dijstras(graph):
                 Initialize Single Soure(graph)
                 heap = add all vertices and heapify
-                
+
                 while heap:
                     extract node with the smallest weight and is not visited
                     add it to the visited set
@@ -389,7 +389,7 @@ III. Greedy Technique:
                     1. If Binary Heap used then O((E + V) log V) ~ ElogV
                     2. If Fibonacci Heap used then O(E + VlogV)
                     3. If Adjacency Matrix then O(V^2)
-                
+
         NOTE: There is a possibility that there exists more than one distinct shortest path btween two edges
 
     Bellman Ford Algorithm for SSSP:
@@ -430,7 +430,7 @@ Dynamic Programming:
     Essentially is an optimixation over plain recursion.
     Whenever we see a reursive solution that has repeated call for same inputs we can optimie it using DP
     The idea is simply to store the results of the subproblems so that we dont have to re-compute them when needed later
-    
+
     Overlapping subproblems:
         Like Div-and-Con, DP combines solutions to subproblems
         In DP, the computed solutions to the subproblems are stored so that these dont have to be recomputed
@@ -445,13 +445,13 @@ Dynamic Programming:
         Once these properties are satisfied we can be sure that it can be solved using DP
 
     1. 0/1 Knappsack:
-        
+
         Optimal Substructure:
             knappsack(item_index, capacity):
                 if item_index < 0 or capacity < 1: return 0 # Base condition
 
                 if weight[item_index] > capacity:
-                    return knappsack(item_index-1, capacity-weight[item_index]) # WE cant take the item 
+                    return knappsack(item_index-1, capacity-weight[item_index]) # WE cant take the item
                 else:
                     return max(
                         profit[item_index] + knappsack(item_index-1, capacity-weight[item_index])    # Either take the item

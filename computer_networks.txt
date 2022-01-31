@@ -3,24 +3,24 @@ Data Link Layer:
         1. Transmission Delay (Tt):
             The amount of time required by the host to put the MSG packet on the channel is called transmission delay
             Tt = Data Length / Bandwidth
-    
+
         2. Propagation Delay(Tp):
             Time taken for one bit to travel from the src host to the dest host
             Tp = Distance / velocity
-    
+
             Generally, the link is optical fiber
             The light travels at the 70% speed of light in the fiber = 2.1 * 10^8 m/s
             we will use ths value where not mentioned
-       
+
        3 & 4. Queuing Delay and Processing Delay:
             Time spent by the packet waiting in the queue before going for execution is called the queuing delay
             Time taken by the processor to process the data packe is called the processing delay
             These delays are considered negligible unless specified in the question
-    
+
     FLOW CONTROL:
         Why? The sender must send the packets at the rate at which the receiver can receive. Done using FLOW CONTROL
 
-        Time taken to transmit one data packet = 
+        Time taken to transmit one data packet =
             = MSG TX + MSG PROP + QUEUE + PROCESS + ACK TX + ACK PROP
             = Tt + Tp + 0 + 0 + 0 + Tp
             = Tt + 2Tp
@@ -28,9 +28,9 @@ Data Link Layer:
 
         I. STOP AND WAIT:
             SENDER sends the packet and waits for its ACK before sending the next packet
-            
+
             Total Time = Tt + 2*Tp  (per process)
-            
+
             Effeciency/Link Utilization/Channel Utilization:
                 Eff   = Useful Time / Total Time
                     = Tt / (Tt + 2Tp)
@@ -55,7 +55,7 @@ Data Link Layer:
                     When the data packet sent by the sender is lost:
                     Recevier thinks that the sender has not sent the data and waits
                     Sender thinks that the receiver is busy and waits for ACK
-                    
+
                     Solution:
                     Sender waits for a definite amount of time within which if it does not receive the ACK
                     It assumes that the packet was lost and retransmits the same packet
@@ -65,30 +65,30 @@ Data Link Layer:
                 2. ACK LOST: Duplicate Packet Problem:
                     Sender waits for the ACK from the receiver and retransmits after time out timer runs out
                     Receiver thinks this is the new packet and receives the duplicate packet
-                    
+
                     Solution:
                     Sender sends the data packet with the sequence nos.
                     STOP & WAIT + TIME_OUT + SEQ_NOs
 
                 3. DELAYED ACK: Missing Packet Problem:
                     Due to the delayed ACK it is possible that the ACK for the earlier packet is considered for a later packet
-                    
+
                     Solution:
                     ACK numbers will be sent denoting the next expected data packet in the sequence
 
-            
+
         SLIDING WINDOW PROTOCOLS: Actually is a theoretical concept and implemented using the following two protocols
 
             Pipelining:
                 Basically in S&W we need to transfer more #packets to improve the effeciency
-                    Tt          -->     1 packet 
+                    Tt          -->     1 packet
                     1s          -->     1/Tt packet
                     Tt + 2Tp    -->     (Tt + 2Tp)/Tt packets
                     (One Cycle Time)
 
                     So # packets that can be transmitted for 100% Eff
                         #Packets = 1 + 2a ...(For 100% Eff)
-                
+
                 This is known as SLiding Window protocol.
                 Now Ws (Window Size) = 1 + 2a number of packets will be transmitted at a time
                 #Seq Nos needed thus become 1 + 2a
@@ -104,7 +104,7 @@ Data Link Layer:
                     A timer is defined and all the packets that are received before the timer runs out are all ACK
 
                 4. Relation between the Window Size and the Seq Nos.
-                    In Cumulative ACK, we want the receiver to wait for a seq number that is not present in the previously ACK packets. 
+                    In Cumulative ACK, we want the receiver to wait for a seq number that is not present in the previously ACK packets.
                     This will ensure that if the ACK is lost there is no duplication of the data packets
                     Thus for Window Size Ws, we will use Ws + 1 sequence numbers
                         #sequence_numbers = Ws + 1
@@ -141,19 +141,19 @@ Data Link Layer:
                 SENDER can transmit anytime and NO CARRIER SENSING
                 ACK are sent to the SENDER and NO COLLISIO DETECTION
                 SENDER Can transmit again after a random amount of time called  BackOff time
-                
+
                 a. PURE ALOHA:
                     Vulnerable Time = 2*Tt
                     Eff = G*e^(-2G)     ... G = #Stations that want to transmit at that given time
 
                     For max Effeciency: G = 1/2
                         >> Only one station should transmit in 2*Tt time >> No Collisions >> MAX Eff
-                    
+
                     Eff_max = 18.4%
 
                 b. SLOTTED ALOHA:
                     Time is divided into slots and a station can start transmission only at the start of these slots
-                    
+
                     Vulnerable Time = Tt
                     Eff = G * e^(-G)
 
@@ -173,7 +173,7 @@ Data Link Layer:
                 Thus,
                     Tt >= 2 * Tp
                      L >= 2 * Tp * BW
-            
+
             The hosts should try retransmitting atleast 'e' times before a successful transmission occurs
             Eff = 1 / 1 + 6.44*a
 
@@ -186,7 +186,7 @@ Data Link Layer:
                 Time slots are allocated to nodes and nodes can transmit only in their allocated slots.
                 The Length of the time slots is atleast the time taken to transmit the MSG and MSG reaching its destination
                     Time Slot Size = Tt + Tp
-                
+
                 Thus, Time Taken for one MSG transmission = Tt + Tp
                 Eff = Usefu Time / Total Time
                     = Tt / Tt + Tp
@@ -249,7 +249,7 @@ Data Link Layer:
 
     SWITCHING:
         Process of forwarding packets from one port to another
-        
+
         I. Circuit Switching:
             Network consists of a set of switches and a node should reserve the resources it will need for communication
             Suitable when the data is to be transmited quickly and should arrive in order
@@ -262,7 +262,7 @@ Data Link Layer:
             Refers to the protocols that divide the MSG into parts before transmitting
             Each packet transmitted individually and can take different paths to reach the destination
             Reordering of packets is needed at the destination
-            
+
             Time taken for the transmission of 'N' packets through 'k' Stages
                 Time = (K + N - 1) * Tp ...... Similar to pipelining in COA
 
@@ -282,14 +282,14 @@ Data Link Layer:
         Types of Errors:
             1. Single Bit Error
             2. Burst Error
-        
+
         Error Detection Techniques:
             1. Parity Check:
                 Suppose EVEN parity is used then a bit is appended to the MSG such that the overall parity is EVEN
                 Performance:
                     1. Can detect all Single bit errors
                     2. Cen detect Burst errors if there are ODD #bits changed
-            
+
             2. 2D Parity Check:
                 Performcan improved using 2D Parity Check
                 Organize MSG bits in a table
@@ -303,7 +303,7 @@ Data Link Layer:
                         0 1 0 0 |1
                         __________
                         1 1 0 0 |0
-                    
+
                     New MSG = 10100 11011 11110 01001 11000
 
                 Performance:
@@ -315,20 +315,20 @@ Data Link Layer:
                 The blocks are added
                 The RES is complemented and Sent
                 The block size can be 8-bits, 16-bits or 32-bits
-                
+
                 Detection:
                 1. Divide the MSG into blocks
                 2. Add the Blocks
                 3. Complement the RES
                 4. ERROR FREE if all 0's
-            
+
             4. CRC - Cyclic Redundancy Check:
                 CRC Generator - N-bits
-                
+
                 REQ for GEN:
                     1. Length of atleast 2 bits
                     2. MSB AND LSB has to be '1'
-                    
+
                     IF these REQ are satisfied then:
                         1. All Single bit errors can be detected
                         2. If GEN % (0b11) then all ODD length errors can be detected else can MISS some
@@ -353,9 +353,9 @@ Data Link Layer:
                     We know, MSG' % GEN == 0
                     Now if ERR % GEN == 0 then the ERROR cannot be detected
                     Else error can be detected
-                    
+
                     However, CRC has the highest Detection %
-        
+
         Error Correction:
             1. Hamming Codes:
                 How many Correction bits and where to place them:
@@ -445,10 +445,10 @@ Network Layer:
                 32B MASK is used to generate the NID + SID from an IP ADDr
                 For the above example the Submet Mask will be
                 11111111.11111111.11111111.11000000 ==> 255.255.255.192
-            
+
                 To get the NID + SID from the IP
                 NID + SID = IP && SUBNET MASK
-            
+
                 #hosts = 2^k - 2   ... k = (#0's in MASK)
                 #Subnets = 2^k  ... k = #1's - #bits in Class for NID
 
@@ -464,13 +464,13 @@ Network Layer:
 
         CIDR - Classless Inter Domain Routing:
             Improved IP Addressing System. makes IP Allocation more effecient
-            
+
             CIDR Representation:
                 A.B.C.D/N
-                
+
                 A.B.C.D is regular dotted decimal representation
                 /N is N/W prefix and represents the #bits in NID
-                
+
                 Ex:
                     20.10.50.0 / 20
                     --> 20b represent the NID
@@ -481,7 +481,7 @@ Network Layer:
                 2. BLock Size should be a integral power of 2
                 3. First IP Addr should be divisible by the size of the block
                     So for a block size 2**k the first IP addr should have LS 'k' bits 0
-            
+
             SUPERNETTING:
                 Supernetting is the process of combining smaller N/Ws into a single super network
 
@@ -528,23 +528,23 @@ Network Layer:
         |               OPTIONS + PADDING               |
         |                   0-40b                       |
         -------------------------------------------------
-        
-        VER - Version Number: 
+
+        VER - Version Number:
             Specifies the version of the IP used (for us its IPv4)
-        
-        HLEN - Header Length: 
+
+        HLEN - Header Length:
             defines the total length of the header. The total length is first divided by four and then the value is assigned to HLEN
-        
+
         TOTAL LENGTH:
             Size of HEADER + DATA
-        
+
         TTL - Time to Live:
             To control the Max hops of a datagram. Each router decrements the TTL field if zero then discard else forward
-        
+
         PROTOCOL:
             The Internet Authority has assigned unique Ids to the protocols that use IP Addressing.
             This ID is assigned to the Protocol field
-        
+
         HEADER CHECKSUM:
             The Header is added by the IP Protocol and its error checking is its responsibility
 
@@ -582,7 +582,7 @@ Network Layer:
             Error Reporting:
                 1. DEST Unreachable
                 2. SRC Quench: N/W has congestion and datagram was dropped
-                3. REDIRECTION: 
+                3. REDIRECTION:
                     When SRC uses a wrong router to send the MSG
                     The Router redirects the MSG to appropriate Router and also informs the SRC to change its default router
                 4. TIME EXCEED: TTL Becomes 0
@@ -645,7 +645,7 @@ TRANSPORT LAYER:
             |                   0-40b                       |
             -------------------------------------------------
 
-            SRC and DEST PORT#: 
+            SRC and DEST PORT#:
                 16b fields and defines the Port# of the SENDER and RECEVER processes
 
             SEQUENCE#:
@@ -655,7 +655,7 @@ TRANSPORT LAYER:
                     The Time required to exhaust all the SEQ#'s
                     Total Available SEQ#'s = 2^32
                     Wrap Around Time = 2^32 / BW (BW in Bytes per second)
-                    
+
                     The Life Time of  packet should be smaller than the Wrap Around Time
 
             HLEN - Header Length:
@@ -722,7 +722,7 @@ TRANSPORT LAYER:
             To acheive Flow Control, TCP forces the sender and receiver to adjust their window size
 
         ERROR CONTROL:
-            Includes mechanisms for 
+            Includes mechanisms for
                 detecting and resending packets
                 resending LOST packets
                 detecting and discarding duplicate segments etc
@@ -749,7 +749,7 @@ TRANSPORT LAYER:
         CONGESTION POLICIES:
             Slow Start - Exponential Increase:
                 In this phase after every ACK the cogestion window size increments exponentially
-                congestion_window_size = 1      ... Initial 
+                congestion_window_size = 1      ... Initial
                 congestion_window_size <<= 1    ... After receiving ACK
 
             Congestion Avoidance - Additive Increment:
@@ -758,9 +758,9 @@ TRANSPORT LAYER:
 
             Congestion Detection - Fast Recovery:
                 The only way a sender can guess that congestion has occurred is the need to retransmit a segment.
-                Retransmission is needed to recover a missing packet that is assumed to have been dropped by a router due to congestion. 
-                
-                Retransmission can occur in one of two cases: 
+                Retransmission is needed to recover a missing packet that is assumed to have been dropped by a router due to congestion.
+
+                Retransmission can occur in one of two cases:
                     Case 1: Retransmission due to timeout:
                         In this case the Congestion Possiblity is HIGH
                         1. Threshold is set to current_window_size // 2
@@ -782,7 +782,7 @@ TRANSPORT LAYER:
                     4. RECEIVER sends pure ACK with receiver_window_size > 0 but is a Pure ACK as no data to transmit <<< IMPORTANT: It has to be a pure ACK
                     5. THIS ACK IS LOST
                     6. Both SENDER and RECEIVER are waiting.
-                
+
                 To avoid this deadlock TCP uses Persistence Timer
                 When ACK is received with receiver_window_size = 0 then SENDER starts the Persistence Timer
                 and after each timeout a probe signal is sent to the RECEIVER
@@ -904,7 +904,7 @@ APPLICATION LAYER PROTOCOLS:
         Domain Namespace:
             Namespace maps each IP Address to a unique name
             In Domain Namespace the names are defined in a tree structure
-            
+
             Label:
                 Each node in the tree has a distinct label.
                 Root label is an empty string.
