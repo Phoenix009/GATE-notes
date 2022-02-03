@@ -162,24 +162,24 @@ Data Link Layer:
 
                     Eff_max = 36.8%
 
-        II. CSMA/CD - Carrier Sensing Multiple Access/ Collision Detection:
-            Node senses the carrier and only starts transmission if it is free
-            There are NO ACK.
+            2. CSMA/CD - Carrier Sensing Multiple Access/ Collision Detection:
+                Node senses the carrier and only starts transmission if it is free
+                There are NO ACK.
 
-            For detecting collisions:
-                If a SENER is still transmitting and he receives the Collided Signal it can detect the collision
-                Thus, The packet length should be long enough such that the collided signal reaches the SENDER
-                The collided signal will reach the SENDER in atmost 2*Tp time
-                Thus,
-                    Tt >= 2 * Tp
-                     L >= 2 * Tp * BW
+                For detecting collisions:
+                    If a SENER is still transmitting and he receives the Collided Signal it can detect the collision
+                    Thus, The packet length should be long enough such that the collided signal reaches the SENDER
+                    The collided signal will reach the SENDER in atmost 2*Tp time
+                    Thus,
+                        Tt >= 2 * Tp
+                         L >= 2 * Tp * BW
 
-            The hosts should try retransmitting atleast 'e' times before a successful transmission occurs
-            Eff = 1 / 1 + 6.44*a
+                The hosts should try retransmitting atleast 'e' times before a successful transmission occurs
+                Eff = 1 / 1 + 6.44*a
 
-            BackOff Algorithm/Binary Exponential Algorithm:
-                Afer collision the host waits for a random amount of time between 0 and 2^(n-1), n is the number of collossions
-                WT = k * Tslot, k is a random number in the range 0 - 2^(n-1)
+                BackOff Algorithm/Binary Exponential Algorithm:
+                    Afer collision the host waits for a random amount of time between 0 and 2^(n-1), n is the number of collossions
+                    WT = k * Tslot, k is a random number in the range 0 - 2^(n-1)
 
         II. Controlled Access Methods:
             1. TDM - Time Division Multiplexing:
@@ -371,11 +371,17 @@ Data Link Layer:
                     After gouping assign value to the correction bit such that the overall parity is EVEN
 
 Ethernet 802.3:
-    --------------------------------------
-    | DEST | SRC | TYPE | DATA |   CRC   |
-    |  6B  | 6B  |  2B  |      |   4B    |
-    --------------------------------------
-    <-----HEADER-------->       <-TRAILER->
+    ------------------------------------------------------
+    |PREAMBLE| SFD  | DEST | SRC | TYPE | DATA |   CRC   |
+    |   7B   |  1B  |  6B  | 6B  |  2B  |      |   4B    |
+    ------------------------------------------------------
+    <-- PHY LAYER --><-----HEADER-------->       <-TRAILER->
+        HEADER
+    
+    PREAMBLE:
+        Conatins &b of alternating 0's and 1's
+
+    SFD: Starting Frame Delimiter, Value = (0b10101011)
 
     DEST and SRC ADD is 6B and contains the Link Layer address of the SENDER and RECEIVER
     Addressing:
@@ -432,7 +438,7 @@ Network Layer:
         SUBNETTING:
             The process of diving the N/W into Subnetworks
 
-            For Dividing the N/W Bits are borrowed from the HOST ID part
+            For Dividing the N/W, Bits are borrowed from the HOST ID part
             IF we want to divide the N/W into 2 subnets then 1 bit will be borrowed
             IF we want to divide the N/W into 4 subnets then 2 bit will be borrowed
             EX:
@@ -526,7 +532,7 @@ Network Layer:
         |                       32b                     |
         -------------------------------------------------
         |               OPTIONS + PADDING               |
-        |                   0-40b                       |
+        |                   0-40B                       |
         -------------------------------------------------
 
         VER - Version Number:
@@ -642,7 +648,7 @@ TRANSPORT LAYER:
             |           16b         |         16b           |
             -------------------------------------------------
             |               OPTIONS + PADDING               |
-            |                   0-40b                       |
+            |                   0-40B                       |
             -------------------------------------------------
 
             SRC and DEST PORT#:
@@ -666,7 +672,7 @@ TRANSPORT LAYER:
                 URG - Urgent Pointer Valid
                 ACK - ACKnowledgement Valid
                 PSH - Request for PUSH
-                RST - RESER Connection
+                RST - RESET Connection
                 SYN - Synchronize SEQ#
                 FIN - Terminate Connection
 
@@ -814,7 +820,7 @@ TRANSPORT LAYER:
                             RTTm = RTT Measured;
                             RTTs = Smoothed RTT;
                             RTTd = RTT Deviation;
-                            alpha = 1/8 usually
+                            beta = 1/8 usually
 
                 Most implementation use the following formula to calculate the Time Out Timer
                 RTO = RTTs + 4*RTTd

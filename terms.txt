@@ -1,0 +1,179 @@
+Subset
+    Trivial Subset
+    ProperSubset
+    Powerset
+
+Commutative
+Associatve
+Distributive
+Idempotent
+
+Cartesian Product
+Relations
+    Reflexive
+    irReflexive
+    Symmetric
+    antiSymmetric
+    aSymmetric
+    Transitive
+
+    Equivalence
+    Partially Ordered Relation
+
+
+POSET
+    Meet GLB-Greatest Lower Bound
+    Join LUB-Least Upper Bound
+    Meet SubLattice
+    Join subLattice
+    Lattice
+    SubLattice
+    Bounded Lattice
+    Complement of an element in a Lattice
+    Complemented Lattice
+    Distributive Lattice
+    Boolean Algebra
+    Maximal Element
+    Minimal ELement
+
+NOTE:
+    -- There can be multiple minimal and maximal elements in a POSET
+    -- Lowerbound and Upperbound exist only for bounded lattice
+    -- Minimal and Maximal elements can be found for POSETs it need not be a Lattice
+    -- IF there are more than one minmal element then it is not a lattice as for these minimal there is no GLB
+    -- IF there are more than one maximal element then it is not a lattice as for these maximal there is no LUB
+
+Algebraic Structure
+SemiGroup
+Monoid
+Inverse of an element
+Group
+Abelian Group
+Finite Group
+    Order of the group
+    Order of any element in the group
+    Langranges Theorem
+SubGroup
+    Langranges theorem
+Cyclic Groups
+
+Simple Graph
+Hand Shaking Lemma
+Isomorphism
+Degree Sequence
+Subgraph
+Induced Subgraph
+
+unDirected Graph
+    Connected Graph
+    disConnected Graph
+Directed Graph
+    underlying Graph
+    Strongly Connected
+    Weakly Connected
+Complete Graph
+Clique
+Independent Set
+Bipartite Graph
+Complete Bipartite Graph
+Regular Graph
+Hyper Cube
+Euleriean Graph
+
+Path
+Cycle
+Walk
+Trail
+Diameter
+Eccentricity
+Radius
+Matching
+    Saturated and unSaturated Edges
+    Perfect Matching
+    Maximal Matching
+    Maximum Matching
+Vertex Cover
+    Minimal Cover
+    Minimum Cover
+
+
+
+
+
+Theory of Computation:
+
+REGULAR LANGUAGE:
+
+CLOSED              NOT CLOSED              DECIDABLE           Not DECIDABLE
+---------------------------------           ---------------------------------
+Union               Infinite Union          Emptiness
+Set Difference                              Infiniteness
+Intersection                                Equality
+Concatenation
+Complement
+Reversal
+
+
+CONTEXT FREE LANGUAGE:
+
+CLOSED              NOT CLOSED              DECIDABLE           Not DECIDABLE
+---------------------------------           ---------------------------------
+Union               Intersection            Membership
+Concatenation       Complement              Emptiness
+Kleene CLosure      Set Difference          Finiteness
+
+NOTE: Power of N-PDA > D-PDA
+
+
+
+RECURSIVELY ENUMERABLE LANGUAGE:
+
+CLOSED              NOT CLOSED              DECIDABLE           Not DECIDABLE
+---------------------------------           ---------------------------------
+                                            Membership
+            
+            
+
+
+Digital Logic:
+
+    ** REMEMBER **
+    IEEE 754 Representation:
+        Single Precision: Total 32b
+            Sign        1b
+            Exponent    8b
+            Mantissa    23b
+            Bias        127 (2^(k-1) - 1)
+
+        Double Precision: Total 64b
+            Sign        1b
+            Exponent    11b
+            Mantissa    52b
+            Bias        1023 (2^(k-1) - 1)
+
+        Special Numbers and how they are represented:
+            S   E           M           special number
+            0   all 0's     all 0's     +0
+            1   all 0's     all 0's     -0
+
+            0   all 1's     all 0's     +INF
+            1   all 1's     all 0's     -INF
+
+            X   all 1's     !all 0's    NAN
+            X   all 0's     !all 0's    Denormalized
+
+            X   !all 0/1's      X       Implicit Normalized
+
+
+Database Managament Systems:
+    ER Models:
+        Attributes              Notation
+        Simple                  Oval
+        Composite               Oval having Oval Childrens
+        Multivalued             Double Oval
+        Derived                 Dotted Oval
+        Total participation     Double Lines
+        Partial Participation   Single Line
+    
+    Questions on Btrees and B+trees
+

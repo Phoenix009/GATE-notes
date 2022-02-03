@@ -1,0 +1,33 @@
+Computer Network:
+    1. Ethernet Frame Format
+    2. Thaing that are to be remembered
+
+Operating System
+
+Digital Logic:
+    Data Format - IEEE-784
+        Range of the each representation
+
+Theory of Computataion:
+    Decidable or undecidable
+
+Database Management Systems:
+    1. Relational ALgebra
+        a. Division Operation
+
+Algorithms:
+    MST
+
+Computer Organization and Architecture:
+    1. Addressing Mode special features
+    2. Memory Organization: Adressing modes
+    3. I/O Organization: DMA modes of transfer
+    4. Instruction Pipelining - Hazards
+
+Discrete Mathematics:
+    1. Graph Theory - Planar Graphs
+
+Programming and Data Strutures:
+    1. Pointers
+    2. Static and their scope
+

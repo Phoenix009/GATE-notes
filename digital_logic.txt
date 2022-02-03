@@ -18,31 +18,32 @@ Number Systems:
             1230 -> 0001 0010 0011 0000
             1000 0011 -> 83
 
-    XS-3 Code: Add 3 to each digit and then convert to BCD
+    XS-3 Code: Add 3 to each digit and then convert it to BCD
         Ex:
-            1230 -> 4563 -> 0100 0101 0110 0011
-            1000 0011 -> 83 --> 50
+            Original    Add 3 to dig    Convert ech dig to binary equivalent
+            1 2 3 0 --> 4 5 6 3 --> 0100 0101 0110 0011
+            9 9     --> 12 12   --> 1100 1100
 
     GRAY Code: The codes of adjacent numbers differ by only one bit
         BINARY --> GRAY: Copy the MSB then the remaining bits can be obtained by pairwise XOR
 
-    Data Representation:
-        BINARY Addition
-        BINARY Subtraction
-            Direct Subtraction
-            1's Complement:
-                Steps:
-                    1's Complement the second number
-                    Add to the first number
-                    If Cy: Add to the RES
-                    Else: 1's Complement the RES ==> RES is -ve
+    BINARY Addition: Straigh up
 
-            2's Complement:
-                Steps:
-                    2's Complement the second number
-                    Add to the first number
-                    If Cy: Discard the Cy ==> RES is +ve
-                    Else: 2's Complement the RES
+    BINARY Subtraction
+        Direct Subtraction
+        1's Complement:
+            Steps:
+                1's Complement the second number
+                Add to the first number
+                If Cy: Add to the RES
+                Else: 1's Complement the RES ==> RES is -ve
+
+        2's Complement:
+            Steps:
+                2's Complement the second number
+                Add to the first number
+                If Cy: Discard the Cy ==> RES is +ve
+                Else: 2's Complement the RES
 
 Logic Gates:
     BUFFER:     Y = A
@@ -70,10 +71,11 @@ Logic Gates:
         XOR     4       5
         XNOR    5       4
 
-    3.  Bubbled AND     ==> NOR
-        Bubbled OR      ==> NAND
-        Bubbled NAND    ==> OR
-        Bubbled NOR     ==> AND
+    3.  Straight Forward from DeMorgans LAw 
+        Bubbled AND     ==> NOR     X' . Y' = (X+Y)'
+        Bubbled OR      ==> NAND    X' + Y' = (X.Y)'
+        Bubbled NAND    ==> OR      (X' . Y')' = X + Y
+        Bubbled NOR     ==> AND     (X' + Y')' = X . Y
 
     MinTerms(mx):           |   MaxTerms(Mx):
         A   B   MinTerm     |       A   B   MaxTerms
@@ -165,6 +167,7 @@ Combinational Circuit:
 
         Static-0:
             If o/p is at logic 0 and after i/p changes the o/p momentarily becomes 1 before getting to 0 again
+            So same method but instead of SOP use POS
             Detection:
                 1. Write the truth table of the digital ckt
                 2. Drive the Kmap
@@ -230,14 +233,7 @@ Sequential Circuits:
         Counting can be ascending, descending or non-linear
         Can be done Synchronously or Asynchronously
 
-
-
-
-
-
-
-
-
-
 NOTES:
     How to do k's complement
+    Johnsons Counter
+    IEEE Floating Point Representation

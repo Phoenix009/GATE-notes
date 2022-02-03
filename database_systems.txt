@@ -491,7 +491,7 @@ Transaction Concurency Protocols
 
         View Equivalence:
             The schedules are said to be view equivalent of they satisfy the
-            following three conditions:
+            following three conditions: 
                 1. Same set of transactions participate in both the schedules.
                 2. If in the first schedule Ti performs read(X) after Tj
                     performs write(X) then same should happen in the second schedule.

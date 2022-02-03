@@ -141,6 +141,7 @@ CPU:
             | IR_in | IR_out | AR_in | AR_ out | MEM_read | MEM_write | ... |
             _________________________________________________________________
 
+
     Control Unit Organization:
         A. Hardwired Control Unit: Control Logic implemented using Digital Circuits
             Adv:    Can be optimized fo faster mode of opeation
@@ -449,6 +450,7 @@ Memory Organization:
                 But the Main Memory does not contain the updated values
 
         Cache Mapping:
+
             1. Fully Associative Mappings:
                 Basically Key Value Pairs are stored and all the cells can be checked in parallel
                 Block no. is the key and its associated memory location is the value
@@ -611,7 +613,7 @@ Data Format:
             1   all 1's     all 0's     -INF
 
             X   all 1's     !all 0's    NAN
-            X   all 0's     !all 0's    Denormalized
+            X   all 0's     !all 0's    Denormalized        << Vishwadeep
 
             X   !all 0/1's      X       Implicit Normalized
 
@@ -745,3 +747,4 @@ Pipelining:
                         Static: Assumes a branch is taken always or branch is not taken always
                         Dynamic: Prediction based. 80-90% accurate.
 
+        So for 'n' bits: the range of values is 0 to +(2^(n) - 1)

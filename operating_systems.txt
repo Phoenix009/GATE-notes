@@ -579,3 +579,64 @@ NOTES:
         7. Restore process state information
         8. Proessor pops the processs status from the stack
 
+
+    System Calls
+        exec(): replaces the calling process's memory space with a new process and starts from the beginning
+        fork(): 
+        wait(): executed by the parent process to enter the waiting state until its child process completes execution
+
+    What is Priority Inversion?
+        SOURCE: https://www.geeksforgeeks.org/priority-inversion-what-the-heck/
+        
+        There are two processes, one with a low priority 'L' and other with a high priority 'H'
+        Both have a common Critical Section 'CS'
+
+        Now 'L' is in the CS, and 'H' also wants to enter the CS but cant due to process synchronization
+        So 'H' technically waits for the execution for the 'L' and then preempts it once it leaves the CS
+        This is standard behavior
+
+        Now suppose there is another process with a Prioirity 'M' such that L < M < H
+        Now again L is in the CS and H wants to enter the CS
+        But H is waiting for L to complete the execution and leave CS.
+        But M preemtps L and starts executing.
+        So here process 'H' which has no shared resource / CS with M has to wait for its execution
+        This is abnormal behavior and called priority inversion.
+
+
+    What is Bakery Algorithm?
+
+    What is Overlay in Memory Management?
+        SOURCE: https://www.geeksforgeeks.org/overlays-in-memory-management/
+        So in Fixed partition scheme we want to execute a program whose size is greater than the maximum partition available.
+        So to execute such programs with limited space there are multiple solutions one of which is overlays
+
+        So in overlays the basic idea is to divide the proram into parts such that each part can run on its own
+        Once the parts are created, these parts can be swapped depending on the requirement
+
+        In this case the maximum size of the partition needed is reduced and is equal to the largest part plus its dependencies
+        If a part requires some other parts of the program they also need to be present in the main memory
+
+        Overlay Driver:
+        It is the user responsibility to take care of overlaying, the operating system
+        will not provide anything.Which means the user should write even what part is
+        required in the 1st pass and once the 1st pass is over, the user should write
+        the code to pull out the pass 1 and load the pass 2.That is what is the
+        responsibility of the user, that is known as the Overlays driver.Overlays
+        driver will just help us to move out and move in the various part of the code.
+    
+    Acyclic graph directory – 
+        An acyclic graph is a graph with no cycle and allows us to share
+        subdirectories and files. The same file or subdirectories may be in
+        two different directories. It is a natural generalization of the
+        tree-structured directory. 
+
+        It is used in the situation like when two programmers are working on a joint
+        project and they need to access files. The associated files are stored in a
+        subdirectory, separating them from other projects and files of other
+        programmers since they are working on a joint project so they want the
+        subdirectories to be into their own directories. The common subdirectories
+        should be shared. So here we use Acyclic directories. 
+        
+        It is the point to note that the shared file is not the same as the copy file.
+        If any programmer makes some changes in the subdirectory it will reflect in
+        both subdirectories.

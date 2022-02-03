@@ -217,7 +217,8 @@ Regular Language:
             If there exists a reachable final state then the Language is non Empty
         15. Infiniteness problem for RL is decidable
             If there is a loop reachable from the initial state and then from this loop the final state is reachable then the infinite language
-        16. Equality probelm for RL is Decidable:
+        16. Equality probelm for RL is Decidable
+
 
 Context Free Language:
     A. Acceptor: PDA - Push down Automata:
@@ -469,6 +470,7 @@ Recursively Enumerable Languages:
             -- Thus L' can also use this Halting TM with the states swapped.
             -- Hence Halting TM exists for them both hence both are Recursive and thus REL.
 
+
 For every Language is there a TM?
     First we develop some mathematical foundation to answer this question.
     Sets:
@@ -577,7 +579,6 @@ Computability and Decidability:
 Complexity Classes:
     P-Class: The set of all languages that are accepted by some deterministic TM in polynomial time
     NP-Class: The set of all lanuages that are accepted by non-deterministic TM in polynomial time
-
 
 
 NOTES TO REMEMBER:

@@ -288,7 +288,8 @@ III. Greedy Technique:
 
         Spanning Tree:
             For a graph the spanning tree is defined as the subgraph of the graph, which has all the vertices covered with minimum possible number of edges.
-            For a complete graph with 'n' vertices the number of spanning trees is 'n^(n-2)'
+            For a complete graph with 'n' vertices the number of spanning trees is 'n^(n-2)'        <<<<<
+            For a complete bipartite graph with 'n' vertices the number of spanning trees is '???'        <<<<<
             For a Graph with distint edge weights there is always a distinct MST
 
             To find the number of spanning trees for UNDIRECTED graphs we use the Kirchoffs Theorem:
